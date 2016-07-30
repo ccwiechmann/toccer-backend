@@ -1,0 +1,12 @@
+<w:p w14:paraId="5B969B35" w14:textId="77777777" w:rsidR="00026339" w:rsidRDefault="00813F91">
+					<w:pPr>
+						<w:pStyle w:val="Verzeichnis1"/>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:b/>
+							<w:bCs/>
+						</w:rPr>
+						<w:t>{category}</w:t>
+					</w:r>
+				</w:p>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/inputSchema"
+	xmlns:tns="http://www.example.org/inputSchema" elementFormDefault="qualified">
+
+	<complexType name="xpath">
+		<sequence>
+			<element name="expressionWithReplaces" type="string"
+				minOccurs="1" maxOccurs="1">
+			</element>
+			<choice>
+				<element name="numberStrategy" type="tns:numberStrategy"
+					minOccurs="1" maxOccurs="1">
+				</element>
+				<element name="countStrategy" type="tns:countStrategy"
+					minOccurs="1" maxOccurs="1">
+				</element>
+			</choice>
+			<element name="next" type="tns:xpath" minOccurs="0"
+				maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="numberStrategy">
+		<sequence>
+			<element name="from" type="int" minOccurs="1" maxOccurs="1"></element>
+			<element name="to" type="int" minOccurs="1" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="countStrategy">
+		<sequence>
+			<element name="xpath" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<element name="inputSchema">
+		<complexType>
+			<sequence>
+				<element name="xpath" type="tns:xpath" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="titleXpath" type="string" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="authorXpath" type="string" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="pageXpath" type="string" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="volumeXpath" type="string" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="categoryXpath" type="string"
+					minOccurs="1" maxOccurs="1">
+				</element>
+				<element name="startingHtmlPage" type="string"
+					minOccurs="1" maxOccurs="1">
+				</element>
+				<element name="baseUrl" type="string" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="urlSuffix" type="string" minOccurs="0" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

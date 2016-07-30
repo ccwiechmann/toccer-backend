@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 wp14">
+	<w:body>
+		<w:sdt>
+			<w:sdtPr>
+				<w:rPr>
+					<w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi" w:cs="Times New Roman"/>
+					<w:b w:val="0"/>
+					<w:bCs w:val="0"/>
+					<w:caps w:val="0"/>
+					<w:spacing w:val="0"/>
+					<w:sz w:val="22"/>
+					<w:szCs w:val="22"/>
+					<w:lang w:eastAsia="de-DE"/>
+				</w:rPr>
+				<w:id w:val="-1933885294"/>
+				<w:docPartObj>
+					<w:docPartGallery w:val="Table of Contents"/>
+					<w:docPartUnique/>
+				</w:docPartObj>
+			</w:sdtPr>
+			<w:sdtEndPr/>
+			<w:sdtContent>
+				<w:p w14:paraId="6371A1F1" w14:textId="6C077487" w:rsidR="00026339" w:rsidRPr="00026339" w:rsidRDefault="0074442A" w:rsidP="00187D1E">
+					<w:pPr>
+						<w:pStyle w:val="Inhaltsverzeichnisberschrift"/>
+						<w:spacing w:after="120"/>
+					</w:pPr>
+					<w:r>
+						<w:t>Inhaltsverzeichnis</w:t>
+					</w:r>
+				</w:p>
+				<w:p w14:paraId="195E748B" w14:textId="14B1B6E6" w:rsidR="00813F91" w:rsidRDefault="0074442A" w:rsidP="00813F91">
+					<w:pPr>
+						<w:pStyle w:val="Verzeichnis1"/>
+						<w:jc w:val="right"/>
+						<w:rPr>
+							<w:b/>
+							<w:bCs/>
+						</w:rPr>
+					</w:pPr>
+					<w:r>
+						<w:rPr>
+							<w:b/>
+							<w:bCs/>
+						</w:rPr>
+						<w:t>Ausgabe, Seite</w:t>
+					</w:r>
+				</w:p>

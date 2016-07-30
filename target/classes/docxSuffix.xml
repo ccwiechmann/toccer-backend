@@ -1,0 +1,21 @@
+			</w:sdtContent>
+		</w:sdt>
+<w:p w14:paraId="1ACC9BA4" w14:textId="0D9EC927" w:rsidR="007744C5" w:rsidRDefault="007744C5" w:rsidP="009B3C73">
+			<w:pPr>
+				<w:pStyle w:val="Verzeichnis2"/>
+				<w:ind w:left="0"/>
+			</w:pPr>
+		</w:p>
+		<w:sectPr w:rsidR="007744C5" w:rsidSect="00982B7F">
+			<w:headerReference w:type="even" r:id="rId8"/>
+			<w:headerReference w:type="default" r:id="rId9"/>
+			<w:footerReference w:type="even" r:id="rId10"/>
+			<w:footerReference w:type="default" r:id="rId11"/>
+			<w:pgSz w:w="11906" w:h="16838" w:code="9"/>
+			<w:pgMar w:top="1418" w:right="1418" w:bottom="1134" w:left="1418" w:header="709" w:footer="709" w:gutter="0"/>
+			<w:pgNumType w:fmt="upperLetter"/>
+			<w:cols w:space="708"/>
+			<w:docGrid w:linePitch="360"/>
+		</w:sectPr>
+	</w:body>
+</w:document>
