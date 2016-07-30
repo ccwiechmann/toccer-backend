@@ -4,7 +4,7 @@
 
 	<groupId>de.ccw.toccer</groupId>
 	<artifactId>toccer-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>toccer-backend</name>
