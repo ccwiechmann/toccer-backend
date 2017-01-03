@@ -45,7 +45,7 @@ public class TocEntry implements Comparable<TocEntry> {
 	}
 
 	public void setCategory(String category) {
-		this.category = category;
+		this.category = category.toUpperCase();
 	}
 
 	@Override

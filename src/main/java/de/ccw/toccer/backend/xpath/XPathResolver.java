@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import net.sf.saxon.lib.FeatureKeys;
 import net.sf.saxon.s9api.DocumentBuilder;
 import net.sf.saxon.s9api.Processor;
@@ -42,7 +44,7 @@ public final class XPathResolver {
 			while (iterator.hasNext()) {
 				final XdmItem item = iterator.next();
 				if (item.getStringValue() != null) {
-					result.add(item.getStringValue());
+					result.add(StringEscapeUtils.escapeXml10(stripNonValidXMLCharacters(item.getStringValue())));
 				}
 			}
 
@@ -52,6 +54,22 @@ public final class XPathResolver {
 		} catch (SaxonApiException | IOException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	public static String stripNonValidXMLCharacters(String in) {
+		StringBuffer out = new StringBuffer(); // Used to hold the output.
+		char current; // Used to reference the current character.
+
+		if (in == null || ("".equals(in)))
+			return ""; // vacancy test.
+		for (int i = 0; i < in.length(); i++) {
+			current = in.charAt(i); // NOTE: No IndexOutOfBoundsException caught
+									// here; it should not happen.
+			if ((current == 0x9) || (current == 0xA) || (current == 0xD) || ((current >= 0x20) && (current <= 0xD7FF))
+					|| ((current >= 0xE000) && (current <= 0xFFFD)) || ((current >= 0x10000) && (current <= 0x10FFFF)))
+				out.append(current);
+		}
+		return out.toString();
 	}
 
 	public static Processor getProcessor() {

@@ -10,7 +10,7 @@ public class ToccerMain {
 
 	public static void main(String[] args) {
 		ToccerSettings configuration = parseArguments(args);
-		Toc.create(configuration).loadFinalSites().generateTocEntries().exportToDocx();
+		Toc.create(configuration).loadFinalSites().generateTocEntries().exportToOdt();
 	}
 
 	private static ToccerSettings parseArguments(String[] args) {

@@ -9,7 +9,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import de.ccw.toccer.backend.configuration.XmlConfigurationReader;
-import de.ccw.toccer.backend.docx.DocxExporter;
+import de.ccw.toccer.backend.odt.OdtExporter;
 import de.ccw.toccer.backend.xpath.XPathResolver;
 import net.sf.saxon.s9api.Processor;
 
@@ -74,12 +74,12 @@ public class Toc {
 		return this;
 	}
 
-	public Toc exportToDocx() {
+	public Toc exportToOdt() {
 		final Multimap<String, TocEntry> entriesByCategory = ArrayListMultimap.create();
 		for (final TocEntry entry : entries) {
 			entriesByCategory.put(entry.getCategory(), entry);
 		}
-		new DocxExporter(settings.getOutputFile(), entriesByCategory).export();
+		new OdtExporter(settings.getOutputFile(), entriesByCategory).export();
 		return this;
 	}
 }
