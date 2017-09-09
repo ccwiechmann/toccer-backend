@@ -1,5 +1,7 @@
 package de.ccw.toccer.backend.toc;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class TocEntry implements Comparable<TocEntry> {
 
 	private String title;
@@ -61,8 +63,14 @@ public class TocEntry implements Comparable<TocEntry> {
 		final int issueCmp = Integer.valueOf(this.volume).compareTo(Integer.valueOf(o.volume));
 		if (issueCmp != 0) {
 			return issueCmp;
+		} else if (StringUtils.isNumeric(this.page.trim()) && !StringUtils.isNumeric(o.page.trim())) {
+			return -1;
+		} else if (!StringUtils.isNumeric(this.page.trim()) && StringUtils.isNumeric(o.page.trim())) {
+			return 1;
+		} else if (StringUtils.isNumeric(this.page.trim()) && StringUtils.isNumeric(o.page.trim())) {
+			return Integer.valueOf(this.page.trim()).compareTo(Integer.valueOf(o.page.trim()));
 		} else {
-			return Integer.valueOf(this.page).compareTo(Integer.valueOf(o.page));
+			return this.page.compareTo(o.page);
 		}
 	}
 }

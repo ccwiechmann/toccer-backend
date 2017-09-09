@@ -18,6 +18,7 @@ public class Toc {
 	private final ToccerSettings settings;
 	private List<String> finalPages;
 	private List<TocEntry> entries;
+	private XmlConfigurationReader reader;
 
 	private Toc(ToccerSettings settings) {
 		this.settings = settings;
@@ -32,7 +33,7 @@ public class Toc {
 		if (settings == null) {
 			throw new IllegalStateException();
 		}
-		final XmlConfigurationReader reader = new XmlConfigurationReader(settings);
+		reader = new XmlConfigurationReader(settings);
 		this.finalPages = reader.getFinalSites();
 		return this;
 	}
@@ -47,11 +48,36 @@ public class Toc {
 			final Processor processor = XPathResolver.getProcessor();
 			final StreamSource source = XPathResolver.getSource(page);
 
-			final List<String> authors = XPathResolver.resolveXPath(processor, source, settings.getAuthorXpath());
-			final List<String> titles = XPathResolver.resolveXPath(processor, source, settings.getTitleXpath());
-			final List<String> pages = XPathResolver.resolveXPath(processor, source, settings.getPageXpath());
-			final List<String> volumes = XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath());
-			final List<String> categories = XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath());
+			final List<String> volumes = new ArrayList<>();
+			final List<String> categories = new ArrayList<>();
+
+			final List<String> authors = new ArrayList<>();
+			final List<String> titles = new ArrayList<>();
+			final List<String> pages = new ArrayList<>();
+			if (reader.getMultiDataOnOnePageCountStrategy() == null) {
+				authors.addAll(XPathResolver.resolveXPath(processor, source, settings.getAuthorXpath()));
+				titles.addAll(XPathResolver.resolveXPath(processor, source, settings.getTitleXpath()));
+				pages.addAll(XPathResolver.resolveXPath(processor, source, settings.getPageXpath()));
+				volumes.addAll(XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()));
+				categories.addAll(XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath()));
+			} else {
+				final int count = Integer.parseInt(XPathResolver
+						.resolveXPath(processor, source, reader.getMultiDataOnOnePageCountStrategy().getMaxXpath())
+						.get(0));
+				final String volume = XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()).get(0);
+				final String category = XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath())
+						.get(0);
+				for (int i = 1; i <= count; i++) {
+					final String titleXpath = settings.getTitleXpath().replace("{0}", Integer.toString(i));
+					titles.add(XPathResolver.resolveXPath(processor, source, titleXpath).get(0));
+					final String authorXpath = settings.getAuthorXpath().replace("{0}", Integer.toString(i));
+					authors.add(XPathResolver.resolveXPath(processor, source, authorXpath).get(0));
+					final String pageXpath = settings.getPageXpath().replace("{0}", Integer.toString(i));
+					pages.add(XPathResolver.resolveXPath(processor, source, pageXpath).get(0));
+					volumes.add(volume);
+					categories.add(category);
+				}
+			}
 
 			if (authors.size() != titles.size() || authors.size() != pages.size() || authors.size() != volumes.size()
 					|| authors.size() != categories.size()) {
@@ -77,9 +103,20 @@ public class Toc {
 	public Toc exportToOdt() {
 		final Multimap<String, TocEntry> entriesByCategory = ArrayListMultimap.create();
 		for (final TocEntry entry : entries) {
-			entriesByCategory.put(entry.getCategory(), entry);
+			final String category = entry.getCategory();
+			if (reader.getMultiDataOnOnePageCountStrategy() == null) {
+				entriesByCategory.put(category, entry);
+			} else {
+				if (entriesByCategory.containsKey(category)
+						&& entriesByCategory.get(category).iterator().next().getVolume() != entry.getVolume()) {
+					entriesByCategory.put(category + entry.getVolume(), entry);
+					continue;
+				}
+
+				entriesByCategory.put(category, entry);
+			}
 		}
-		new OdtExporter(settings.getOutputFile(), entriesByCategory).export();
+		new OdtExporter(settings.getOutputFile(), entriesByCategory, settings.isSortCategories()).export();
 		return this;
 	}
 }

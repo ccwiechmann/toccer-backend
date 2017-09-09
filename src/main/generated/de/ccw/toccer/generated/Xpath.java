@@ -1,8 +1,8 @@
 //
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2016.07.10 um 06:54:52 PM CEST 
+// ï¿½nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
+// Generiert: 2017.09.09 um 12:49:49 AM CEST 
 //
 
 
@@ -10,12 +10,11 @@ package de.ccw.toccer.generated;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für xpath complex type.
+ * <p>Java-Klasse fï¿½r xpath complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
@@ -24,10 +23,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="expressionWithReplaces" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="expressionWithReplaces" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;choice>
  *           &lt;element name="numberStrategy" type="{http://www.example.org/inputSchema}numberStrategy"/>
  *           &lt;element name="countStrategy" type="{http://www.example.org/inputSchema}countStrategy"/>
+ *           &lt;element name="multiDataOnOnePageCountStrategy" type="{http://www.example.org/inputSchema}multiDataOnOnePageCountStrategy"/>
  *         &lt;/choice>
  *         &lt;element name="next" type="{http://www.example.org/inputSchema}xpath" minOccurs="0"/>
  *       &lt;/sequence>
@@ -43,14 +43,15 @@ import javax.xml.bind.annotation.XmlType;
     "expressionWithReplaces",
     "numberStrategy",
     "countStrategy",
+    "multiDataOnOnePageCountStrategy",
     "next"
 })
 public class Xpath {
 
-    @XmlElement(required = true)
     protected String expressionWithReplaces;
     protected NumberStrategy numberStrategy;
     protected CountStrategy countStrategy;
+    protected MultiDataOnOnePageCountStrategy multiDataOnOnePageCountStrategy;
     protected Xpath next;
 
     /**
@@ -123,6 +124,30 @@ public class Xpath {
      */
     public void setCountStrategy(CountStrategy value) {
         this.countStrategy = value;
+    }
+
+    /**
+     * Ruft den Wert der multiDataOnOnePageCountStrategy-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link MultiDataOnOnePageCountStrategy }
+     *     
+     */
+    public MultiDataOnOnePageCountStrategy getMultiDataOnOnePageCountStrategy() {
+        return multiDataOnOnePageCountStrategy;
+    }
+
+    /**
+     * Legt den Wert der multiDataOnOnePageCountStrategy-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link MultiDataOnOnePageCountStrategy }
+     *     
+     */
+    public void setMultiDataOnOnePageCountStrategy(MultiDataOnOnePageCountStrategy value) {
+        this.multiDataOnOnePageCountStrategy = value;
     }
 
     /**

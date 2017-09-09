@@ -9,6 +9,7 @@ import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import net.sf.saxon.lib.FeatureKeys;
 import net.sf.saxon.s9api.DocumentBuilder;
@@ -44,7 +45,8 @@ public final class XPathResolver {
 			while (iterator.hasNext()) {
 				final XdmItem item = iterator.next();
 				if (item.getStringValue() != null) {
-					result.add(StringEscapeUtils.escapeXml10(stripNonValidXMLCharacters(item.getStringValue())));
+					result.add(StringUtils.normalizeSpace(
+							StringEscapeUtils.escapeXml10(stripNonValidXMLCharacters(item.getStringValue()))));
 				}
 			}
 
@@ -83,8 +85,9 @@ public final class XPathResolver {
 
 		try {
 			final URL url = new URL(site);
-			final StreamSource streamsrc = new StreamSource(new BufferedInputStream(url.openStream()));
-			streamsrc.getInputStream().mark(1_000_000_000);
+			final StreamSource streamsrc = new StreamSource(
+					new BufferedInputStream(new ReadFromHtmlInputStream(url.openStream())));
+			streamsrc.getInputStream().mark(Integer.MAX_VALUE);
 			streamsrc.setSystemId(url.toExternalForm());
 			return streamsrc;
 		} catch (IOException e) {

@@ -5,13 +5,16 @@
 	<complexType name="xpath">
 		<sequence>
 			<element name="expressionWithReplaces" type="string"
-				minOccurs="1" maxOccurs="1">
+				minOccurs="0" maxOccurs="1">
 			</element>
 			<choice>
 				<element name="numberStrategy" type="tns:numberStrategy"
 					minOccurs="1" maxOccurs="1">
 				</element>
 				<element name="countStrategy" type="tns:countStrategy"
+					minOccurs="1" maxOccurs="1">
+				</element>
+				<element name="multiDataOnOnePageCountStrategy" type="tns:multiDataOnOnePageCountStrategy"
 					minOccurs="1" maxOccurs="1">
 				</element>
 			</choice>
@@ -33,6 +36,12 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="multiDataOnOnePageCountStrategy">
+		<sequence>
+			<element name="maxXpath" type="string"></element>
+		</sequence>
+	</complexType>
+
 	<element name="inputSchema">
 		<complexType>
 			<sequence>
@@ -51,16 +60,19 @@
 				<element name="volumeXpath" type="string" minOccurs="1"
 					maxOccurs="1">
 				</element>
-				<element name="categoryXpath" type="string"
-					minOccurs="1" maxOccurs="1">
+				<element name="categoryXpath" type="string" minOccurs="1"
+					maxOccurs="1">
 				</element>
-				<element name="startingHtmlPage" type="string"
-					minOccurs="1" maxOccurs="1">
+				<element name="startingHtmlPage" type="string" minOccurs="1"
+					maxOccurs="1">
 				</element>
 				<element name="baseUrl" type="string" minOccurs="1"
 					maxOccurs="1">
 				</element>
-				<element name="urlSuffix" type="string" minOccurs="0" maxOccurs="1"></element>
+				<element name="urlSuffix" type="string" minOccurs="0"
+					maxOccurs="1"></element>
+			    <element name="sortCategories" type="boolean" minOccurs="0"
+					maxOccurs="1"></element>
 			</sequence>
 		</complexType>
 	</element>

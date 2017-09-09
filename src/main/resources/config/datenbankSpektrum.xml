@@ -18,11 +18,12 @@
 
 	<tns:titleXpath>//*[@class="ArticleTitle"]</tns:titleXpath>
 	<tns:authorXpath>string-join(//*[@class="AuthorName_container"]/node()[not(contains(@class, 'popup'))], ', ')</tns:authorXpath>
-	<tns:pageXpath>substring-before(substring(//*[@class="ArticleCitation_Pages"]/text(), 5), '-')</tns:pageXpath>
+	<tns:pageXpath>substring(concat(substring-after(normalize-space(string-join(//ul[@class="results"]/li[{1}]//div[@class="txt"]/text(), '')), 'Page(s):'), '-'), 1, string-length(substring-before(concat(substring-after(normalize-space(string-join(//ul[@class="results"]/li[{1}]//div[@class="txt"]/text(), '')), 'Page(s):'), '-'), '-')))</tns:pageXpath>
 	<tns:volumeXpath>substring-before(substring(//*[@class="ArticleCitation_Issue"]/text(), 8), ',')</tns:volumeXpath>
 	<tns:categoryXpath>substring-before(concat(//html:header/html:strong, ' '), ' ')</tns:categoryXpath>
 
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/13222</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
 	<tns:urlSuffix>?view=classic</tns:urlSuffix>
+	<tns:sortCategories>true</tns:sortCategories>
 </tns:inputSchema>

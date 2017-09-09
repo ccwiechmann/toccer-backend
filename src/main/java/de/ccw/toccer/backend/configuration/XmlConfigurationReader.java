@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.XMLConstants;
@@ -20,6 +21,7 @@ import org.xml.sax.SAXException;
 import de.ccw.toccer.backend.toc.ToccerSettings;
 import de.ccw.toccer.backend.xpath.XPathResolver;
 import de.ccw.toccer.generated.InputSchema;
+import de.ccw.toccer.generated.MultiDataOnOnePageCountStrategy;
 import de.ccw.toccer.generated.Xpath;
 import net.sf.saxon.s9api.Processor;
 
@@ -28,6 +30,7 @@ public class XmlConfigurationReader {
 	private final ToccerSettings settings;
 	private String baseHtml;
 	private String urlSuffix;
+	private MultiDataOnOnePageCountStrategy multiDataOnOnePageCountStrategy;
 
 	public XmlConfigurationReader(ToccerSettings settings) {
 		this.settings = settings;
@@ -54,6 +57,7 @@ public class XmlConfigurationReader {
 			settings.setVolumeXpath(configuration.getVolumeXpath());
 			baseHtml = configuration.getBaseUrl();
 			urlSuffix = configuration.getUrlSuffix();
+			settings.setSortCategories(configuration.getSortCategories());
 			if (urlSuffix == null) {
 				urlSuffix = "";
 			}
@@ -70,11 +74,14 @@ public class XmlConfigurationReader {
 	private List<String> parseDefinedXpathReplacements(Xpath xpath, String site)
 			throws NumberFormatException, XPathExpressionException, IOException {
 
-		final List<String> results;
+		List<String> results = new ArrayList<>();
 		if (xpath.getNumberStrategy() != null) {
 			results = handleXpathNumberStrategy(xpath);
-		} else {
+		} else if (xpath.getCountStrategy() != null) {
 			results = handleXpathCountStrategy(xpath, site);
+		} else if (xpath.getMultiDataOnOnePageCountStrategy() != null) {
+			multiDataOnOnePageCountStrategy = xpath.getMultiDataOnOnePageCountStrategy();
+			return Arrays.asList(site);
 		}
 
 		final Processor processor = XPathResolver.getProcessor();
@@ -126,5 +133,9 @@ public class XmlConfigurationReader {
 		}
 
 		return results;
+	}
+
+	public MultiDataOnOnePageCountStrategy getMultiDataOnOnePageCountStrategy() {
+		return multiDataOnOnePageCountStrategy;
 	}
 }

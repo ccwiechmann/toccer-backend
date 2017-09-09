@@ -19,6 +19,8 @@ public class ToccerSettings {
 	private String volumeXpath;
 	private String categoryXpath;
 
+	private boolean sortCategories;
+
 	public boolean isHelp() {
 		return help;
 	}
@@ -79,5 +81,13 @@ public class ToccerSettings {
 		if (this.categoryXpath == null) {
 			this.categoryXpath = categoryXpath;
 		}
+	}
+
+	public boolean isSortCategories() {
+		return sortCategories;
+	}
+
+	public void setSortCategories(boolean sortCategories) {
+		this.sortCategories = sortCategories;
 	}
 }

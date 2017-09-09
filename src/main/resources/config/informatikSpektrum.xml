@@ -25,4 +25,5 @@
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/287</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
 	<tns:urlSuffix>?view=classic</tns:urlSuffix>
+	<tns:sortCategories>true</tns:sortCategories>
 </tns:inputSchema>

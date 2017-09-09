@@ -1,8 +1,8 @@
 //
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2016.07.10 um 06:54:52 PM CEST 
+// ï¿½nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
+// Generiert: 2017.09.09 um 12:49:49 AM CEST 
 //
 
 
@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für anonymous complex type.
+ * <p>Java-Klasse fï¿½r anonymous complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="startingHtmlPage" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="baseUrl" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="urlSuffix" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="sortCategories" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -52,7 +53,8 @@ import javax.xml.bind.annotation.XmlType;
     "categoryXpath",
     "startingHtmlPage",
     "baseUrl",
-    "urlSuffix"
+    "urlSuffix",
+    "sortCategories"
 })
 @XmlRootElement(name = "inputSchema")
 public class InputSchema {
@@ -74,6 +76,7 @@ public class InputSchema {
     @XmlElement(required = true)
     protected String baseUrl;
     protected String urlSuffix;
+    protected boolean sortCategories;
 
     /**
      * Ruft den Wert der xpath-Eigenschaft ab.
@@ -289,6 +292,30 @@ public class InputSchema {
      */
     public void setUrlSuffix(String value) {
         this.urlSuffix = value;
+    }
+    
+    /**
+     * Ruft den Wert der sortCategories-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public boolean getSortCategories() {
+        return sortCategories;
+    }
+
+    /**
+     * Legt den Wert der sortCategories-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link boolean }
+     *     
+     */
+    public void setSortCategories(boolean value) {
+        this.sortCategories = value;
     }
 
 }
