@@ -16,11 +16,15 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
 import de.ccw.toccer.backend.toc.ToccerSettings;
 import de.ccw.toccer.backend.xpath.XPathResolver;
 import de.ccw.toccer.generated.InputSchema;
+import de.ccw.toccer.generated.ManualCategoryReplacement;
+import de.ccw.toccer.generated.ManualVolumeReplacement;
 import de.ccw.toccer.generated.MultiDataOnOnePageCountStrategy;
 import de.ccw.toccer.generated.Xpath;
 import net.sf.saxon.s9api.Processor;
@@ -31,6 +35,8 @@ public class XmlConfigurationReader {
 	private String baseHtml;
 	private String urlSuffix;
 	private MultiDataOnOnePageCountStrategy multiDataOnOnePageCountStrategy;
+	private InputSchema.EmptyCategoryReplacements emptyCategoryReplacements;
+	private List<ManualVolumeReplacement> volumeReplacements;
 
 	public XmlConfigurationReader(ToccerSettings settings) {
 		this.settings = settings;
@@ -56,8 +62,10 @@ public class XmlConfigurationReader {
 			settings.setTitleXpath(configuration.getTitleXpath());
 			settings.setVolumeXpath(configuration.getVolumeXpath());
 			baseHtml = configuration.getBaseUrl();
-			urlSuffix = configuration.getUrlSuffix();
-			settings.setSortCategories(configuration.getSortCategories());
+			urlSuffix = StringEscapeUtils.unescapeXml(configuration.getUrlSuffix());
+			settings.setSortCategories(configuration.isSortCategories());
+			emptyCategoryReplacements = configuration.getEmptyCategoryReplacements();
+			volumeReplacements = configuration.getManualVolumeReplacement();
 			if (urlSuffix == null) {
 				urlSuffix = "";
 			}
@@ -137,5 +145,32 @@ public class XmlConfigurationReader {
 
 	public MultiDataOnOnePageCountStrategy getMultiDataOnOnePageCountStrategy() {
 		return multiDataOnOnePageCountStrategy;
+	}
+
+	public String getCategoryReplacementIfAvailable(String category, String title) {
+		if (emptyCategoryReplacements == null) {
+			return category;
+		}
+
+		for (final ManualCategoryReplacement replacement : emptyCategoryReplacements.getManualCategoryReplacement()) {
+			if (StringUtils.contains(title, replacement.getIfTitleContains())) {
+				return replacement.getCategoryName();
+			}
+		}
+
+		if (StringUtils.isNotEmpty(emptyCategoryReplacements.getFallbackCategoryName())) {
+			return emptyCategoryReplacements.getFallbackCategoryName();
+		}
+
+		return category;
+	}
+
+	public String getVolumeReplacement(String volume) {
+		for (final ManualVolumeReplacement replacement : volumeReplacements) {
+			if (StringUtils.equals(volume, replacement.getIfVolumeEquals())) {
+				return replacement.getVolumeName();
+			}
+		}
+		return volume;
 	}
 }

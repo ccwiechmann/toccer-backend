@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
@@ -43,6 +45,7 @@ public class Toc {
 			throw new IllegalStateException();
 		}
 
+		int currentEntryNo = 0;
 		final List<TocEntry> newEntries = new ArrayList<>();
 		for (final String page : finalPages) {
 			final Processor processor = XPathResolver.getProcessor();
@@ -57,39 +60,77 @@ public class Toc {
 			if (reader.getMultiDataOnOnePageCountStrategy() == null) {
 				authors.addAll(XPathResolver.resolveXPath(processor, source, settings.getAuthorXpath()));
 				titles.addAll(XPathResolver.resolveXPath(processor, source, settings.getTitleXpath()));
-				pages.addAll(XPathResolver.resolveXPath(processor, source, settings.getPageXpath()));
-				volumes.addAll(XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()));
+				if (settings.getPageXpath() != null) {
+					pages.addAll(XPathResolver.resolveXPath(processor, source, settings.getPageXpath()));
+				}
+				if (settings.getVolumeXpath() != null) {
+					volumes.addAll(XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()));
+				}
 				categories.addAll(XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath()));
 			} else {
 				final int count = Integer.parseInt(XPathResolver
 						.resolveXPath(processor, source, reader.getMultiDataOnOnePageCountStrategy().getMaxXpath())
 						.get(0));
-				final String volume = XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()).get(0);
-				final String category = XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath())
-						.get(0);
+				final String volume;
+				if (settings.getVolumeXpath() == null) {
+					volume = null;
+				} else {
+					volume = XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()).get(0);
+				}
+				String category = null;
+
+				if (!reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
+					category = XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath()).get(0);
+				}
 				for (int i = 1; i <= count; i++) {
 					final String titleXpath = settings.getTitleXpath().replace("{0}", Integer.toString(i));
 					titles.add(XPathResolver.resolveXPath(processor, source, titleXpath).get(0));
 					final String authorXpath = settings.getAuthorXpath().replace("{0}", Integer.toString(i));
 					authors.add(XPathResolver.resolveXPath(processor, source, authorXpath).get(0));
-					final String pageXpath = settings.getPageXpath().replace("{0}", Integer.toString(i));
-					pages.add(XPathResolver.resolveXPath(processor, source, pageXpath).get(0));
-					volumes.add(volume);
+					if (settings.getPageXpath() != null) {
+						final String pageXpath = settings.getPageXpath().replace("{0}", Integer.toString(i));
+						pages.add(XPathResolver.resolveXPath(processor, source, pageXpath).get(0));
+					}
+					if (settings.getVolumeXpath() != null) {
+						volumes.add(volume);
+					}
+					if (reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
+						category = XPathResolver.resolveXPath(processor, source,
+								settings.getCategoryXpath().replace("{0}", Integer.toString(i))).get(0);
+					}
 					categories.add(category);
 				}
 			}
 
-			if (authors.size() != titles.size() || authors.size() != pages.size() || authors.size() != volumes.size()
+			if (authors.size() != titles.size() || (authors.size() != pages.size() && settings.getPageXpath() != null)
+					|| (authors.size() != volumes.size() && settings.getVolumeXpath() != null)
 					|| authors.size() != categories.size()) {
 				throw new IllegalStateException();
 			}
 
+			for (int i = 0; i < titles.size(); i++) {
+				final String category = categories.get(0);
+				if (StringUtils.isEmpty(category)) {
+					final String title = titles.get(0);
+					categories.set(i, reader.getCategoryReplacementIfAvailable(category, title));
+				}
+			}
+
+			for (int i = 0; i < volumes.size(); i++) {
+				volumes.set(i, reader.getVolumeReplacement(volumes.get(i)));
+			}
+
 			for (int i = 0; i < authors.size(); i++) {
-				final TocEntry entry = new TocEntry();
+				final TocEntry entry = new TocEntry(currentEntryNo);
+				currentEntryNo++;
 				entry.setAuthor(authors.get(i));
 				entry.setTitle(titles.get(i));
-				entry.setPage(pages.get(i));
-				entry.setVolume(volumes.get(i));
+				if (settings.getPageXpath() != null) {
+					entry.setPage(pages.get(i));
+				}
+				if (settings.getVolumeXpath() != null) {
+					entry.setVolume(volumes.get(i));
+				}
 				entry.setCategory(categories.get(i));
 				newEntries.add(entry);
 				System.err.println(entry);
@@ -103,13 +144,14 @@ public class Toc {
 	public Toc exportToOdt() {
 		final Multimap<String, TocEntry> entriesByCategory = ArrayListMultimap.create();
 		for (final TocEntry entry : entries) {
-			final String category = entry.getCategory();
-			if (reader.getMultiDataOnOnePageCountStrategy() == null) {
+			final String category = entry.getCategoryForXml();
+			if (reader.getMultiDataOnOnePageCountStrategy() == null
+					|| reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
 				entriesByCategory.put(category, entry);
 			} else {
-				if (entriesByCategory.containsKey(category)
-						&& entriesByCategory.get(category).iterator().next().getVolume() != entry.getVolume()) {
-					entriesByCategory.put(category + entry.getVolume(), entry);
+				if (entriesByCategory.containsKey(category) && entriesByCategory.get(category).iterator().next()
+						.getVolumeForXml() != entry.getVolumeForXml()) {
+					entriesByCategory.put(category + entry.getVolumeForXml(), entry);
 					continue;
 				}
 

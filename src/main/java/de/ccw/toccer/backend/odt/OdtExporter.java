@@ -1,5 +1,6 @@
 package de.ccw.toccer.backend.odt;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +49,13 @@ public class OdtExporter {
 			Collections.sort(categories, new Comparator<String>() {
 				@Override
 				public int compare(String o1, String o2) {
-					return Integer.valueOf(entriesByCategory.get(o1).iterator().next().getVolume())
-							.compareTo(Integer.valueOf(entriesByCategory.get(o2).iterator().next().getVolume()));
+					final TocEntry entry1 = entriesByCategory.get(o1).iterator().next();
+					final TocEntry entry2 = entriesByCategory.get(o2).iterator().next();
+					if (entry1.getVolumeForXml() == null || entry2.getVolumeForXml() == null) {
+						return entry1.getId().compareTo(entry2.getId());
+					}
+					return Integer.valueOf(entry1.getVolumeForXml())
+							.compareTo(Integer.valueOf(entry2.getVolumeForXml()));
 				}
 			});
 		}
@@ -61,12 +68,19 @@ public class OdtExporter {
 			Collections.sort(entries);
 
 			for (final TocEntry entry : entries) {
-				if (StringUtils.isNotEmpty(entry.getAuthor())) {
-					builder.append(
-							getXmlFile("src/main/resources/odt/odtAuthor.xml").replace("{author}", entry.getAuthor()));
+				if (StringUtils.isNotEmpty(entry.getAuthorForXml())) {
+					builder.append(getXmlFile("src/main/resources/odt/odtAuthor.xml").replace("{author}",
+							entry.getAuthorForXml()));
 				}
-				builder.append(getXmlFile("src/main/resources/odt/odtEntry.xml").replace("{title}", entry.getTitle())
-						.replace("{page}", entry.getPage()).replace("{issue}", entry.getVolume()));
+				if (entry.getPageForXml() == null && entry.getVolumeForXml() == null) {
+					builder.append(getXmlFile("src/main/resources/odt/odtEntryNoPageAndVolume.xml").replace("{title}",
+							entry.getTitleForXml()));
+				} else {
+					builder.append(getXmlFile("src/main/resources/odt/odtEntry.xml")
+							.replace("{title}", entry.getTitleForXml())
+							.replace("{page}", entry.getPageForXml() == null ? "" : (", " + entry.getPageForXml()))
+							.replace("{issue}", entry.getVolumeForXml() == null ? "" : entry.getVolumeForXml()));
+				}
 				counter++;
 			}
 		}
@@ -76,17 +90,33 @@ public class OdtExporter {
 
 		final Map<String, String> env = new HashMap<>();
 		env.put("create", "true");
-		final Path path = Paths.get("src/main/resources/odt/odtTemplate.zip");
-		final URI uri = URI.create("jar:" + path.toUri());
+
+		File tempFile = null;
+		Path path = null;
+		try {
+			tempFile = File.createTempFile("odtTemplate", "toccer");
+			tempFile.deleteOnExit();
+			path = Paths.get("src/main/resources/odt/odtTemplate.zip");
+			Files.copy(path, Paths.get(tempFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e1) {
+			throw new IllegalStateException(e1);
+		}
+
+		final URI uri = URI.create("jar:" + Paths.get(tempFile.getAbsolutePath()).toUri());
 		try (FileSystem fs = FileSystems.newFileSystem(uri, env)) {
 			final Path nf = fs.getPath("content.xml");
-			try (final Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.WRITE)) {
+			try (final Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.WRITE,
+					StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE)) {
 				writer.write(builder.toString());
 			}
 
-			final Path target = Paths.get(filepath);
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+		final Path target = Paths.get(filepath);
+		try {
 			Files.deleteIfExists(target);
-			Files.copy(path, target);
+			Files.copy(Paths.get(tempFile.getAbsolutePath()), target, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
+	<tns:xpath>
+		<tns:expressionWithReplaces>normalize-space(string-join((//html:div[@class='scroll']/html:div[@class='module moduleOpen'][contains(html:h2/html:span/text(), '2016')]/html:div[@class='moduleDetail']/html:ul/html:li/html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
+		<tns:countStrategy>
+			<tns:xpath>count(//html:div[@class='scroll']/html:div[@class='module moduleOpen'][contains(html:h2/html:span/text(), '2016')]/html:div[@class='moduleDetail']/html:ul/html:li/html:a/@href)</tns:xpath>
+		</tns:countStrategy>
+		<tns:next>
+			<tns:multiDataOnOnePageCountStrategy>
+				<tns:maxXpath>count(//html:div[contains(@class, 'contentItem')])</tns:maxXpath>
+				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+			</tns:multiDataOnOnePageCountStrategy>
+		</tns:next>
+	</tns:xpath>
+
+	<tns:titleXpath>normalize-space(string-join((//html:div[contains(@class, 'contentItem')])[{0}]//html:h3/html:a/text(), ''))</tns:titleXpath>
+	<tns:authorXpath>normalize-space(string-join((//html:div[contains(@class, 'contentItem')])[{0}]//html:p[@class='authors']/text(), ''))</tns:authorXpath>
+	<tns:pageXpath>normalize-space(substring-after(string-join((//html:div[contains(@class, 'contentItem')])[{0}]//html:p[@class='page']/text(), ''), 'Page '))</tns:pageXpath>
+	<tns:volumeXpath>normalize-space(substring-before(substring-after(substring-after(substring-after(string-join(//html:meta[@property='og:url']/@content, ''), 'issue-'), 'issue-'), 'issue-'), '.xml'))</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space(string-join((//html:div[contains(@class, 'contentItem')][{0}]/preceding-sibling::html:h2[contains(@class, 'js-toggle-region')])[last()]/text(), ''))</tns:categoryXpath>
+
+	<tns:startingHtmlPage>https://www.degruyter.com/view/j/itit</tns:startingHtmlPage>
+	<tns:baseUrl>https://www.degruyter.com</tns:baseUrl>
+	<tns:sortCategories>true</tns:sortCategories>
+	
+	<tns:emptyCategoryReplacements>
+		<tns:fallbackCategoryName>Frontmatter</tns:fallbackCategoryName>
+	</tns:emptyCategoryReplacements>
+</tns:inputSchema>

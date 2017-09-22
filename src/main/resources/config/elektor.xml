@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
+	<tns:xpath>
+		<tns:expressionWithReplaces>normalize-space(string-join((//html:div[contains(@class, 'calendar')]/html:table//html:tr[3]//html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
+		<tns:countStrategy>
+			<tns:xpath>count(//html:div[contains(@class, 'calendar')]/html:table//html:tr[3]//html:a/@href)</tns:xpath>
+		</tns:countStrategy>
+		<tns:next>
+			<tns:expressionWithReplaces>normalize-space(string-join((//html:div[contains(@class, 'issue')]/html:div[@class='box white shadow']/html:div[not(@class)]/html:ul//html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
+			<tns:countStrategy>
+				<tns:xpath>count(//html:div[contains(@class, 'issue')]/html:div[@class='box white shadow']/html:div[not(@class)]/html:ul//html:a/@href)</tns:xpath>
+			</tns:countStrategy>
+		</tns:next>
+	</tns:xpath>
+
+	<tns:titleXpath>concat(substring(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), 1, number(string-length(normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))) = 0)      * string-length(normalize-space(string-join(//html:h1[@itemprop='headline'], '')))), substring(concat(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), ' - ', normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))), 1, number(not(string-length(normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))) = 0)) * string-length(concat(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), ' - ', normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))))))</tns:titleXpath>
+	<tns:authorXpath>normalize-space(string-join(//html:li[@itemprop='author']/html:a/html:span[@itemprop='name'], ''))</tns:authorXpath>
+	<tns:pageXpath>normalize-space(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Seite '))</tns:pageXpath>
+	<tns:volumeXpath>normalize-space(substring-before(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Heft'), '/2016'))</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space(string-join(//html:li[@class='category'], ''))</tns:categoryXpath>
+
+	<tns:startingHtmlPage>https://www.elektormagazine.de/magazine</tns:startingHtmlPage>
+	<tns:baseUrl></tns:baseUrl>
+	<tns:sortCategories>true</tns:sortCategories>
+	
+	<tns:emptyCategoryReplacements>
+		<tns:fallbackCategoryName>EDUCATION &amp; INFORMATION</tns:fallbackCategoryName>
+		<tns:manualCategoryReplacement>
+			<tns:categoryName>Verschiedenes</tns:categoryName>
+			<tns:ifTitleContains>DESIGN</tns:ifTitleContains>
+		</tns:manualCategoryReplacement>
+		<tns:manualCategoryReplacement>
+			<tns:categoryName>Verschiedenes</tns:categoryName>
+			<tns:ifTitleContains>SHARE</tns:ifTitleContains>
+		</tns:manualCategoryReplacement>
+		<tns:manualCategoryReplacement>
+			<tns:categoryName>Verschiedenes</tns:categoryName>
+			<tns:ifTitleContains>LEARN</tns:ifTitleContains>
+		</tns:manualCategoryReplacement>
+	</tns:emptyCategoryReplacements>
+	
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>1-2</tns:VolumeName>
+		<tns:ifVolumeEquals>1</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>7-8</tns:VolumeName>
+		<tns:ifVolumeEquals>7</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+</tns:inputSchema>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
+	<tns:xpath>
+		<tns:expressionWithReplaces>id('pi-2016')/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+		<tns:numberStrategy>
+			<tns:from>1</tns:from>
+			<tns:to>6</tns:to>
+		</tns:numberStrategy>
+		<tns:next>
+			<tns:multiDataOnOnePageCountStrategy>
+				<tns:maxXpath>count(//html:ul[@class="results"]/html:li[not(@class="results-section-header")])</tns:maxXpath>
+				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+			</tns:multiDataOnOnePageCountStrategy>
+		</tns:next>
+	</tns:xpath>
+
+	<tns:titleXpath>normalize-space(string-join(//html:ul[@class="results"]/html:li[not(@class="results-section-header")][{0}]//html:h3//text(), ''))</tns:titleXpath>
+	<tns:authorXpath>translate(string-join(//html:ul[@class="results"]/html:li[not(@class="results-section-header")][{0}]//html:div[@class="authors"]//text(), ''), ',', '')</tns:authorXpath>
+	<tns:pageXpath>substring(concat(substring-after(normalize-space(string-join(//html:ul[@class="results"]/html:li[not(@class="results-section-header")][{0}]//html:div[@class="txt"]/text(), '')), 'Page(s):'), '-'), 1, string-length(substring-before(concat(substring-after(normalize-space(string-join(//html:ul[@class="results"]/html:li[not(@class="results-section-header")][{0}]//html:div[@class="txt"]/text(), '')), 'Page(s):'), '-'), '-')))</tns:pageXpath>
+	
+	<tns:volumeXpath>substring-before(normalize-space(substring(substring-after(//html:div[@class="heading"]/html:h2, 'Issue'), 2)), '•')</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space(string-join(//html:ul[@class="results"]/html:li[not(@class="results-section-header")][{0}]/preceding-sibling::html:li[@class="results-section-header"][1]/text(), ''))</tns:categoryXpath>
+	<tns:startingHtmlPage>http://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=52</tns:startingHtmlPage>
+	<tns:baseUrl>http://ieeexplore.ieee.org</tns:baseUrl>
+	<tns:urlSuffix>&amp;rowsPerPage=100</tns:urlSuffix>
+	<tns:sortCategories>true</tns:sortCategories>
+</tns:inputSchema>

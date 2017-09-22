@@ -1,13 +1,15 @@
 //
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// ï¿½nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2017.09.09 um 12:49:49 AM CEST 
+// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
+// Generiert: 2017.09.21 um 10:03:31 PM CEST 
 //
 
 
 package de.ccw.toccer.generated;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse fï¿½r anonymous complex type.
+ * <p>Java-Klasse für anonymous complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
@@ -28,13 +30,26 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="xpath" type="{http://www.example.org/inputSchema}xpath"/>
  *         &lt;element name="titleXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="authorXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="pageXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="volumeXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="pageXpath" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="volumeXpath" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="categoryXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="startingHtmlPage" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="baseUrl" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="urlSuffix" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="sortCategories" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="emptyCategoryReplacements" minOccurs="0">
+ *           &lt;complexType>
+ *             &lt;complexContent>
+ *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                 &lt;sequence>
+ *                   &lt;element name="fallbackCategoryName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *                   &lt;element name="manualCategoryReplacement" type="{http://www.example.org/inputSchema}ManualCategoryReplacement" maxOccurs="unbounded" minOccurs="0"/>
+ *                 &lt;/sequence>
+ *               &lt;/restriction>
+ *             &lt;/complexContent>
+ *           &lt;/complexType>
+ *         &lt;/element>
+ *         &lt;element name="manualVolumeReplacement" type="{http://www.example.org/inputSchema}ManualVolumeReplacement" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -54,7 +69,9 @@ import javax.xml.bind.annotation.XmlType;
     "startingHtmlPage",
     "baseUrl",
     "urlSuffix",
-    "sortCategories"
+    "sortCategories",
+    "emptyCategoryReplacements",
+    "manualVolumeReplacement"
 })
 @XmlRootElement(name = "inputSchema")
 public class InputSchema {
@@ -65,9 +82,7 @@ public class InputSchema {
     protected String titleXpath;
     @XmlElement(required = true)
     protected String authorXpath;
-    @XmlElement(required = true)
     protected String pageXpath;
-    @XmlElement(required = true)
     protected String volumeXpath;
     @XmlElement(required = true)
     protected String categoryXpath;
@@ -76,7 +91,9 @@ public class InputSchema {
     @XmlElement(required = true)
     protected String baseUrl;
     protected String urlSuffix;
-    protected boolean sortCategories;
+    protected Boolean sortCategories;
+    protected InputSchema.EmptyCategoryReplacements emptyCategoryReplacements;
+    protected List<ManualVolumeReplacement> manualVolumeReplacement;
 
     /**
      * Ruft den Wert der xpath-Eigenschaft ab.
@@ -293,16 +310,16 @@ public class InputSchema {
     public void setUrlSuffix(String value) {
         this.urlSuffix = value;
     }
-    
+
     /**
      * Ruft den Wert der sortCategories-Eigenschaft ab.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Boolean }
      *     
      */
-    public boolean getSortCategories() {
+    public Boolean isSortCategories() {
         return sortCategories;
     }
 
@@ -311,11 +328,150 @@ public class InputSchema {
      * 
      * @param value
      *     allowed object is
-     *     {@link boolean }
+     *     {@link Boolean }
      *     
      */
-    public void setSortCategories(boolean value) {
+    public void setSortCategories(Boolean value) {
         this.sortCategories = value;
+    }
+
+    /**
+     * Ruft den Wert der emptyCategoryReplacements-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link InputSchema.EmptyCategoryReplacements }
+     *     
+     */
+    public InputSchema.EmptyCategoryReplacements getEmptyCategoryReplacements() {
+        return emptyCategoryReplacements;
+    }
+
+    /**
+     * Legt den Wert der emptyCategoryReplacements-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link InputSchema.EmptyCategoryReplacements }
+     *     
+     */
+    public void setEmptyCategoryReplacements(InputSchema.EmptyCategoryReplacements value) {
+        this.emptyCategoryReplacements = value;
+    }
+
+    /**
+     * Gets the value of the manualVolumeReplacement property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the manualVolumeReplacement property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getManualVolumeReplacement().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link ManualVolumeReplacement }
+     * 
+     * 
+     */
+    public List<ManualVolumeReplacement> getManualVolumeReplacement() {
+        if (manualVolumeReplacement == null) {
+            manualVolumeReplacement = new ArrayList<ManualVolumeReplacement>();
+        }
+        return this.manualVolumeReplacement;
+    }
+
+
+    /**
+     * <p>Java-Klasse für anonymous complex type.
+     * 
+     * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+     * 
+     * <pre>
+     * &lt;complexType>
+     *   &lt;complexContent>
+     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+     *       &lt;sequence>
+     *         &lt;element name="fallbackCategoryName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+     *         &lt;element name="manualCategoryReplacement" type="{http://www.example.org/inputSchema}ManualCategoryReplacement" maxOccurs="unbounded" minOccurs="0"/>
+     *       &lt;/sequence>
+     *     &lt;/restriction>
+     *   &lt;/complexContent>
+     * &lt;/complexType>
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "fallbackCategoryName",
+        "manualCategoryReplacement"
+    })
+    public static class EmptyCategoryReplacements {
+
+        protected String fallbackCategoryName;
+        protected List<ManualCategoryReplacement> manualCategoryReplacement;
+
+        /**
+         * Ruft den Wert der fallbackCategoryName-Eigenschaft ab.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getFallbackCategoryName() {
+            return fallbackCategoryName;
+        }
+
+        /**
+         * Legt den Wert der fallbackCategoryName-Eigenschaft fest.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setFallbackCategoryName(String value) {
+            this.fallbackCategoryName = value;
+        }
+
+        /**
+         * Gets the value of the manualCategoryReplacement property.
+         * 
+         * <p>
+         * This accessor method returns a reference to the live list,
+         * not a snapshot. Therefore any modification you make to the
+         * returned list will be present inside the JAXB object.
+         * This is why there is not a <CODE>set</CODE> method for the manualCategoryReplacement property.
+         * 
+         * <p>
+         * For example, to add a new item, do as follows:
+         * <pre>
+         *    getManualCategoryReplacement().add(newItem);
+         * </pre>
+         * 
+         * 
+         * <p>
+         * Objects of the following type(s) are allowed in the list
+         * {@link ManualCategoryReplacement }
+         * 
+         * 
+         */
+        public List<ManualCategoryReplacement> getManualCategoryReplacement() {
+            if (manualCategoryReplacement == null) {
+                manualCategoryReplacement = new ArrayList<ManualCategoryReplacement>();
+            }
+            return this.manualCategoryReplacement;
+        }
+
     }
 
 }

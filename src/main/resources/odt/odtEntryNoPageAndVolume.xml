@@ -1,6 +1,4 @@
 			<text:p text:style-name="P8">
 				<text:s text:c="2" />
 				{title}
-				<text:tab />
-				<text:span text:style-name="T1">{issue}{page}</text:span>
 			</text:p>

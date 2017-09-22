@@ -1,8 +1,8 @@
 //
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// ï¿½nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2017.09.09 um 12:49:49 AM CEST 
+// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
+// Generiert: 2017.09.21 um 10:03:31 PM CEST 
 //
 
 
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the org.example.inputschema package. 
+ * generated in the de.ccw.toccer.generated package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -30,7 +30,7 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.example.inputschema
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: de.ccw.toccer.generated
      * 
      */
     public ObjectFactory() {
@@ -53,6 +53,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link InputSchema.EmptyCategoryReplacements }
+     * 
+     */
+    public InputSchema.EmptyCategoryReplacements createInputSchemaEmptyCategoryReplacements() {
+        return new InputSchema.EmptyCategoryReplacements();
+    }
+
+    /**
+     * Create an instance of {@link ManualVolumeReplacement }
+     * 
+     */
+    public ManualVolumeReplacement createManualVolumeReplacement() {
+        return new ManualVolumeReplacement();
+    }
+
+    /**
      * Create an instance of {@link CountStrategy }
      * 
      */
@@ -66,6 +82,14 @@ public class ObjectFactory {
      */
     public NumberStrategy createNumberStrategy() {
         return new NumberStrategy();
+    }
+
+    /**
+     * Create an instance of {@link ManualCategoryReplacement }
+     * 
+     */
+    public ManualCategoryReplacement createManualCategoryReplacement() {
+        return new ManualCategoryReplacement();
     }
 
     /**

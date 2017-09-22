@@ -11,17 +11,18 @@
 		<tns:next>
 			<tns:multiDataOnOnePageCountStrategy>
 				<tns:maxXpath>count(//html:ul[@class="results"]/html:li)</tns:maxXpath>
-			</tns:multiDataOnOnePageCountStrategy>
+			</tns:multiDataOnOnePageCountStrategy>>
 		</tns:next>
 	</tns:xpath>
 
 	<tns:titleXpath>normalize-space(string-join(//html:ul[@class="results"]/html:li[{0}]//html:h3//text(), ''))</tns:titleXpath>
-	<tns:authorXpath>translate(string-join(//html:ul[@class="results"]/html:li[{0}]//html:div[@class="authors"]//text(), ''), ',', '')</tns:authorXpath>
-	<tns:pageXpath>substring(concat(substring-after(normalize-space(string-join(//html:ul[@class="results"]/html:li[{0}]//html:div[@class="txt"]/text(), '')), 'Page(s):'), '-'), 1, string-length(substring-before(concat(substring-after(normalize-space(string-join(//html:ul[@class="results"]/html:li[{0}]//html:div[@class="txt"]/text(), '')), 'Page(s):'), '-'), '-')))</tns:pageXpath>
+	<tns:authorXpath>normalize-space(translate(string-join(//html:ul[@class="results"]/html:li[{0}]//html:div[@class="authors"]//text(), ''), ',', ''))</tns:authorXpath>
+	<tns:pageXpath>normalize-space(substring(concat(substring-after(normalize-space(string-join(//html:ul[@class="results"]/html:li[{0}]//html:div[@class="txt"]/text(), '')), 'Page(s):'), '-'), 1, string-length(substring-before(concat(substring-after(normalize-space(string-join(//html:ul[@class="results"]/html:li[{0}]//html:div[@class="txt"]/text(), '')), 'Page(s):'), '-'), '-'))))</tns:pageXpath>
 	
-	<tns:volumeXpath>substring-before(normalize-space(substring(substring-after(//html:div[@class="heading"]/html:h2, 'Issue'), 2)), '•')</tns:volumeXpath>
-	<tns:categoryXpath>substring-before(substring-after(translate(string-join(//html:ul[@class="results"]//html:h3/text(), ''), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')[contains(., 'of contents')], '['), ']')</tns:categoryXpath>
+	<tns:volumeXpath>normalize-space(substring-before(normalize-space(substring(substring-after(//html:div[@class="heading"]/html:h2, 'Issue'), 2)), '•'))</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space(string-join(//html:div[@class='tx-dm-journals']/html:div[@class='col-sm-9'][{0}]/html:p[@class='referent']/html:strong/text(), ''))</tns:categoryXpath>
 	<tns:startingHtmlPage>http://ieeexplore.ieee.org/xpl/mostRecentIssue.jsp?punumber=5</tns:startingHtmlPage>
 	<tns:baseUrl>http://ieeexplore.ieee.org</tns:baseUrl>
+	<tns:urlSuffix>&amp;rowsPerPage=100</tns:urlSuffix>
 	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

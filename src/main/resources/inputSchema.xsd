@@ -39,6 +39,22 @@
 	<complexType name="multiDataOnOnePageCountStrategy">
 		<sequence>
 			<element name="maxXpath" type="string"></element>
+			<element name="categoryForEachEntry" type="boolean"
+				minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="ManualCategoryReplacement">
+		<sequence>
+			<element name="categoryName" type="string"></element>
+			<element name="ifTitleContains" type="string"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="ManualVolumeReplacement">
+		<sequence>
+			<element name="VolumeName" type="string"></element>
+			<element name="ifVolumeEquals" type="string"></element>
 		</sequence>
 	</complexType>
 
@@ -54,10 +70,10 @@
 				<element name="authorXpath" type="string" minOccurs="1"
 					maxOccurs="1">
 				</element>
-				<element name="pageXpath" type="string" minOccurs="1"
+				<element name="pageXpath" type="string" minOccurs="0"
 					maxOccurs="1">
 				</element>
-				<element name="volumeXpath" type="string" minOccurs="1"
+				<element name="volumeXpath" type="string" minOccurs="0"
 					maxOccurs="1">
 				</element>
 				<element name="categoryXpath" type="string" minOccurs="1"
@@ -71,8 +87,20 @@
 				</element>
 				<element name="urlSuffix" type="string" minOccurs="0"
 					maxOccurs="1"></element>
-			    <element name="sortCategories" type="boolean" minOccurs="0"
+				<element name="sortCategories" type="boolean" minOccurs="0"
 					maxOccurs="1"></element>
+				<element name="emptyCategoryReplacements" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element name="fallbackCategoryName" type="string"
+								minOccurs="0"></element>
+							<element name="manualCategoryReplacement" type="tns:ManualCategoryReplacement"
+								minOccurs="0" maxOccurs="unbounded"></element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="manualVolumeReplacement" type="tns:ManualVolumeReplacement"
+					minOccurs="0" maxOccurs="unbounded"></element>
 			</sequence>
 		</complexType>
 	</element>

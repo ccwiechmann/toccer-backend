@@ -15,17 +15,17 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für multiDataOnOnePageCountStrategy complex type.
+ * <p>Java-Klasse für ManualCategoryReplacement complex type.
  * 
  * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
  * 
  * <pre>
- * &lt;complexType name="multiDataOnOnePageCountStrategy">
+ * &lt;complexType name="ManualCategoryReplacement">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="maxXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="categoryForEachEntry" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="categoryName" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ifTitleContains" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,62 +35,63 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "multiDataOnOnePageCountStrategy", propOrder = {
-    "maxXpath",
-    "categoryForEachEntry"
+@XmlType(name = "ManualCategoryReplacement", propOrder = {
+    "categoryName",
+    "ifTitleContains"
 })
-public class MultiDataOnOnePageCountStrategy {
+public class ManualCategoryReplacement {
 
     @XmlElement(required = true)
-    protected String maxXpath;
-    protected Boolean categoryForEachEntry;
+    protected String categoryName;
+    @XmlElement(required = true)
+    protected String ifTitleContains;
 
     /**
-     * Ruft den Wert der maxXpath-Eigenschaft ab.
+     * Ruft den Wert der categoryName-Eigenschaft ab.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMaxXpath() {
-        return maxXpath;
+    public String getCategoryName() {
+        return categoryName;
     }
 
     /**
-     * Legt den Wert der maxXpath-Eigenschaft fest.
+     * Legt den Wert der categoryName-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMaxXpath(String value) {
-        this.maxXpath = value;
+    public void setCategoryName(String value) {
+        this.categoryName = value;
     }
 
     /**
-     * Ruft den Wert der categoryForEachEntry-Eigenschaft ab.
+     * Ruft den Wert der ifTitleContains-Eigenschaft ab.
      * 
      * @return
      *     possible object is
-     *     {@link Boolean }
+     *     {@link String }
      *     
      */
-    public Boolean isCategoryForEachEntry() {
-        return categoryForEachEntry;
+    public String getIfTitleContains() {
+        return ifTitleContains;
     }
 
     /**
-     * Legt den Wert der categoryForEachEntry-Eigenschaft fest.
+     * Legt den Wert der ifTitleContains-Eigenschaft fest.
      * 
      * @param value
      *     allowed object is
-     *     {@link Boolean }
+     *     {@link String }
      *     
      */
-    public void setCategoryForEachEntry(Boolean value) {
-        this.categoryForEachEntry = value;
+    public void setIfTitleContains(String value) {
+        this.ifTitleContains = value;
     }
 
 }

@@ -3,6 +3,7 @@ package de.ccw.toccer.backend.xpath;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public final class XPathResolver {
 		try {
 
 			final XPathCompiler compiler = processor.newXPathCompiler();
+			compiler.setCaching(false);
 			compiler.declareNamespace("html", "http://www.w3.org/1999/xhtml");
 			final XPathExecutable executable = compiler.compile(xpath);
 			final XPathSelector selector = executable.load();
@@ -46,7 +48,7 @@ public final class XPathResolver {
 				final XdmItem item = iterator.next();
 				if (item.getStringValue() != null) {
 					result.add(StringUtils.normalizeSpace(
-							StringEscapeUtils.escapeXml10(stripNonValidXMLCharacters(item.getStringValue()))));
+							StringEscapeUtils.escapeHtml4(stripNonValidXMLCharacters(item.getStringValue()))));
 				}
 			}
 
@@ -85,10 +87,14 @@ public final class XPathResolver {
 
 		try {
 			final URL url = new URL(site);
+			final URLConnection connection = url.openConnection();
+			connection.setUseCaches(false);
 			final StreamSource streamsrc = new StreamSource(
-					new BufferedInputStream(new ReadFromHtmlInputStream(url.openStream())));
+					new BufferedInputStream(new ReadFromHtmlInputStream(connection.getInputStream())));
 			streamsrc.getInputStream().mark(Integer.MAX_VALUE);
 			streamsrc.setSystemId(url.toExternalForm());
+//			System.err.println(IOUtils.toString(streamsrc.getInputStream()));
+//			streamsrc.getInputStream().reset();
 			return streamsrc;
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
