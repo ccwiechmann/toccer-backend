@@ -2,7 +2,7 @@
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2017.09.21 um 10:03:31 PM CEST 
+// Generiert: 2019.12.15 um 11:46:28 PM CET 
 //
 
 
@@ -42,6 +42,14 @@ public class ObjectFactory {
      */
     public InputSchema createInputSchema() {
         return new InputSchema();
+    }
+
+    /**
+     * Create an instance of {@link FixedPostUrlStrategy }
+     * 
+     */
+    public FixedPostUrlStrategy createFixedPostUrlStrategy() {
+        return new FixedPostUrlStrategy();
     }
 
     /**
@@ -98,6 +106,14 @@ public class ObjectFactory {
      */
     public MultiDataOnOnePageCountStrategy createMultiDataOnOnePageCountStrategy() {
         return new MultiDataOnOnePageCountStrategy();
+    }
+
+    /**
+     * Create an instance of {@link FixedPostUrlStrategy.FixedUrls }
+     * 
+     */
+    public FixedPostUrlStrategy.FixedUrls createFixedPostUrlStrategyFixedUrls() {
+        return new FixedPostUrlStrategy.FixedUrls();
     }
 
 }

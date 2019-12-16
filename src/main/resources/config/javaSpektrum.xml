@@ -3,17 +3,38 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>normalize-space(string-join((//html:div[contains(@class, 'tx-dm-journals')]/html:div[@class='issue'][position()&lt;=6]/html:div[contains(@class, 'w360')]/html:ul/html:li/html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
-		<tns:countStrategy>
-			<tns:xpath>count(//html:div[contains(@class, 'tx-dm-journals')]/html:div[@class='issue'][position()&lt;=6]/html:div[contains(@class, 'w360')]/html:ul/html:li/html:a/@href)</tns:xpath>
-		</tns:countStrategy>
+		<tns:expressionWithReplaces>string-join((//*[@class='module-price-badge' and .//*[contains(./@alt, '2017')]]/html:a/@href)[{0}], '')</tns:expressionWithReplaces>
+		<tns:numberStrategy>
+			<tns:from>1</tns:from>
+			<tns:to>6</tns:to>
+		</tns:numberStrategy>
+		<tns:next>
+			<tns:expressionWithReplaces>concat(string-join(//html:div[@class='col-md-6']/html:a/@href, ''), '/page/3')</tns:expressionWithReplaces>
+			<tns:numberStrategy>
+				<tns:from>1</tns:from>
+				<tns:to>1</tns:to>
+			</tns:numberStrategy>
+			<tns:next>
+				<tns:expressionWithReplaces>string-join((//html:div[@data-name='page']/html:a/@href[contains(., 'de/profiles')])[{0}], '')</tns:expressionWithReplaces>
+				<tns:countStrategy>
+					<tns:xpath>count(//html:div[@data-name='page']/html:a/@href[contains(., 'de/profiles')])</tns:xpath>
+				</tns:countStrategy>
+				<tns:next>
+					<tns:expressionWithReplaces>string-join((//html:a/@data-url[contains(., 'de/profiles')])[1], '')</tns:expressionWithReplaces>
+					<tns:numberStrategy>
+						<tns:from>1</tns:from>
+						<tns:to>1</tns:to>
+					</tns:numberStrategy>
+				</tns:next>
+			</tns:next>
+		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>normalize-space(string-join(//html:div[contains(@class, 'w360')]/html:h1/text(), ''))</tns:titleXpath>
-	<tns:authorXpath>normalize-space(string-join(//html:div[@class='content']/html:p[2]/text(), ''))</tns:authorXpath>
+	<tns:titleXpath>normalize-space(string-join(//html:h1//html:strong, ''))</tns:titleXpath>
+	<tns:authorXpath>normalize-space(string-join((//html:h1/following-sibling::html:p/html:strong[./html:br])[1]//text(), ''))</tns:authorXpath>
 	
-	<tns:categoryXpath>concat(normalize-space(string-join(substring-after(substring-before(//html:div[@class='issueInfo']/text()[1], '/2016'), ' - '), '')), ': ', normalize-space(substring-after(string-join(//html:div[@class='issueInfo']/text(), ''), '2016')))</tns:categoryXpath>
-	<tns:startingHtmlPage>http://archive.sigsdatacom.de/fachzeitschriften/javaspektrum/archiv/jahres-uebersicht/2016.html</tns:startingHtmlPage>
-	<tns:baseUrl>http://archive.sigsdatacom.de</tns:baseUrl>
+	<tns:categoryXpath>concat('placeholder', '')</tns:categoryXpath>
+	<tns:startingHtmlPage>https://bc-v3.pressmatrix.com/de/profiles/4967c6d5eae1/editions</tns:startingHtmlPage>
+	<tns:baseUrl>https://bc-v3.pressmatrix.com</tns:baseUrl>
 	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

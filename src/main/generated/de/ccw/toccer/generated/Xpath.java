@@ -2,7 +2,7 @@
 // Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
 // Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2017.09.21 um 10:03:31 PM CEST 
+// Generiert: 2019.12.15 um 11:46:28 PM CET 
 //
 
 
@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *           &lt;element name="numberStrategy" type="{http://www.example.org/inputSchema}numberStrategy"/>
  *           &lt;element name="countStrategy" type="{http://www.example.org/inputSchema}countStrategy"/>
  *           &lt;element name="multiDataOnOnePageCountStrategy" type="{http://www.example.org/inputSchema}multiDataOnOnePageCountStrategy"/>
+ *           &lt;element name="fixedPostUrlStrategy" type="{http://www.example.org/inputSchema}fixedPostUrlStrategy"/>
  *         &lt;/choice>
  *         &lt;element name="next" type="{http://www.example.org/inputSchema}xpath" minOccurs="0"/>
  *       &lt;/sequence>
@@ -44,6 +45,7 @@ import javax.xml.bind.annotation.XmlType;
     "numberStrategy",
     "countStrategy",
     "multiDataOnOnePageCountStrategy",
+    "fixedPostUrlStrategy",
     "next"
 })
 public class Xpath {
@@ -52,6 +54,7 @@ public class Xpath {
     protected NumberStrategy numberStrategy;
     protected CountStrategy countStrategy;
     protected MultiDataOnOnePageCountStrategy multiDataOnOnePageCountStrategy;
+    protected FixedPostUrlStrategy fixedPostUrlStrategy;
     protected Xpath next;
 
     /**
@@ -148,6 +151,30 @@ public class Xpath {
      */
     public void setMultiDataOnOnePageCountStrategy(MultiDataOnOnePageCountStrategy value) {
         this.multiDataOnOnePageCountStrategy = value;
+    }
+
+    /**
+     * Ruft den Wert der fixedPostUrlStrategy-Eigenschaft ab.
+     * 
+     * @return
+     *     possible object is
+     *     {@link FixedPostUrlStrategy }
+     *     
+     */
+    public FixedPostUrlStrategy getFixedPostUrlStrategy() {
+        return fixedPostUrlStrategy;
+    }
+
+    /**
+     * Legt den Wert der fixedPostUrlStrategy-Eigenschaft fest.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link FixedPostUrlStrategy }
+     *     
+     */
+    public void setFixedPostUrlStrategy(FixedPostUrlStrategy value) {
+        this.fixedPostUrlStrategy = value;
     }
 
     /**

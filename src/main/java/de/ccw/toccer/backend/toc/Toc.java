@@ -11,6 +11,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import de.ccw.toccer.backend.configuration.XmlConfigurationReader;
+import de.ccw.toccer.backend.configuration.XmlConfigurationReader.XpathResolvableResult;
 import de.ccw.toccer.backend.odt.OdtExporter;
 import de.ccw.toccer.backend.xpath.XPathResolver;
 import net.sf.saxon.s9api.Processor;
@@ -18,7 +19,7 @@ import net.sf.saxon.s9api.Processor;
 public class Toc {
 
 	private final ToccerSettings settings;
-	private List<String> finalPages;
+	private List<XpathResolvableResult> finalPages;
 	private List<TocEntry> entries;
 	private XmlConfigurationReader reader;
 
@@ -47,9 +48,16 @@ public class Toc {
 
 		int currentEntryNo = 0;
 		final List<TocEntry> newEntries = new ArrayList<>();
-		for (final String page : finalPages) {
+		for (final XpathResolvableResult page : finalPages) {
 			final Processor processor = XPathResolver.getProcessor();
-			final StreamSource source = XPathResolver.getSource(page);
+			final StreamSource source;
+
+			if (reader.getFixedPostUrlStrategy() == null) {
+				source = XPathResolver.getSource(page.getResolvableResult());
+			} else {
+				source = XPathResolver.getSource(page.getResolvableResult(), reader.getFixedPostUrlStrategy().isJson(),
+						page.getHeaders(), reader.getFixedPostUrlStrategy().isPost(), page.getContent());
+			}
 
 			final List<String> volumes = new ArrayList<>();
 			final List<String> categories = new ArrayList<>();
@@ -74,8 +82,10 @@ public class Toc {
 				final String volume;
 				if (settings.getVolumeXpath() == null) {
 					volume = null;
-				} else {
+				} else if (!settings.getVolumeXpath().contains("{0}")) {
 					volume = XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()).get(0);
+				} else {
+					volume = null;
 				}
 				String category = null;
 
@@ -92,7 +102,12 @@ public class Toc {
 						pages.add(XPathResolver.resolveXPath(processor, source, pageXpath).get(0));
 					}
 					if (settings.getVolumeXpath() != null) {
-						volumes.add(volume);
+						if (!settings.getVolumeXpath().contains("{0}")) {
+							volumes.add(volume);
+						} else {
+							final String volumeXpath = settings.getVolumeXpath().replace("{0}", Integer.toString(i));
+							volumes.add(XPathResolver.resolveXPath(processor, source, volumeXpath).get(0));
+						}
 					}
 					if (reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
 						category = XPathResolver.resolveXPath(processor, source,
@@ -108,16 +123,17 @@ public class Toc {
 				throw new IllegalStateException();
 			}
 
-			for (int i = 0; i < titles.size(); i++) {
-				final String category = categories.get(0);
-				if (StringUtils.isEmpty(category)) {
-					final String title = titles.get(0);
-					categories.set(i, reader.getCategoryReplacementIfAvailable(category, title));
-				}
-			}
-
 			for (int i = 0; i < volumes.size(); i++) {
 				volumes.set(i, reader.getVolumeReplacement(volumes.get(i)));
+			}
+
+			for (int i = 0; i < titles.size(); i++) {
+				final String category = categories.get(i);
+				if (StringUtils.isEmpty(category)) {
+					final String title = titles.get(i);
+					final String volume = volumes.get(i);
+					categories.set(i, reader.getCategoryReplacementIfAvailable(category, title, volume));
+				}
 			}
 
 			for (int i = 0; i < authors.size(); i++) {

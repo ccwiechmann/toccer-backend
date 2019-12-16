@@ -1,14 +1,17 @@
 package de.ccw.toccer.backend.xpath;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -47,8 +50,8 @@ public final class XPathResolver {
 			while (iterator.hasNext()) {
 				final XdmItem item = iterator.next();
 				if (item.getStringValue() != null) {
-					result.add(StringUtils.normalizeSpace(
-							StringEscapeUtils.escapeHtml4(stripNonValidXMLCharacters(item.getStringValue()))));
+					result.add(StringUtils.normalizeSpace(StringEscapeUtils
+							.escapeHtml4(stripNonValidXMLCharacters(new String(item.getStringValue())))));
 				}
 			}
 
@@ -83,18 +86,51 @@ public final class XPathResolver {
 	}
 
 	public static StreamSource getSource(String site) {
+		return getSource(site, false, new ArrayList<String>(), false, null);
+	}
+
+	public static StreamSource getSource(String site, boolean isJson, List<String> headers, boolean isPost,
+			String content) {
 		System.out.println("Resolving site \"" + site + "\"");
 
 		try {
 			final URL url = new URL(site);
-			final URLConnection connection = url.openConnection();
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setUseCaches(false);
+
+			if (isPost) {
+				connection.setRequestMethod("POST");
+			} else {
+				connection.setRequestMethod("GET");
+			}
+
+			for (final String header : headers) {
+				final String[] split = header.split(":", 2);
+				connection.addRequestProperty(StringUtils.trim(split[0]), StringUtils.trim(split[1]));
+			}
+
+			if (isJson) {
+				connection.setRequestProperty("Content-Type", "application/json");
+			}
+
+			if (StringUtils.isNotBlank(content)) {
+				connection.setRequestProperty("Content-Length", Integer.toString(content.length()));
+				connection.setDoOutput(true);
+				final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+				writer.write(content);
+				writer.flush();
+			}
+
 			final StreamSource streamsrc = new StreamSource(
-					new BufferedInputStream(new ReadFromHtmlInputStream(connection.getInputStream())));
+					new BufferedInputStream(new ReadFromHtmlInputStream(connection.getInputStream(), isJson)));
 			streamsrc.getInputStream().mark(Integer.MAX_VALUE);
 			streamsrc.setSystemId(url.toExternalForm());
-//			System.err.println(IOUtils.toString(streamsrc.getInputStream()));
-//			streamsrc.getInputStream().reset();
+
+			if (isJson) {
+				final String json = IOUtils.toString(streamsrc.getInputStream());
+				final String convertedJson = JsonToHtmlConverter.getHtmlData(json);
+				return new StreamSource(new ByteArrayInputStream(convertedJson.getBytes()));
+			}
 			return streamsrc;
 		} catch (IOException e) {
 			throw new IllegalStateException(e);

@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>id('volume31')/html:div[2]/html:div/html:div/html:ul/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>id('volume33')//html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
 		<tns:numberStrategy>
 			<tns:from>1</tns:from>
 			<tns:to>6</tns:to>
@@ -17,18 +17,12 @@
 	</tns:xpath>
 
 	<tns:titleXpath>//*[@class="ArticleTitle"]</tns:titleXpath>
-	<tns:authorXpath>string-join(//*[@class="AuthorName_container"]/node()[not(contains(@class, 'popup'))], ', ')</tns:authorXpath>
-	<tns:pageXpath>substring-before(substring(//*[@class="ArticleCitation_Pages"]/text(), 5), '-')</tns:pageXpath>
-	<tns:volumeXpath>substring-before(substring(//*[@class="ArticleCitation_Issue"]/text(), 8), ',')</tns:volumeXpath>
-	<tns:categoryXpath>substring-before(concat(//html:header/html:strong, ' '), ' ')</tns:categoryXpath>
+	<tns:authorXpath>string-join(//html:span[@class="authors__name"]/text(), ', ')</tns:authorXpath>
+	<tns:pageXpath>substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–')</tns:pageXpath>
+	<tns:volumeXpath>substring(//*[@class="ArticleCitation_Issue"]/text(), 7)</tns:volumeXpath>
+	<tns:categoryXpath>substring-before(concat(//html:span[@class="test-render-category"]/text(), ' '), ' ')</tns:categoryXpath>
 
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/450</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
-	<tns:urlSuffix>?view=classic</tns:urlSuffix>
 	<tns:sortCategories>true</tns:sortCategories>
-	
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>1-2</tns:VolumeName>
-		<tns:ifVolumeEquals>1</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
 </tns:inputSchema>
