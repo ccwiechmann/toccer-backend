@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/inputSchema"
-	xmlns:tns="http://www.example.org/inputSchema" elementFormDefault="qualified">
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/inputSchema"
+	xmlns:tns="http://www.example.org/inputSchema"
+	elementFormDefault="qualified">
 
 	<complexType name="xpath">
 		<sequence>
@@ -14,8 +16,12 @@
 				<element name="countStrategy" type="tns:countStrategy"
 					minOccurs="1" maxOccurs="1">
 				</element>
-				<element name="multiDataOnOnePageCountStrategy" type="tns:multiDataOnOnePageCountStrategy"
-					minOccurs="1" maxOccurs="1">
+				<element name="multiDataOnOnePageCountStrategy"
+					type="tns:multiDataOnOnePageCountStrategy" minOccurs="1"
+					maxOccurs="1">
+				</element>
+				<element name="fixedPostUrlStrategy"
+					type="tns:fixedPostUrlStrategy" minOccurs="1" maxOccurs="1">
 				</element>
 			</choice>
 			<element name="next" type="tns:xpath" minOccurs="0"
@@ -36,6 +42,26 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="fixedPostUrlStrategy">
+		<sequence>
+			<element name="json" type="boolean"></element>
+			<element name="post" type="boolean" minOccurs="0"
+				maxOccurs="1"></element>
+			<element name="fixedUrls" minOccurs="1" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="headers" type="string" minOccurs="0"
+							maxOccurs="unbounded"></element>
+						<element name="content" type="string" minOccurs="0"
+							maxOccurs="1"></element>
+						<element name="url" type="string" minOccurs="1"
+							maxOccurs="1"></element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
 	<complexType name="multiDataOnOnePageCountStrategy">
 		<sequence>
 			<element name="maxXpath" type="string"></element>
@@ -47,7 +73,10 @@
 	<complexType name="ManualCategoryReplacement">
 		<sequence>
 			<element name="categoryName" type="string"></element>
-			<element name="ifTitleContains" type="string"></element>
+			<choice>
+				<element name="ifTitleContains" type="string"></element>
+				<element name="ifVolumeIs" type="string"></element>
+			</choice>
 		</sequence>
 	</complexType>
 
@@ -79,7 +108,7 @@
 				<element name="categoryXpath" type="string" minOccurs="1"
 					maxOccurs="1">
 				</element>
-				<element name="startingHtmlPage" type="string" minOccurs="1"
+				<element name="startingHtmlPage" type="string" minOccurs="0"
 					maxOccurs="1">
 				</element>
 				<element name="baseUrl" type="string" minOccurs="1"
@@ -94,13 +123,15 @@
 						<sequence>
 							<element name="fallbackCategoryName" type="string"
 								minOccurs="0"></element>
-							<element name="manualCategoryReplacement" type="tns:ManualCategoryReplacement"
-								minOccurs="0" maxOccurs="unbounded"></element>
+							<element name="manualCategoryReplacement"
+								type="tns:ManualCategoryReplacement" minOccurs="0"
+								maxOccurs="unbounded"></element>
 						</sequence>
 					</complexType>
 				</element>
-				<element name="manualVolumeReplacement" type="tns:ManualVolumeReplacement"
-					minOccurs="0" maxOccurs="unbounded"></element>
+				<element name="manualVolumeReplacement"
+					type="tns:ManualVolumeReplacement" minOccurs="0"
+					maxOccurs="unbounded"></element>
 			</sequence>
 		</complexType>
 	</element>

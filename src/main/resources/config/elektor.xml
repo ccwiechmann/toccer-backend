@@ -18,7 +18,7 @@
 	<tns:titleXpath>concat(substring(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), 1, number(string-length(normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))) = 0)      * string-length(normalize-space(string-join(//html:h1[@itemprop='headline'], '')))), substring(concat(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), ' - ', normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))), 1, number(not(string-length(normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))) = 0)) * string-length(concat(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), ' - ', normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))))))</tns:titleXpath>
 	<tns:authorXpath>normalize-space(string-join(//html:li[@itemprop='author']/html:a/html:span[@itemprop='name'], ''))</tns:authorXpath>
 	<tns:pageXpath>normalize-space(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Seite '))</tns:pageXpath>
-	<tns:volumeXpath>normalize-space(substring-before(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Heft'), '/2016'))</tns:volumeXpath>
+	<tns:volumeXpath>normalize-space(substring-before(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Heft'), '/2018'))</tns:volumeXpath>
 	<tns:categoryXpath>normalize-space(string-join(//html:li[@class='category'], ''))</tns:categoryXpath>
 
 	<tns:startingHtmlPage>https://www.elektormagazine.de/magazine</tns:startingHtmlPage>
@@ -42,11 +42,51 @@
 	</tns:emptyCategoryReplacements>
 	
 	<tns:manualVolumeReplacement>
-		<tns:VolumeName>1-2</tns:VolumeName>
+		<tns:VolumeName>Jan/Feb</tns:VolumeName>
 		<tns:ifVolumeEquals>1</tns:ifVolumeEquals>
 	</tns:manualVolumeReplacement>
 	<tns:manualVolumeReplacement>
-		<tns:VolumeName>7-8</tns:VolumeName>
+		<tns:VolumeName>B1</tns:VolumeName>
+		<tns:ifVolumeEquals>2</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+		<tns:manualVolumeReplacement>
+		<tns:VolumeName>Mrz/Apr</tns:VolumeName>
+		<tns:ifVolumeEquals>3</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>B2</tns:VolumeName>
+		<tns:ifVolumeEquals>4</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+		<tns:manualVolumeReplacement>
+		<tns:VolumeName>Mai/Jun</tns:VolumeName>
+		<tns:ifVolumeEquals>5</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>B3</tns:VolumeName>
+		<tns:ifVolumeEquals>6</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+		<tns:manualVolumeReplacement>
+		<tns:VolumeName>Jul/Aug</tns:VolumeName>
 		<tns:ifVolumeEquals>7</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>B4</tns:VolumeName>
+		<tns:ifVolumeEquals>8</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+		<tns:manualVolumeReplacement>
+		<tns:VolumeName>Sep/Okt</tns:VolumeName>
+		<tns:ifVolumeEquals>9</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>B5</tns:VolumeName>
+		<tns:ifVolumeEquals>10</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+		<tns:manualVolumeReplacement>
+		<tns:VolumeName>Nov/Dez</tns:VolumeName>
+		<tns:ifVolumeEquals>11</tns:ifVolumeEquals>
+	</tns:manualVolumeReplacement>
+	<tns:manualVolumeReplacement>
+		<tns:VolumeName>B6</tns:VolumeName>
+		<tns:ifVolumeEquals>12</tns:ifVolumeEquals>
 	</tns:manualVolumeReplacement>
 </tns:inputSchema>

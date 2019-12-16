@@ -15,12 +15,19 @@ public class ReadFromHtmlInputStream extends InputStream {
 
 	private boolean useBuffer2;
 
-	public ReadFromHtmlInputStream(InputStream inputStream) {
+	private boolean isJson;
+
+	public ReadFromHtmlInputStream(InputStream inputStream, boolean isJson) {
 		this.inputStream = inputStream;
+		this.isJson = isJson;
 	}
 
 	@Override
 	public int read() throws IOException {
+		if (isJson) {
+			return inputStream.read();
+		}
+
 		while (!found) {
 			final byte[] buffer = new byte[1];
 			final int result = inputStream.read(buffer, 0, 1);
@@ -48,7 +55,7 @@ public class ReadFromHtmlInputStream extends InputStream {
 				}
 
 				if (ok) {
-					buffer2 = new byte[] {'<', buffer2[0], buffer2[1], buffer2[2], buffer2[3]};
+					buffer2 = new byte[] { '<', buffer2[0], buffer2[1], buffer2[2], buffer2[3] };
 					found = true;
 					useBuffer2 = true;
 				}

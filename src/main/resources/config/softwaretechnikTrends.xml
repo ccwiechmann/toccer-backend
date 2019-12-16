@@ -3,25 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>normalize-space(string-join((//html:body/html:a[contains(@href, '36_')]/@href)[{0}], ''))</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>normalize-space(string-join((//html:body/html:a[contains(@href, '38_')]/@href)[{0}], ''))</tns:expressionWithReplaces>
 		<tns:numberStrategy>
 			<tns:from>1</tns:from>
-			<tns:to>4</tns:to>
+			<tns:to>3</tns:to>
 		</tns:numberStrategy>
 		<tns:next>
 			<tns:multiDataOnOnePageCountStrategy>
-				<tns:maxXpath>count((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()]))</tns:maxXpath>
+				<tns:maxXpath>count((//html:a[contains(@href, '.pdf')]))</tns:maxXpath>
 				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
 			</tns:multiDataOnOnePageCountStrategy>
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>concat(substring(normalize-space(substring-after(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], ''), ': ')), 1, number(contains(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], ''), ': '))      * string-length(normalize-space(substring-after(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], ''), ': ')))), substring(normalize-space(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], '')), 1, number(not(contains(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], ''), ': '))) * string-length(normalize-space(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], '')))))</tns:titleXpath>
-	<tns:authorXpath>normalize-space(substring-before(string-join((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}], ''), ': '))</tns:authorXpath>
+	<tns:titleXpath>normalize-space(substring-after((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/html:i/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/text()[1][normalize-space()], ':'))</tns:titleXpath>
+	<tns:authorXpath>normalize-space(substring-before((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/html:i/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/text()[1][normalize-space()], ':'))</tns:authorXpath>
 	
-	<tns:volumeXpath>normalize-space(substring-after(string-join(//html:div[@align='right'][1]//html:b/text(), ''), 'Heft '))</tns:volumeXpath>
-	<tns:categoryXpath>normalize-space(string-join(((//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()][not(contains(text(), ':'))])[{0}][not(contains(., ': '))] | (//html:a[contains(@href, '.pdf')]/parent::html:li/text()[normalize-space()] | //html:a[contains(@href, '.pdf')]//preceding-sibling::html:b[not(following-sibling::html:ul)]/text()[normalize-space()])[{0}]/preceding::html:b)[last()], ''))</tns:categoryXpath>
+	<tns:pageXpath>substring-before(concat(substring-after((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span//parent::html:li/html:span[1], 'S. '), '-'), '-')</tns:pageXpath>
+	<tns:volumeXpath>normalize-space(substring-after(string-join(//html:div[@style='text-align: right;'][1]//html:b/text(), ''), 'Heft '))</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/parent::html:ul/parent::html:li/parent::html:ul/parent::html:li/html:b[1]/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/parent::html:ul/parent::html:li/html:b[1]/text())</tns:categoryXpath>
 	<tns:startingHtmlPage>http://pi.informatik.uni-siegen.de/gi/stt/</tns:startingHtmlPage>
 	<tns:baseUrl>http://pi.informatik.uni-siegen.de/gi/stt/</tns:baseUrl>
-	<tns:sortCategories>true</tns:sortCategories>
+	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

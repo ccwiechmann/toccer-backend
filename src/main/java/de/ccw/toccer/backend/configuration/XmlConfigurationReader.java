@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.XMLConstants;
@@ -22,6 +23,8 @@ import org.xml.sax.SAXException;
 
 import de.ccw.toccer.backend.toc.ToccerSettings;
 import de.ccw.toccer.backend.xpath.XPathResolver;
+import de.ccw.toccer.generated.FixedPostUrlStrategy;
+import de.ccw.toccer.generated.FixedPostUrlStrategy.FixedUrls;
 import de.ccw.toccer.generated.InputSchema;
 import de.ccw.toccer.generated.ManualCategoryReplacement;
 import de.ccw.toccer.generated.ManualVolumeReplacement;
@@ -35,6 +38,7 @@ public class XmlConfigurationReader {
 	private String baseHtml;
 	private String urlSuffix;
 	private MultiDataOnOnePageCountStrategy multiDataOnOnePageCountStrategy;
+	private FixedPostUrlStrategy fixedPostUrlStrategy;
 	private InputSchema.EmptyCategoryReplacements emptyCategoryReplacements;
 	private List<ManualVolumeReplacement> volumeReplacements;
 
@@ -42,8 +46,8 @@ public class XmlConfigurationReader {
 		this.settings = settings;
 	}
 
-	public List<String> getFinalSites() {
-		final List<String> results = new ArrayList<>();
+	public List<XpathResolvableResult> getFinalSites() {
+		final List<XpathResolvableResult> results = new ArrayList<>();
 
 		try {
 			final FileInputStream xmlContent = new FileInputStream(settings.getInputTemplate());
@@ -70,8 +74,12 @@ public class XmlConfigurationReader {
 				urlSuffix = "";
 			}
 
-			results.addAll(parseDefinedXpathReplacements(configuration.getXpath(),
-					configuration.getStartingHtmlPage() + urlSuffix));
+			final String startingHtmlPage = configuration.getStartingHtmlPage() == null ? ""
+					: configuration.getStartingHtmlPage();
+			final XpathResolvableResult result = new XpathResolvableResult();
+			result.resolvableResult = startingHtmlPage + urlSuffix;
+
+			results.addAll(parseDefinedXpathReplacements(configuration.getXpath(), result));
 		} catch (JAXBException | SAXException | NumberFormatException | XPathExpressionException | IOException e) {
 			throw new IllegalStateException(e);
 		}
@@ -79,57 +87,90 @@ public class XmlConfigurationReader {
 		return results;
 	}
 
-	private List<String> parseDefinedXpathReplacements(Xpath xpath, String site)
+	private List<XpathResolvableResult> parseDefinedXpathReplacements(Xpath xpath, XpathResolvableResult site)
 			throws NumberFormatException, XPathExpressionException, IOException {
 
-		List<String> results = new ArrayList<>();
+		List<XpathResolvableResult> results = new ArrayList<>();
 		if (xpath.getNumberStrategy() != null) {
 			results = handleXpathNumberStrategy(xpath);
 		} else if (xpath.getCountStrategy() != null) {
-			results = handleXpathCountStrategy(xpath, site);
+			results = handleXpathCountStrategy(xpath, site.resolvableResult);
 		} else if (xpath.getMultiDataOnOnePageCountStrategy() != null) {
 			multiDataOnOnePageCountStrategy = xpath.getMultiDataOnOnePageCountStrategy();
 			return Arrays.asList(site);
+		} else if (xpath.getFixedPostUrlStrategy() != null) {
+			fixedPostUrlStrategy = xpath.getFixedPostUrlStrategy();
+			results = handleFixedPostUrlStrategy(xpath);
 		}
 
 		final Processor processor = XPathResolver.getProcessor();
-		final StreamSource source = XPathResolver.getSource(site);
+		StreamSource source = null;
 
-		final List<String> resultingPages = new ArrayList<>();
-		for (final String result : results) {
-			final List<String> partialResults = XPathResolver.resolveXPath(processor, source, result);
-			final List<String> partialResultCompleted = new ArrayList<>();
-			for (final String part : partialResults) {
-				partialResultCompleted.add(baseHtml + part + urlSuffix);
+		if (xpath.getFixedPostUrlStrategy() == null) {
+			source = XPathResolver.getSource(site.resolvableResult);
+		}
+
+		final List<XpathResolvableResult> resultingPages = new ArrayList<>();
+		for (final XpathResolvableResult result : results) {
+			if (xpath.getFixedPostUrlStrategy() != null) {
+				resultingPages.add(result);
+			} else {
+				final List<String> partialResults = XPathResolver.resolveXPath(processor, source,
+						result.resolvableResult);
+				final List<XpathResolvableResult> partialResultCompleted = new ArrayList<>();
+				for (final String part : partialResults) {
+					if (StringUtils.isEmpty(part)) {
+						continue;
+					}
+					final XpathResolvableResult partialResult = new XpathResolvableResult();
+					partialResult.resolvableResult = baseHtml + part + urlSuffix;
+					partialResultCompleted.add(partialResult);
+				}
+				resultingPages.addAll(partialResultCompleted);
 			}
-			resultingPages.addAll(partialResultCompleted);
 		}
 
 		if (xpath.getNext() == null) {
 			return resultingPages;
 		} else {
-			final List<String> leafPages = new ArrayList<>();
-			for (final String page : resultingPages) {
+			final List<XpathResolvableResult> leafPages = new ArrayList<>();
+			for (final XpathResolvableResult page : resultingPages) {
 				leafPages.addAll(parseDefinedXpathReplacements(xpath.getNext(), page));
 			}
 			return leafPages;
 		}
 	}
 
-	private List<String> handleXpathNumberStrategy(Xpath xpath) {
-		final List<String> results = new ArrayList<>();
+	private List<XpathResolvableResult> handleXpathNumberStrategy(Xpath xpath) {
+		final List<XpathResolvableResult> results = new ArrayList<>();
 
 		final String expression = xpath.getExpressionWithReplaces();
 		for (int i = xpath.getNumberStrategy().getFrom(); i <= xpath.getNumberStrategy().getTo(); i++) {
-			results.add(expression.replace("{0}", Integer.toString(i)));
+			final XpathResolvableResult result = new XpathResolvableResult();
+			result.resolvableResult = expression.replace("{0}", Integer.toString(i));
+			results.add(result);
 		}
 
 		return results;
 	}
 
-	private List<String> handleXpathCountStrategy(Xpath xpath, String site)
+	private List<XpathResolvableResult> handleFixedPostUrlStrategy(Xpath xpath) {
+		final List<XpathResolvableResult> results = new ArrayList<>();
+
+		for (final FixedUrls fixedUrl : xpath.getFixedPostUrlStrategy().getFixedUrls()) {
+			final XpathResolvableResult result = new XpathResolvableResult();
+			result.content = fixedUrl.getContent();
+			result.resolvableResult = fixedUrl.getUrl();
+			result.headers = new ArrayList<>(fixedUrl.getHeaders());
+			results.add(result);
+		}
+
+		return results;
+	}
+
+	private List<XpathResolvableResult> handleXpathCountStrategy(Xpath xpath, String site)
 			throws NumberFormatException, XPathExpressionException, IOException {
-		final List<String> results = new ArrayList<>();
+		final List<XpathResolvableResult> results = new ArrayList<>();
 		final Processor processor = XPathResolver.getProcessor();
 		final StreamSource source = XPathResolver.getSource(site);
 
@@ -137,7 +178,9 @@ public class XmlConfigurationReader {
 		final int count = Integer
 				.valueOf(XPathResolver.resolveXPath(processor, source, xpath.getCountStrategy().getXpath()).get(0));
 		for (int i = 1; i <= count; i++) {
-			results.add(expression.replace("{0}", Integer.toString(i)));
+			final XpathResolvableResult result = new XpathResolvableResult();
+			result.resolvableResult = expression.replace("{0}", Integer.toString(i));
+			results.add(result);
 		}
 
 		return results;
@@ -147,13 +190,21 @@ public class XmlConfigurationReader {
 		return multiDataOnOnePageCountStrategy;
 	}
 
-	public String getCategoryReplacementIfAvailable(String category, String title) {
+	public FixedPostUrlStrategy getFixedPostUrlStrategy() {
+		return fixedPostUrlStrategy;
+	}
+
+	public String getCategoryReplacementIfAvailable(String category, String title, String volume) {
 		if (emptyCategoryReplacements == null) {
 			return category;
 		}
 
 		for (final ManualCategoryReplacement replacement : emptyCategoryReplacements.getManualCategoryReplacement()) {
-			if (StringUtils.contains(title, replacement.getIfTitleContains())) {
+			if (replacement.getIfTitleContains() != null && title != null
+					&& StringUtils.contains(title, replacement.getIfTitleContains())) {
+				return replacement.getCategoryName();
+			} else if (replacement.getIfVolumeIs() != null && volume != null
+					&& StringUtils.equals(volume, replacement.getIfVolumeIs())) {
 				return replacement.getCategoryName();
 			}
 		}
@@ -172,5 +223,23 @@ public class XmlConfigurationReader {
 			}
 		}
 		return volume;
+	}
+
+	public static class XpathResolvableResult {
+		private String resolvableResult;
+		private List<String> headers = new ArrayList<String>();
+		private String content;
+
+		public String getContent() {
+			return content;
+		}
+
+		public List<String> getHeaders() {
+			return Collections.unmodifiableList(headers);
+		}
+
+		public String getResolvableResult() {
+			return resolvableResult;
+		}
 	}
 }
