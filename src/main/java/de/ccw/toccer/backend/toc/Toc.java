@@ -66,15 +66,15 @@ public class Toc {
 			final List<String> titles = new ArrayList<>();
 			final List<String> pages = new ArrayList<>();
 			if (reader.getMultiDataOnOnePageCountStrategy() == null) {
-				authors.addAll(XPathResolver.resolveXPath(processor, source, settings.getAuthorXpath()));
-				titles.addAll(XPathResolver.resolveXPath(processor, source, settings.getTitleXpath()));
+				authors.addAll(XPathResolver.resolveXPathNoEmptyResult(processor, source, settings.getAuthorXpath()));
+				titles.addAll(XPathResolver.resolveXPathNoEmptyResult(processor, source, settings.getTitleXpath()));
 				if (settings.getPageXpath() != null) {
-					pages.addAll(XPathResolver.resolveXPath(processor, source, settings.getPageXpath()));
+					pages.addAll(XPathResolver.resolveXPathNoEmptyResult(processor, source, settings.getPageXpath()));
 				}
 				if (settings.getVolumeXpath() != null) {
-					volumes.addAll(XPathResolver.resolveXPath(processor, source, settings.getVolumeXpath()));
+					volumes.addAll(XPathResolver.resolveXPathNoEmptyResult(processor, source, settings.getVolumeXpath()));
 				}
-				categories.addAll(XPathResolver.resolveXPath(processor, source, settings.getCategoryXpath()));
+				categories.addAll(XPathResolver.resolveXPathNoEmptyResult(processor, source, settings.getCategoryXpath()));
 			} else {
 				final int count = Integer.parseInt(XPathResolver
 						.resolveXPath(processor, source, reader.getMultiDataOnOnePageCountStrategy().getMaxXpath())

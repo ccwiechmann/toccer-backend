@@ -9,74 +9,74 @@
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8232482", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8232482/toc</tns:url>
+				<tns:content>{"isnumber": "8589029", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8589029/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8290589", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8290589/toc</tns:url>
+				<tns:content>{"isnumber": "8626773", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8626773/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8303007", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8303007/toc</tns:url>
+				<tns:content>{"isnumber": "8662725", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8662725/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8326750", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8326750/toc</tns:url>
+				<tns:content>{"isnumber": "8674730", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8674730/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8347155", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8347155/toc</tns:url>
+				<tns:content>{"isnumber": "8710347", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8710347/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8365891", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8365891/toc</tns:url>
+				<tns:content>{"isnumber": "8726118", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8726118/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8421286", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8421286/toc</tns:url>
+				<tns:content>{"isnumber": "8768432", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8768432/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8425666", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8425666/toc</tns:url>
+				<tns:content>{"isnumber": "8789751", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8789751/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8466984", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8466984/toc</tns:url>
+				<tns:content>{"isnumber": "8825868", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8825868/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8472906", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8472906/toc</tns:url>
+				<tns:content>{"isnumber": "8858047", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8858047/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8510998", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8510998/toc</tns:url>
+				<tns:content>{"isnumber": "8880699", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8880699/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8540482", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8540482/toc</tns:url>
+				<tns:content>{"isnumber": "8918490", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8918490/toc</tns:url>
 			</tns:fixedUrls>
 		</tns:fixedPostUrlStrategy>
 		<tns:next>
@@ -99,51 +99,51 @@
 	<tns:emptyCategoryReplacements>
 		<tns:fallbackCategoryName>ERROR</tns:fallbackCategoryName>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>SAFE AND SECURE CYBER-PHYSICAL SYSTEMS</tns:categoryName>
+			<tns:categoryName>NONSILICON, NON-VON NEUMANN COMPUTING - PART 1</tns:categoryName>
 			<tns:ifVolumeIs>1</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>NEURO-INSPIRED COMPUTING WITH EMERGING NONVOLATILE MEMORY</tns:categoryName>
+			<tns:categoryName>TACTILE INTERNET</tns:categoryName>
 			<tns:ifVolumeIs>2</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>SMALL SATELLITES</tns:categoryName>
+			<tns:categoryName>MACHINE ETHICS: THE DESIGN AND GOVERNANCE OF ETHICAL AI AND AUTONOMOUS SYSTEMS</tns:categoryName>
 			<tns:ifVolumeIs>3</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>SMART CITIES</tns:categoryName>
+			<tns:categoryName>ADAPTIVE AND SCALABLE COMMUNICATION NETWORKS</tns:categoryName>
 			<tns:ifVolumeIs>4</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>APPLICATIONS OF GRAPH THEORY</tns:categoryName>
+			<tns:categoryName>AERONAUTICAL AD HOC NETWORKING FOR THE INTERNET-ABOVE-THE-CLOUDS</tns:categoryName>
 			<tns:ifVolumeIs>5</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>FOUNDATIONS AND TRENDS IN LOCALIZATION TECHNOLOGIES - PART 1</tns:categoryName>
+			<tns:categoryName>REAL-TIME NETWORKS AND PROTOCOLS FOR FACTORY AUTOMATION AND PROCESS CONTROL SYSTEMS</tns:categoryName>
 			<tns:ifVolumeIs>6</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>FOUNDATIONS AND TRENDS IN LOCALIZATION TECHNOLOGIES - PART 2</tns:categoryName>
+			<tns:categoryName>MOLECULAR COMMUNICATIONS AND NETWORKING</tns:categoryName>
 			<tns:ifVolumeIs>7</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>RETHINKING PCA FOR MODERN DATA SETS: THEORY, ALGORITHMS, AND APPLICATIONS</tns:categoryName>
+			<tns:categoryName>EDGE COMPUTING</tns:categoryName>
 			<tns:ifVolumeIs>8</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>DESIGN AUTOMATION FOR CYPER-PHYSICAL SYSTEMS</tns:categoryName>
+			<tns:categoryName>ELECTRICITY FOR ALL: ISSUES, CHALLENGES, AND SOLUTIONS FOR ENERGY-DISADVANTAGED COMMUNITIES</tns:categoryName>
 			<tns:ifVolumeIs>9</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>A SURVEY ON MIMO TRANSMISSION WITH FINITE INPUT SIGNALS</tns:categoryName>
+			<tns:categoryName>FLEXIBLE ELECTRONIC SKIN: FROM HUMANOIDS TO HUMANS</tns:categoryName>
 			<tns:ifVolumeIs>10</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>FROM HIGH-LEVEL SPECIFICATION TO HIGH-PERFORMANCE CODE</tns:categoryName>
+			<tns:categoryName>WIRELESS NETWORT INTELLIGENCE AT THE EDGE</tns:categoryName>
 			<tns:ifVolumeIs>11</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>SILICON PHOTONICS</tns:categoryName>
+			<tns:categoryName>HIGH-DENSITY POWER CONVERSION AND WIDE-BANDGAP SEMICONDUCTOR POWER ELECTRONICS SWITCHING DEVICES</tns:categoryName>
 			<tns:ifVolumeIs>12</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 	</tns:emptyCategoryReplacements>

@@ -3,9 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>normalize-space(string-join((//html:div[@class='scroll']/html:div[@class='module moduleOpen'][contains(html:h2/html:span/text(), '2018')]/html:div[@class='moduleDetail']/html:ul/html:li/html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>normalize-space(string-join((//html:div[@class='scroll']/html:div[@class='module moduleOpen'][contains(html:h2/html:span/text(), '2019')]/html:div[@class='moduleDetail']/html:ul/html:li/html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
 		<tns:countStrategy>
-			<tns:xpath>count(//html:div[@class='scroll']/html:div[@class='module moduleOpen'][contains(html:h2/html:span/text(), '2017')]/html:div[@class='moduleDetail']/html:ul/html:li/html:a/@href)</tns:xpath>
+			<tns:xpath>count(//html:div[@class='scroll']/html:div[@class='module moduleOpen'][contains(html:h2/html:span/text(), '2019')]/html:div[@class='moduleDetail']/html:ul/html:li/html:a/@href)</tns:xpath>
 		</tns:countStrategy>
 		<tns:next>
 			<tns:multiDataOnOnePageCountStrategy>

@@ -9,38 +9,38 @@
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8239922", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8239922/toc</tns:url>
+				<tns:content>{"isnumber": "8611443", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8611443/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8314148", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8314148/toc</tns:url>
+				<tns:content>{"isnumber": "8648250", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8648250/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8354413", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8354413/toc</tns:url>
+				<tns:content>{"isnumber": "8693065", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8693065/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8405616", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8405616/toc</tns:url>
+				<tns:content>{"isnumber": "8738080", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8738080/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8474478", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8474478/toc</tns:url>
+				<tns:content>{"isnumber": "8802315", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8802315/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8552618", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8552618/toc</tns:url>
+				<tns:content>{"isnumber": "8880048", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8880048/toc</tns:url>
 			</tns:fixedUrls>
 		</tns:fixedPostUrlStrategy>
 		<tns:next>
@@ -63,27 +63,27 @@
 	<tns:emptyCategoryReplacements>
 		<tns:fallbackCategoryName>ERROR</tns:fallbackCategoryName>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>SAFETY AND SECURITY IN CYBER-PHYSICAL SYSTEMS</tns:categoryName>
+			<tns:categoryName>THE SOCIAL DEVELOPER</tns:categoryName>
 			<tns:ifVolumeIs>1</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>RELEASE ENGINEERING 3.0</tns:categoryName>
+			<tns:categoryName>BUILDING LONG-LIVED ADAPTIVE SYSTEMS</tns:categoryName>
 			<tns:ifVolumeIs>2</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>MICROSERVICES</tns:categoryName>
+			<tns:categoryName>MANAGING SOFTWARE PLATFORMS &amp; ECOSYSTEMS</tns:categoryName>
 			<tns:ifVolumeIs>3</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>PROCESS IMPROVEMENT</tns:categoryName>
+			<tns:categoryName>SOFTWARE DEVELOPMENT PROCESSES</tns:categoryName>
 			<tns:ifVolumeIs>4</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>SOFTWARE ENGINEERING'S 50TH ANNIVERSARY</tns:categoryName>
+			<tns:categoryName>SENTIMENT AND EMOTION IN SOFTWARE ENGINEERING</tns:categoryName>
 			<tns:ifVolumeIs>5</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 		<tns:manualCategoryReplacement>
-			<tns:categoryName>COLLABORATIVE MODELING IN SOFTWARE ENGINEERING</tns:categoryName>
+			<tns:categoryName>20 YEARS OF OPEN SOURCE</tns:categoryName>
 			<tns:ifVolumeIs>6</tns:ifVolumeIs>
 		</tns:manualCategoryReplacement>
 	</tns:emptyCategoryReplacements>

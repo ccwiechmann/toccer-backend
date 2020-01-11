@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>id('volume18')//html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>id('volume19')//html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
 		<tns:numberStrategy>
 			<tns:from>1</tns:from>
 			<tns:to>3</tns:to>
@@ -16,13 +16,13 @@
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>//*[@class="ArticleTitle"]</tns:titleXpath>
-	<tns:authorXpath>string-join(//html:span[@class="authors__name"]/text(), ', ')</tns:authorXpath>
-	<tns:pageXpath>substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–')</tns:pageXpath>
-	<tns:volumeXpath>substring(//*[@class="ArticleCitation_Issue"]/text(), 7)</tns:volumeXpath>
-	<tns:categoryXpath>substring-before(concat(//html:span[@class="test-render-category"]/text(), ' '), ' ')</tns:categoryXpath>
+	<tns:titleXpath>concat(substring(//*[@data-test='article-title'], 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//*[@data-test='article-title'])), substring(//*[@class="ArticleTitle"], 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(//*[@class="ArticleTitle"])))</tns:titleXpath>
+	<tns:authorXpath>concat(substring(string-join((//*[@data-test="author-name"]/text()), ', '), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(string-join((//*[@data-test="author-name"]/text()), ', '))), substring(string-join(//html:span[@class="authors__name"]/text(), ', '), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(string-join(//html:span[@class="authors__name"]/text(), ', '))))</tns:authorXpath>
+	<tns:pageXpath>concat(substring(//html:span[@itemprop="pageStart"]/text(), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//html:span[@itemprop="pageStart"]/text())), substring(substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–'), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–'))))</tns:pageXpath>
+	<tns:volumeXpath>//idonotexist</tns:volumeXpath>
+	<tns:categoryXpath>concat(substring(//*[@data-test="article-category"]/text(), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//*[@data-test="article-category"]/text())), substring(//html:span[@class="test-render-category"]/text(), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(//html:span[@class="test-render-category"]/text())))</tns:categoryXpath>
 
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/13222</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
-	<tns:sortCategories>true</tns:sortCategories>
+	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

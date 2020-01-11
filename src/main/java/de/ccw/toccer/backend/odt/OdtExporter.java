@@ -54,8 +54,12 @@ public class OdtExporter {
 					if (entry1.getVolumeForXml() == null || entry2.getVolumeForXml() == null) {
 						return entry1.getId().compareTo(entry2.getId());
 					}
-					return Integer.valueOf(entry1.getVolumeForXml())
-							.compareTo(Integer.valueOf(entry2.getVolumeForXml()));
+					try {
+						return Integer.valueOf(entry1.getVolumeForXml())
+								.compareTo(Integer.valueOf(entry2.getVolumeForXml()));
+					} catch (NumberFormatException e) {
+						return 0;
+					}
 				}
 			});
 		}
@@ -72,15 +76,29 @@ public class OdtExporter {
 					builder.append(getXmlFile("src/main/resources/odt/odtAuthor.xml").replace("{author}",
 							entry.getAuthorForXml()));
 				}
-				if (entry.getPageForXml() == null && entry.getVolumeForXml() == null) {
+
+				if (StringUtils.isBlank(entry.getPageForXml()) && StringUtils.isBlank(entry.getVolumeForXml())) {
 					builder.append(getXmlFile("src/main/resources/odt/odtEntryNoPageAndVolume.xml").replace("{title}",
 							entry.getTitleForXml()));
+
+				} else if (StringUtils.isNotBlank(entry.getPageForXml())
+						&& StringUtils.isBlank(entry.getVolumeForXml())) {
+					builder.append(
+							getXmlFile("src/main/resources/odt/odtEntry.xml").replace("{title}", entry.getTitleForXml())
+									.replace("{page}", entry.getPageForXml()).replace("{issue}", ""));
+
+				} else if (StringUtils.isBlank(entry.getPageForXml())
+						&& StringUtils.isNotBlank(entry.getVolumeForXml())) {
+					builder.append(
+							getXmlFile("src/main/resources/odt/odtEntry.xml").replace("{title}", entry.getTitleForXml())
+									.replace("{page}", "").replace("{issue}", entry.getVolumeForXml()));
+
 				} else {
 					builder.append(getXmlFile("src/main/resources/odt/odtEntry.xml")
-							.replace("{title}", entry.getTitleForXml())
-							.replace("{page}", entry.getPageForXml() == null ? "" : (", " + entry.getPageForXml()))
-							.replace("{issue}", entry.getVolumeForXml() == null ? "" : entry.getVolumeForXml()));
+							.replace("{title}", entry.getTitleForXml()).replace("{page}", ", " + entry.getPageForXml())
+							.replace("{issue}", entry.getVolumeForXml()));
 				}
+
 				counter++;
 			}
 		}

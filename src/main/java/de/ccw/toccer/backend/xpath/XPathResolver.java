@@ -30,6 +30,14 @@ public final class XPathResolver {
 
 	private XPathResolver() {
 	}
+	
+	public static List<String> resolveXPathNoEmptyResult(Processor processor, StreamSource streamsrc, String xpath) {
+		final List<String> result = resolveXPath(processor, streamsrc, xpath);
+		if (result.isEmpty()) {
+			result.add("");
+		}
+		return result;
+	}
 
 	public static List<String> resolveXPath(Processor processor, StreamSource streamsrc, String xpath) {
 		System.out.println("Resolving expression \"" + xpath + "\"");
@@ -49,9 +57,11 @@ public final class XPathResolver {
 			final XdmSequenceIterator iterator = selector.evaluate().iterator();
 			while (iterator.hasNext()) {
 				final XdmItem item = iterator.next();
-				if (item.getStringValue() != null) {
+				if (StringUtils.isNotEmpty(item.getStringValue())) {
 					result.add(StringUtils.normalizeSpace(StringEscapeUtils
 							.escapeHtml4(stripNonValidXMLCharacters(new String(item.getStringValue())))));
+				} else {
+					result.add("");
 				}
 			}
 
