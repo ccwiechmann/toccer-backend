@@ -6,7 +6,7 @@
 		<tns:expressionWithReplaces>normalize-space(string-join((//html:body/html:a[contains(@href, '39_')]/@href)[{0}], ''))</tns:expressionWithReplaces>
 		<tns:numberStrategy>
 			<tns:from>1</tns:from>
-			<tns:to>3</tns:to>
+			<tns:to>4</tns:to>
 		</tns:numberStrategy>
 		<tns:next>
 			<tns:multiDataOnOnePageCountStrategy>
