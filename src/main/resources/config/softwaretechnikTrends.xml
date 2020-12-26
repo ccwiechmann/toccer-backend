@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
+	xsi:schemaLocation="http://www.example.org/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>normalize-space(string-join((//html:body/html:a[contains(@href, '39_')]/@href)[{0}], ''))</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>'39_4/index.html'</tns:expressionWithReplaces>
 		<tns:numberStrategy>
 			<tns:from>1</tns:from>
-			<tns:to>4</tns:to>
+			<tns:to>1</tns:to>
 		</tns:numberStrategy>
 		<tns:next>
 			<tns:multiDataOnOnePageCountStrategy>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/inputSchema inputSchema.xsd ">
+	xsi:schemaLocation="http://www.example.org/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
 		<tns:expressionWithReplaces>string-join((//*[@class='module-price-badge' and .//*[contains(./@alt, '2017')]]/html:a/@href)[{0}], '')</tns:expressionWithReplaces>
 		<tns:numberStrategy>
