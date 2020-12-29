@@ -28,5 +28,8 @@
 
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/13222</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
+	<tns:labelNameOfPublication>Datenbank-Spektrum, Band 20</tns:labelNameOfPublication>
+	<tns:labelToc>Inhaltsverzeichnis</tns:labelToc>
+	<tns:labelIssuePage>Ausgabe, Seite</tns:labelIssuePage>
 	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

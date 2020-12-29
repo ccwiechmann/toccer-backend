@@ -23,6 +23,12 @@ public class ToccerSettings {
 
 	private boolean sortCategories;
 
+	private String labelIssuePage;
+
+	private String labelToc;
+
+	private String labelNameOfPublication;
+
 	public boolean isHelp() {
 		return help;
 	}
@@ -91,5 +97,29 @@ public class ToccerSettings {
 
 	public void setSortCategories(boolean sortCategories) {
 		this.sortCategories = sortCategories;
+	}
+
+	public String getLabelIssuePage() {
+		return labelIssuePage;
+	}
+
+	public void setLabelIssuePage(String labelIssuePage) {
+		this.labelIssuePage = labelIssuePage;
+	}
+
+	public String getLabelToc() {
+		return labelToc;
+	}
+
+	public void setLabelToc(String labelToc) {
+		this.labelToc = labelToc;
+	}
+
+	public String getLabelNameOfPublication() {
+		return labelNameOfPublication;
+	}
+
+	public void setLabelNameOfPublication(String labelNameOfPublication) {
+		this.labelNameOfPublication = labelNameOfPublication;
 	}
 }

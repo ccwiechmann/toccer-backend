@@ -31,16 +31,24 @@ public class OdtExporter {
 	private String filepath;
 	private Multimap<String, TocEntry> entriesByCategory;
 	private boolean isSortCategories;
+	private String labelNameOfPublication;
+	private String labelToc;
+	private String labelIssuePage;
 
-	public OdtExporter(String filepath, Multimap<String, TocEntry> entriesByCategory, boolean isSortCategories) {
+	public OdtExporter(String filepath, Multimap<String, TocEntry> entriesByCategory, boolean isSortCategories,
+			String labelNameOfPublication, String labelToc, String labelIssuePage) {
 		this.filepath = filepath;
 		this.entriesByCategory = entriesByCategory;
 		this.isSortCategories = isSortCategories;
+		this.labelNameOfPublication = labelNameOfPublication;
+		this.labelToc = labelToc;
+		this.labelIssuePage = labelIssuePage;
 	}
 
 	public void export() {
-		final StringBuilder builder = new StringBuilder(100000);
-		builder.append(getXmlFile("src/main/resources/odt/odtPrefix.xml.template"));
+		final StringBuilder builderContentXml = new StringBuilder(100000);
+		builderContentXml.append(getXmlFile("src/main/resources/odt/odtPrefix.xml.template")
+				.replace("{labelIssuePage}", labelIssuePage).replace("{labelToc}", labelToc));
 
 		final List<String> categories = new ArrayList<>(entriesByCategory.keySet());
 		if (isSortCategories) {
@@ -66,35 +74,36 @@ public class OdtExporter {
 
 		int counter = 0;
 		for (final String category : categories) {
-			builder.append(getXmlFile("src/main/resources/odt/odtCategory.xml.template").replace("{category}", category));
+			builderContentXml.append(
+					getXmlFile("src/main/resources/odt/odtCategory.xml.template").replace("{category}", category));
 
 			final List<TocEntry> entries = new ArrayList<>(entriesByCategory.get(category));
 			Collections.sort(entries);
 
 			for (final TocEntry entry : entries) {
 				if (StringUtils.isNotEmpty(entry.getAuthorForXml())) {
-					builder.append(getXmlFile("src/main/resources/odt/odtAuthor.xml.template").replace("{author}",
-							entry.getAuthorForXml()));
+					builderContentXml.append(getXmlFile("src/main/resources/odt/odtAuthor.xml.template")
+							.replace("{author}", entry.getAuthorForXml()));
 				}
 
 				if (StringUtils.isBlank(entry.getPageForXml()) && StringUtils.isBlank(entry.getVolumeForXml())) {
-					builder.append(getXmlFile("src/main/resources/odt/odtEntryNoPageAndVolume.xml.template").replace("{title}",
-							entry.getTitleForXml()));
+					builderContentXml.append(getXmlFile("src/main/resources/odt/odtEntryNoPageAndVolume.xml.template")
+							.replace("{title}", entry.getTitleForXml()));
 
 				} else if (StringUtils.isNotBlank(entry.getPageForXml())
 						&& StringUtils.isBlank(entry.getVolumeForXml())) {
-					builder.append(
-							getXmlFile("src/main/resources/odt/odtEntry.xml.template").replace("{title}", entry.getTitleForXml())
-									.replace("{page}", entry.getPageForXml()).replace("{issue}", ""));
+					builderContentXml.append(getXmlFile("src/main/resources/odt/odtEntry.xml.template")
+							.replace("{title}", entry.getTitleForXml()).replace("{page}", entry.getPageForXml())
+							.replace("{issue}", ""));
 
 				} else if (StringUtils.isBlank(entry.getPageForXml())
 						&& StringUtils.isNotBlank(entry.getVolumeForXml())) {
-					builder.append(
-							getXmlFile("src/main/resources/odt/odtEntry.xml.template").replace("{title}", entry.getTitleForXml())
-									.replace("{page}", "").replace("{issue}", entry.getVolumeForXml()));
+					builderContentXml.append(getXmlFile("src/main/resources/odt/odtEntry.xml.template")
+							.replace("{title}", entry.getTitleForXml()).replace("{page}", "")
+							.replace("{issue}", entry.getVolumeForXml()));
 
 				} else {
-					builder.append(getXmlFile("src/main/resources/odt/odtEntry.xml.template")
+					builderContentXml.append(getXmlFile("src/main/resources/odt/odtEntry.xml.template")
 							.replace("{title}", entry.getTitleForXml()).replace("{page}", ", " + entry.getPageForXml())
 							.replace("{issue}", entry.getVolumeForXml()));
 				}
@@ -104,10 +113,7 @@ public class OdtExporter {
 		}
 		System.err.println("Export von " + counter + " Einträgen nach \"" + filepath + "\"");
 
-		builder.append(getXmlFile("src/main/resources/odt/odtSuffix.xml.template"));
-
-		final Map<String, String> env = new HashMap<>();
-		env.put("create", "true");
+		builderContentXml.append(getXmlFile("src/main/resources/odt/odtSuffix.xml.template"));
 
 		File tempFile = null;
 		Path path = null;
@@ -120,12 +126,23 @@ public class OdtExporter {
 			throw new IllegalStateException(e1);
 		}
 
+		final String stylesXml = getXmlFile("src/main/resources/odt/styles.xml.template")
+				.replace("{labelNameOfPublication}", labelNameOfPublication);
+
+		final Map<String, String> env = new HashMap<>();
+		env.put("create", "true");
 		final URI uri = URI.create("jar:" + Paths.get(tempFile.getAbsolutePath()).toUri());
 		try (FileSystem fs = FileSystems.newFileSystem(uri, env)) {
-			final Path nf = fs.getPath("content.xml");
+			Path nf = fs.getPath("content.xml");
 			try (final Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.WRITE,
 					StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE)) {
-				writer.write(builder.toString());
+				writer.write(builderContentXml.toString());
+			}
+
+			nf = fs.getPath("styles.xml");
+			try (final Writer writer = Files.newBufferedWriter(nf, StandardCharsets.UTF_8, StandardOpenOption.WRITE,
+					StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE)) {
+				writer.write(stylesXml);
 			}
 
 		} catch (IOException e) {

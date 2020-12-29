@@ -72,6 +72,9 @@ public class XmlConfigurationReader {
 			settings.setPageXpath(configuration.getPageXpath());
 			settings.setTitleXpath(configuration.getTitleXpath());
 			settings.setVolumeXpath(configuration.getVolumeXpath());
+			settings.setLabelIssuePage(configuration.getLabelIssuePage());
+			settings.setLabelNameOfPublication(configuration.getLabelNameOfPublication());
+			settings.setLabelToc(configuration.getLabelToc());
 			baseHtml = configuration.getBaseUrl();
 			urlSuffix = StringEscapeUtils.unescapeXml(configuration.getUrlSuffix());
 			settings.setSortCategories(configuration.isSortCategories());

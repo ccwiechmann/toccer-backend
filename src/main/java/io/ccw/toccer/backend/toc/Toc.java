@@ -224,7 +224,8 @@ public class Toc {
 				entriesByCategory.put(category, entry);
 			}
 		}
-		new OdtExporter(settings.getOutputFile(), entriesByCategory, settings.isSortCategories()).export();
+		new OdtExporter(settings.getOutputFile(), entriesByCategory, settings.isSortCategories(),
+				settings.getLabelNameOfPublication(), settings.getLabelToc(), settings.getLabelIssuePage()).export();
 		return this;
 	}
 }

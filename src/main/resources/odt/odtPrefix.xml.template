@@ -146,7 +146,7 @@
 				<text:sequence-decl text:display-outline-level="0"
 					text:name="Drawing" />
 			</text:sequence-decls>
-			<text:p text:style-name="P2">Inhaltsverzeichnis</text:p>
+			<text:p text:style-name="P2">{labelToc}</text:p>
 			<text:p text:style-name="P1">
-				<text:span text:style-name="T2">Ausgabe, Seite</text:span>
+				<text:span text:style-name="T2">{labelIssuePage}</text:span>
 			</text:p>

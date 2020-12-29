@@ -115,6 +115,9 @@
 				<element name="categoryXpath" type="tns:xPathExpression" />
 				<element name="startingHtmlPage" type="string" minOccurs="0" />
 				<element name="baseUrl" type="string" />
+				<element name="labelNameOfPublication" type="string" />
+				<element name="labelToc" type="string" />
+				<element name="labelIssuePage" type="string" />
 				<element name="urlSuffix" type="string" minOccurs="0" />
 				<element name="sortCategories" type="boolean" minOccurs="0" />
 				<element name="emptyCategoryReplacements" minOccurs="0">
