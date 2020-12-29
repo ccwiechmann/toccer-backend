@@ -30,7 +30,7 @@ public final class XPathResolver {
 
 	private XPathResolver() {
 	}
-	
+
 	public static List<String> resolveXPathNoEmptyResult(Processor processor, StreamSource streamsrc, String xpath) {
 		final List<String> result = resolveXPath(processor, streamsrc, xpath);
 		if (result.isEmpty()) {
