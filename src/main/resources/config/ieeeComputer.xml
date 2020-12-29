@@ -1,89 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+<tns:inputSchema
+	xmlns:tns="http://www.ccw.io/toccer-backend/inputSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/inputSchema ../inputSchema.xsd ">
+	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:fixedPostUrlStrategy>
+		<tns:strategy xsi:type="tns:fixedPostUrlStrategy">
 			<tns:json>true</tns:json>
 			<tns:post>true</tns:post>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8666442", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8666442/toc</tns:url>
+				<tns:content>{"isnumber": "8960916", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8960916/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8672400", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8672400/toc</tns:url>
+				<tns:content>{"isnumber": "8996090", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8996090/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8677309", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8677309/toc</tns:url>
+				<tns:content>{"isnumber": "9034209", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9034209/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8690184", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8690184/toc</tns:url>
+				<tns:content>{"isnumber": "9062349", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9062349/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8713810", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8713810/toc</tns:url>
+				<tns:content>{"isnumber": "9089073", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9089073/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8728042", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8728042/toc</tns:url>
+				<tns:content>{"isnumber": "9107270", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9107270/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8746853", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8746853/toc</tns:url>
+				<tns:content>{"isnumber": "9130391", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9130391/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8779827", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8779827/toc</tns:url>
+				<tns:content>{"isnumber": "9153282", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9153282/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8812026", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8812026/toc</tns:url>
+				<tns:content>{"isnumber": "9187448", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9187448/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8848128", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8848128/toc</tns:url>
+				<tns:content>{"isnumber": "9206399", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9206399/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8877893", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8877893/toc</tns:url>
+				<tns:content>{"isnumber": "9237328", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9237328/toc</tns:url>
 			</tns:fixedUrls>
 			<tns:fixedUrls>
 				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
 				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8909909", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/8909909/toc</tns:url>
+				<tns:content>{"isnumber": "9269873", "punumber": "2", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
+				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/2/issue/9269873/toc</tns:url>
 			</tns:fixedUrls>
-		</tns:fixedPostUrlStrategy>
+		</tns:strategy>
 		<tns:next>
-			<tns:multiDataOnOnePageCountStrategy>
+			<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
 				<tns:maxXpath>count(//html:div[@class="records"]/html:div[@class="json_object"])</tns:maxXpath>
 				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
-			</tns:multiDataOnOnePageCountStrategy>
+			</tns:strategy>
 		</tns:next>
 	</tns:xpath>
 
@@ -92,59 +93,10 @@
 	<tns:pageXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="startPage"]/text())</tns:pageXpath>
 	
 	<tns:volumeXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="issue"]/text())</tns:volumeXpath>
-	<tns:categoryXpath>normalize-space(//idonotexist/text())</tns:categoryXpath>
+	<tns:categoryXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="subjectCategories"]/text())</tns:categoryXpath>
 	<tns:baseUrl>https://ieeexplore.ieee.org</tns:baseUrl>
-	<tns:sortCategories>false</tns:sortCategories>
-	
-	<tns:emptyCategoryReplacements>
-		<tns:fallbackCategoryName>ERROR</tns:fallbackCategoryName>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>OUTLOOK</tns:categoryName>
-			<tns:ifVolumeIs>1</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>HOLDING US TOGETHER</tns:categoryName>
-			<tns:ifVolumeIs>2</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>CURRICULAR FOUNDATIONS FOR CYBERSECURITY</tns:categoryName>
-			<tns:ifVolumeIs>3</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>THE PATH ACROSS THE GREAT DEEP</tns:categoryName>
-			<tns:ifVolumeIs>4</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>COGNITIVE COMPUTING SYSTEMS</tns:categoryName>
-			<tns:ifVolumeIs>5</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>QUANTUM REALISM</tns:categoryName>
-			<tns:ifVolumeIs>6</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>TRANSFORMATIVE COMPUTING AND COMMUNICATION</tns:categoryName>
-			<tns:ifVolumeIs>7</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>GO/NO GO</tns:categoryName>
-			<tns:ifVolumeIs>8</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>TRANSLATIONAL COMPUTING</tns:categoryName>
-			<tns:ifVolumeIs>9</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>50 YEARS OF NETWORKING</tns:categoryName>
-			<tns:ifVolumeIs>10</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>DIGITAL HEALTH: ACTIVE AND HEALTHY LIVING</tns:categoryName>
-			<tns:ifVolumeIs>11</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-		<tns:manualCategoryReplacement>
-			<tns:categoryName>TECHNOLOGY PREDICTIONS</tns:categoryName>
-			<tns:ifVolumeIs>12</tns:ifVolumeIs>
-		</tns:manualCategoryReplacement>
-	</tns:emptyCategoryReplacements>
+	<tns:labelNameOfPublication>IEEE Computer, Volume 53</tns:labelNameOfPublication>
+	<tns:labelToc>Table of Contents</tns:labelToc>
+	<tns:labelIssuePage>Issue, Page</tns:labelIssuePage>
+	<tns:sortCategories>true</tns:sortCategories>
 </tns:inputSchema>

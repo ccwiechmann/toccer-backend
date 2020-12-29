@@ -1,64 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+<tns:inputSchema
+	xmlns:tns="http://www.ccw.io/toccer-backend/inputSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/inputSchema ../inputSchema.xsd ">
+	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>normalize-space(string-join((//html:div[contains(@class, 'calendar')]/html:table//html:tr[2]//html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
-		<tns:countStrategy>
-			<tns:xpath>count(//html:div[contains(@class, 'calendar')]/html:table//html:tr[2]//html:a/@href)</tns:xpath>
-		</tns:countStrategy>
+		<tns:expressionWithReplaces>//html:div[contains(@class, 'Magazine__list')]/html:ul/html:li[count(//html:div[contains(@class, 'Magazine__list')]/html:ul/html:li)-{0}]/html:a/@href</tns:expressionWithReplaces>
+		<tns:strategy xsi:type="tns:countStrategy">
+			<tns:xpath>count(//html:div[contains(@class, 'Magazine__list')]/html:ul/html:li)</tns:xpath>
+		</tns:strategy>
 		<tns:next>
-			<tns:expressionWithReplaces>normalize-space(string-join((//html:div[contains(@class, 'issue')]/html:div[@class='box white shadow']/html:div[not(@class)]/html:ul//html:a/@href)[{0}], ''))</tns:expressionWithReplaces>
-			<tns:countStrategy>
-				<tns:xpath>count(//html:div[contains(@class, 'issue')]/html:div[@class='box white shadow']/html:div[not(@class)]/html:ul//html:a/@href)</tns:xpath>
-			</tns:countStrategy>
+			<tns:expressionWithReplaces>//html:div[contains(@class, 'Magazine__summary')]/html:ul/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+			<tns:strategy xsi:type="tns:countStrategy">
+				<tns:xpath>count(//html:div[contains(@class, 'Magazine__summary')]/html:ul/html:li/html:a/@href)</tns:xpath>
+			</tns:strategy>
+			<tns:cachedXpathResult>
+				<tns:name>issueNumber</tns:name>
+				<tns:xpath>concat(   substring(concat('Elektor Magazin ', substring-after(//html:p[contains(@class, 'Magazine__month')], '-'), '/', substring-after(substring-before(//html:p[contains(@class, 'Magazine__month')], '-'), 'e ')), 1, number(contains(//html:p[contains(@class, 'Magazine__month')], 'e'))      * string-length(concat('Elektor Magazin ', substring-after(//html:p[contains(@class, 'Magazine__month')], '-'), '/', substring-after(substring-before(//html:p[contains(@class, 'Magazine__month')], '-'), 'e ')))),   substring(concat('Elektor Industry ', substring-after(//html:p[contains(@class, 'Magazine__month')], '-'), '/', substring-after(substring-before(//html:p[contains(@class, 'Magazine__month')], '-'), 'i ')), 1, number(not(contains(//html:p[contains(@class, 'Magazine__month')], 'e'))) * string-length(concat('Elektor Industry ', substring-after(//html:p[contains(@class, 'Magazine__month')], '-'), '/', substring-after(substring-before(//html:p[contains(@class, 'Magazine__month')], '-'), 'i ')))) )</tns:xpath>
+			</tns:cachedXpathResult>
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>concat(substring(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), 1, number(string-length(normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))) = 0)      * string-length(normalize-space(string-join(//html:h1[@itemprop='headline'], '')))), substring(concat(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), ' - ', normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))), 1, number(not(string-length(normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))) = 0)) * string-length(concat(normalize-space(string-join(//html:h1[@itemprop='headline'], '')), ' - ', normalize-space(string-join(//html:h2[@itemprop='alternativeHeadline'], ''))))))</tns:titleXpath>
-	<tns:authorXpath>normalize-space(string-join(//html:li[@itemprop='author']/html:a/html:span[@itemprop='name'], ''))</tns:authorXpath>
-	<tns:pageXpath>normalize-space(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Seite '))</tns:pageXpath>
-	<tns:volumeXpath>normalize-space(substring-before(substring-after(string-join(//html:div[@class='info']/html:ul/html:li[last()], ''), 'Heft'), '/2019'))</tns:volumeXpath>
-	<tns:categoryXpath>normalize-space(string-join(//html:li[@class='category'], ''))</tns:categoryXpath>
+	<tns:titleXpath>concat(   substring(//html:h1[@itemprop='headline'], 1, number(string-length(//html:h2[@itemprop='alternativeHeadline']) = 0)      * string-length(//html:h1[@itemprop='headline'])),   substring(concat(//html:h1[@itemprop='headline'], ' - ', //html:h2[@itemprop='alternativeHeadline']), 1, number(not(string-length(//html:h2[@itemprop='alternativeHeadline']) = 0)) * string-length(concat(//html:h1[@itemprop='headline'], ' - ', //html:h2[@itemprop='alternativeHeadline']))) )</tns:titleXpath>
+	<tns:authorXpath>//html:div[@itemprop='author']//html:span[@itemprop='name']</tns:authorXpath>
+	<tns:pageXpath>substring-after(//html:div[contains(@class, 'meta-date')], 'auf S. ')</tns:pageXpath>
+	<tns:categoryXpath onlyHandleAsReplacement="true">{issueNumber}</tns:categoryXpath>
 
-	<tns:startingHtmlPage>https://www.elektormagazine.de/magazine</tns:startingHtmlPage>
-	<tns:baseUrl></tns:baseUrl>
+	<tns:startingHtmlPage>https://www.elektormagazine.de/magazine/2020</tns:startingHtmlPage>
+	<tns:baseUrl />
+	<tns:labelNameOfPublication>Elektor, 2020</tns:labelNameOfPublication>
+	<tns:labelToc>Inhaltsverzeichnis</tns:labelToc>
+	<tns:labelIssuePage>Seite</tns:labelIssuePage>
 	<tns:sortCategories>false</tns:sortCategories>
-	
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>Jan/Feb</tns:VolumeName>
-		<tns:ifVolumeEquals>1</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>I1</tns:VolumeName>
-		<tns:ifVolumeEquals>2</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-		<tns:manualVolumeReplacement>
-		<tns:VolumeName>Mrz/Apr</tns:VolumeName>
-		<tns:ifVolumeEquals>3</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>Mai/Jun</tns:VolumeName>
-		<tns:ifVolumeEquals>5</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>I2</tns:VolumeName>
-		<tns:ifVolumeEquals>6</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-		<tns:manualVolumeReplacement>
-		<tns:VolumeName>Jul/Aug</tns:VolumeName>
-		<tns:ifVolumeEquals>7</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>Sep/Okt</tns:VolumeName>
-		<tns:ifVolumeEquals>9</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-	<tns:manualVolumeReplacement>
-		<tns:VolumeName>I3</tns:VolumeName>
-		<tns:ifVolumeEquals>10</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
-		<tns:manualVolumeReplacement>
-		<tns:VolumeName>Nov/Dez</tns:VolumeName>
-		<tns:ifVolumeEquals>11</tns:ifVolumeEquals>
-	</tns:manualVolumeReplacement>
 </tns:inputSchema>
