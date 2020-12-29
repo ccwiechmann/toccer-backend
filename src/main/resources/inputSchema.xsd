@@ -1,137 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.example.org/inputSchema"
-	xmlns:tns="http://www.example.org/inputSchema"
+	targetNamespace="http://www.ccw.io/toccer-backend/inputSchema"
+	xmlns:tns="http://www.ccw.io/toccer-backend/inputSchema"
 	elementFormDefault="qualified">
 
 	<complexType name="xpath">
 		<sequence>
 			<element name="expressionWithReplaces" type="string"
-				minOccurs="0" maxOccurs="1">
-			</element>
-			<choice>
-				<element name="numberStrategy" type="tns:numberStrategy"
-					minOccurs="1" maxOccurs="1">
-				</element>
-				<element name="countStrategy" type="tns:countStrategy"
-					minOccurs="1" maxOccurs="1">
-				</element>
-				<element name="multiDataOnOnePageCountStrategy"
-					type="tns:multiDataOnOnePageCountStrategy" minOccurs="1"
-					maxOccurs="1">
-				</element>
-				<element name="fixedPostUrlStrategy"
-					type="tns:fixedPostUrlStrategy" minOccurs="1" maxOccurs="1">
-				</element>
-			</choice>
-			<element name="next" type="tns:xpath" minOccurs="0"
-				maxOccurs="1"></element>
+				minOccurs="0" />
+			<element name="strategy" type="tns:strategy" />
+			<element name="cachedXpathResult"
+				type="tns:cachedXpathResult" minOccurs="0" />
+			<element name="next" type="tns:xpath" minOccurs="0" />
 		</sequence>
 	</complexType>
 
-	<complexType name="numberStrategy">
+	<complexType name="cachedXpathResult">
 		<sequence>
-			<element name="from" type="int" minOccurs="1" maxOccurs="1"></element>
-			<element name="to" type="int" minOccurs="1" maxOccurs="1"></element>
+			<element name="name" type="string" />
+			<element name="xpath" type="string" />
 		</sequence>
+	</complexType>
+
+	<complexType name="strategy" abstract="true" />
+
+	<complexType name="numberStrategy">
+		<complexContent>
+			<extension base="tns:strategy">
+				<sequence>
+					<element name="from" type="int" />
+					<element name="to" type="int" />
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="countStrategy">
-		<sequence>
-			<element name="xpath" type="string"></element>
-		</sequence>
+		<complexContent>
+			<extension base="tns:strategy">
+				<sequence>
+					<element name="xpath" type="string" />
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="fixedPostUrlStrategy">
-		<sequence>
-			<element name="json" type="boolean"></element>
-			<element name="post" type="boolean" minOccurs="0"
-				maxOccurs="1"></element>
-			<element name="fixedUrls" minOccurs="1" maxOccurs="unbounded">
-				<complexType>
-					<sequence>
-						<element name="headers" type="string" minOccurs="0"
-							maxOccurs="unbounded"></element>
-						<element name="content" type="string" minOccurs="0"
-							maxOccurs="1"></element>
-						<element name="url" type="string" minOccurs="1"
-							maxOccurs="1"></element>
-					</sequence>
-				</complexType>
-			</element>
-		</sequence>
+		<complexContent>
+			<extension base="tns:strategy">
+				<sequence>
+					<element name="json" type="boolean" />
+					<element name="post" type="boolean" minOccurs="0" />
+					<element name="fixedUrls" maxOccurs="unbounded">
+						<complexType>
+							<sequence>
+								<element name="headers" type="string" minOccurs="0"
+									maxOccurs="unbounded" />
+								<element name="content" type="string" minOccurs="0" />
+								<element name="url" type="string" />
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="multiDataOnOnePageCountStrategy">
-		<sequence>
-			<element name="maxXpath" type="string"></element>
-			<element name="categoryForEachEntry" type="boolean"
-				minOccurs="0"></element>
-		</sequence>
+		<complexContent>
+			<extension base="tns:strategy">
+				<sequence>
+					<element name="maxXpath" type="string" />
+					<element name="categoryForEachEntry" type="boolean"
+						minOccurs="0" />
+				</sequence>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="ManualCategoryReplacement">
 		<sequence>
-			<element name="categoryName" type="string"></element>
+			<element name="categoryName" type="string" />
 			<choice>
-				<element name="ifTitleContains" type="string"></element>
-				<element name="ifVolumeIs" type="string"></element>
+				<element name="ifTitleContains" type="string" />
+				<element name="ifVolumeIs" type="string" />
 			</choice>
 		</sequence>
 	</complexType>
 
 	<complexType name="ManualVolumeReplacement">
 		<sequence>
-			<element name="VolumeName" type="string"></element>
-			<element name="ifVolumeEquals" type="string"></element>
+			<element name="VolumeName" type="string" />
+			<element name="ifVolumeEquals" type="string" />
 		</sequence>
+	</complexType>
+
+	<complexType name="xPathExpression">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="onlyHandleAsReplacement" type="boolean"
+					default="false" use="optional" />
+			</extension>
+		</simpleContent>
 	</complexType>
 
 	<element name="inputSchema">
 		<complexType>
 			<sequence>
-				<element name="xpath" type="tns:xpath" minOccurs="1"
-					maxOccurs="1">
-				</element>
-				<element name="titleXpath" type="string" minOccurs="1"
-					maxOccurs="1">
-				</element>
-				<element name="authorXpath" type="string" minOccurs="1"
-					maxOccurs="1">
-				</element>
-				<element name="pageXpath" type="string" minOccurs="0"
-					maxOccurs="1">
-				</element>
-				<element name="volumeXpath" type="string" minOccurs="0"
-					maxOccurs="1">
-				</element>
-				<element name="categoryXpath" type="string" minOccurs="1"
-					maxOccurs="1">
-				</element>
-				<element name="startingHtmlPage" type="string" minOccurs="0"
-					maxOccurs="1">
-				</element>
-				<element name="baseUrl" type="string" minOccurs="1"
-					maxOccurs="1">
-				</element>
-				<element name="urlSuffix" type="string" minOccurs="0"
-					maxOccurs="1"></element>
-				<element name="sortCategories" type="boolean" minOccurs="0"
-					maxOccurs="1"></element>
+				<element name="xpath" type="tns:xpath" />
+				<element name="titleXpath" type="tns:xPathExpression" />
+				<element name="authorXpath" type="tns:xPathExpression" />
+				<element name="pageXpath" type="tns:xPathExpression" minOccurs="0" />
+				<element name="volumeXpath" type="tns:xPathExpression" minOccurs="0" />
+				<element name="categoryXpath" type="tns:xPathExpression" />
+				<element name="startingHtmlPage" type="string" minOccurs="0" />
+				<element name="baseUrl" type="string" />
+				<element name="urlSuffix" type="string" minOccurs="0" />
+				<element name="sortCategories" type="boolean" minOccurs="0" />
 				<element name="emptyCategoryReplacements" minOccurs="0">
 					<complexType>
 						<sequence>
 							<element name="fallbackCategoryName" type="string"
-								minOccurs="0"></element>
+								minOccurs="0" />
 							<element name="manualCategoryReplacement"
 								type="tns:ManualCategoryReplacement" minOccurs="0"
-								maxOccurs="unbounded"></element>
+								maxOccurs="unbounded" />
 						</sequence>
 					</complexType>
 				</element>
 				<element name="manualVolumeReplacement"
 					type="tns:ManualVolumeReplacement" minOccurs="0"
-					maxOccurs="unbounded"></element>
+					maxOccurs="unbounded" />
 			</sequence>
 		</complexType>
 	</element>
