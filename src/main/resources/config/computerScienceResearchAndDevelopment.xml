@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+<tns:inputSchema
+	xmlns:tns="http://www.ccw.io/toccer-backend/inputSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/inputSchema ../inputSchema.xsd ">
+	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>id('volume34')//html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
-		<tns:numberStrategy>
-			<tns:from>1</tns:from>
-			<tns:to>6</tns:to>
-		</tns:numberStrategy>
+		<tns:expressionWithReplaces>//html:li[@class='app-section'][contains(., 'Volume 35')]/html:ul/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+		<tns:strategy xsi:type="tns:countStrategy">
+			<tns:xpath>count(//html:li[@class='app-section'][contains(., 'Volume 35')]/html:ul/html:li)</tns:xpath>
+		</tns:strategy>
 		<tns:next>
-			<tns:expressionWithReplaces>id('kb-nav--main')/html:div[3]/html:ol/html:li[{0}]/html:div/html:h3/html:a/@href</tns:expressionWithReplaces>
-			<tns:countStrategy>
-				<tns:xpath>count(id('kb-nav--main')/html:div[3]/html:ol/html:li)</tns:xpath>
-			</tns:countStrategy>
+			<tns:expressionWithReplaces>substring(//html:ol[contains(@class, 'app-volumes-and-issues__article-list')]/html:li[{0}]//html:a/@href, 26)</tns:expressionWithReplaces>
+			<tns:strategy xsi:type="tns:countStrategy">
+				<tns:xpath>count(//html:ol[contains(@class, 'app-volumes-and-issues__article-list')]/html:li)</tns:xpath>
+			</tns:strategy>
+			<tns:cachedXpathResult>
+				<tns:name>issueNumber</tns:name>
+				<tns:xpath>substring-before(substring-after(//html:div[@class='app-volumes-and-issues__content']/html:div[@class='app-volumes-and-issues__info']/html:h1/text(), 'issue '), ',')</tns:xpath>
+			</tns:cachedXpathResult>
 		</tns:next>
 	</tns:xpath>
 
 	<tns:titleXpath>concat(substring(//*[@data-test='article-title'], 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//*[@data-test='article-title'])), substring(//*[@class="ArticleTitle"], 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(//*[@class="ArticleTitle"])))</tns:titleXpath>
 	<tns:authorXpath>concat(substring(string-join((//*[@data-test="author-name"]/text()), ', '), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(string-join((//*[@data-test="author-name"]/text()), ', '))), substring(string-join(//html:span[@class="authors__name"]/text(), ', '), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(string-join(//html:span[@class="authors__name"]/text(), ', '))))</tns:authorXpath>
-	<tns:pageXpath>concat(substring(//html:span[@itemprop="pageStart"]/text(), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//html:span[@itemprop="pageStart"]/text())), substring(substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–'), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–'))))</tns:pageXpath>
-	<tns:volumeXpath>//idonotexist</tns:volumeXpath>
+	<tns:pageXpath>substring-after(substring-before(substring-after(substring-before(//html:p[@class='c-article-info-details'], ' (2020)'), 'page'), '–'), ' ')</tns:pageXpath>
+	<tns:volumeXpath onlyHandleAsReplacement="true">{issueNumber}</tns:volumeXpath>
 	<tns:categoryXpath>concat(substring(//*[@data-test="article-category"]/text(), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//*[@data-test="article-category"]/text())), substring(//html:span[@class="test-render-category"]/text(), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(//html:span[@class="test-render-category"]/text())))</tns:categoryXpath>
-	
+
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/450</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
-	<tns:sortCategories>true</tns:sortCategories>
+	<tns:labelNameOfPublication>Software-Intensive Cyber-Physical Systems, Volume 35</tns:labelNameOfPublication>
+	<tns:labelToc>Table of Contents</tns:labelToc>
+	<tns:labelIssuePage>Issue, Page</tns:labelIssuePage>
+	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

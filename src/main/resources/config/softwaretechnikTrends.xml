@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<tns:inputSchema xmlns:tns="http://www.example.org/inputSchema"
+<tns:inputSchema
+	xmlns:tns="http://www.ccw.io/toccer-backend/inputSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/inputSchema ../inputSchema.xsd ">
+	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>'39_4/index.html'</tns:expressionWithReplaces>
-		<tns:numberStrategy>
+		<tns:expressionWithReplaces>'40_2/index.html'</tns:expressionWithReplaces>
+		<tns:strategy xsi:type="tns:numberStrategy">
 			<tns:from>1</tns:from>
 			<tns:to>1</tns:to>
-		</tns:numberStrategy>
+		</tns:strategy>
 		<tns:next>
-			<tns:multiDataOnOnePageCountStrategy>
+			<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
 				<tns:maxXpath>count((//html:a[contains(@href, '.pdf')]))</tns:maxXpath>
 				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
-			</tns:multiDataOnOnePageCountStrategy>
+			</tns:strategy>
 		</tns:next>
 	</tns:xpath>
 
@@ -25,5 +26,8 @@
 	<tns:categoryXpath>normalize-space((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/parent::html:ul/parent::html:li/parent::html:ul/parent::html:li/html:b[1]/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/parent::html:ul/parent::html:li/html:b[1]/text())</tns:categoryXpath>
 	<tns:startingHtmlPage>http://pi.informatik.uni-siegen.de/gi/stt/</tns:startingHtmlPage>
 	<tns:baseUrl>http://pi.informatik.uni-siegen.de/gi/stt/</tns:baseUrl>
+	<tns:labelNameOfPublication>Softwaretechnik-Trends, Band 40</tns:labelNameOfPublication>
+	<tns:labelToc>Inhaltsverzeichnis</tns:labelToc>
+	<tns:labelIssuePage>Ausgabe, Seite</tns:labelIssuePage>
 	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>
