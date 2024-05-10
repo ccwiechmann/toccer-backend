@@ -4,63 +4,35 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:strategy xsi:type="tns:fixedPostUrlStrategy">
+		<tns:expressionWithReplaces>concat('https://www.computer.org/csdl/api/v1/graphql', '')</tns:expressionWithReplaces>
+		<tns:strategy xsi:type="tns:numberStrategy">
 			<tns:json>true</tns:json>
 			<tns:post>true</tns:post>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8938100", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8938100/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8994828", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/8994828/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9068301", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/9068301/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9121610", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/9121610/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9173616", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/9173616/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9238472", "punumber": "52", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/52/issue/9238472/toc</tns:url>
-			</tns:fixedUrls>
+			<tns:postContent>concat('','{"variables":{"announcementsCategoryId":"811","cfpCategoryId":"842","idPrefix":"so","issueNum":"{0}","year":"2023","limitResults":100,"skipResults":0},"query":"query ($idPrefix: String!, $year: String!, $issueNum: String!, $cfpCategoryId: String!, $announcementsCategoryId: String!, $limitResults: Int, $skipResults: Int) {\n  issue: periodicalIssue(idPrefix: $idPrefix, year: $year, issueNum: $issueNum) {\n    id\n    idPrefix\n    isPreviewOnly\n    issueNum\n    pubType\n    hideFullIssueDownloadButton\n    downloadables {\n      hasCover\n      hasAzw3\n      hasEpub\n      hasMathEpub\n      hasMobi\n      hasPdf\n      hasZip\n      __typename\n    }\n    title\n    label\n    volume\n    year\n    colloquiumHtmlIssue {\n      isHtmlFormat\n      issueArray {\n        title\n        year\n        issueNum\n        idPrefix\n        volume\n        label\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n  articles: articlesWithPagination(\n    idPrefix: $idPrefix\n    year: $year\n    issueNum: $issueNum\n    limit: $limitResults\n    skip: $skipResults\n  ) {\n    skipped\n    limit\n    totalResults\n    articleResults {\n      id\n      authors {\n        fullName\n        givenName\n        surname\n        __typename\n      }\n      replicability {\n        isEnabled\n        codeRepositoryUrl\n        codeDownloadUrl\n        __typename\n      }\n      fno\n      isOpenAccess\n      issueNum\n      sectionTitle\n      title\n      year\n      pages\n      pubType\n      pubDate\n      doi\n      idPrefix\n      __typename\n    }\n    __typename\n  }\n  trendingArticles: popularArticlesByPeriodical(idPrefix: $idPrefix) {\n    id\n    doi\n    title\n    authors {\n      givenName\n      surname\n      fullName\n      __typename\n    }\n    pages\n    year\n    pubType\n    idPrefix\n    issueNum\n    year\n    fno\n    __typename\n  }\n  announcements: wordpressContent(categoryId: $announcementsCategoryId) {\n    id\n    title\n    url\n    __typename\n  }\n  callForPapers: callForPapers(categoryId: $cfpCategoryId) {\n    id\n    title\n    url\n    __typename\n  }\n}"}')</tns:postContent>
+			<tns:from>1</tns:from>
+			<tns:to>6</tns:to>
+			<tns:fillWithPrefixedZerosToLength>2</tns:fillWithPrefixedZerosToLength>
 		</tns:strategy>
 		<tns:next>
-			<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
-				<tns:maxXpath>count(//html:div[@class="records"]/html:div[@class="json_object"])</tns:maxXpath>
+			<tns:strategy
+				xsi:type="tns:multiDataOnOnePageCountStrategy">
+				<tns:maxXpath>count(//html:div[@class="articleResults"]/html:div[@class="json_object"])</tns:maxXpath>
 				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+				<tns:titleForEachEntry>true</tns:titleForEachEntry>
 			</tns:strategy>
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="articleTitle"]/text())</tns:titleXpath>
-	<tns:authorXpath>string-join(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="authors"]//html:div[@class="preferredName"]/text(), ', ')</tns:authorXpath>
-	<tns:pageXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="startPage"]/text())</tns:pageXpath>
-	
-	<tns:volumeXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="issue"]/text())</tns:volumeXpath>
-	<tns:categoryXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="subjectCategories"]/text())</tns:categoryXpath>
-	<tns:baseUrl>https://ieeexplore.ieee.org</tns:baseUrl>
-	<tns:labelNameOfPublication>IEEE Software, Volume 37</tns:labelNameOfPublication>
+	<tns:titleXpath>normalize-space(//html:div[@class="articleResults"]/html:div[@class="json_object"][{0}]/html:div[@class="title"][1]/text())</tns:titleXpath>
+	<tns:authorXpath>string-join(//html:div[@class="articleResults"]/html:div[@class="json_object"][{0}]/html:div[@class="authors"]/html:div/html:div[contains(@class, 'fullName')], '; ')</tns:authorXpath>
+	<tns:pageXpath>substring-before(//html:div[@class="articleResults"]/html:div[@class="json_object"][{0}]/html:div[@class="pages"], '-')</tns:pageXpath>
+	<tns:volumeXpath>normalize-space(//html:div[@class="articleResults"]/html:div[@class="json_object"][{0}]/html:div[@class="issueNum"]/text())</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space(//html:div[@class="articleResults"]/html:div[@class="json_object"][{0}]/html:div[@class="sectionTitle"]/text())</tns:categoryXpath>
+
+	<tns:startingHtmlPage>https://www.computer.org/csdl/magazine/so/past-issues/2020/2023</tns:startingHtmlPage>
+	<tns:baseUrl />
+	<tns:labelNameOfPublication>IEEE Software, Volume 40</tns:labelNameOfPublication>
 	<tns:labelToc>Table of Contents</tns:labelToc>
 	<tns:labelIssuePage>Issue, Page</tns:labelIssuePage>
-	<tns:sortCategories>true</tns:sortCategories>
+	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

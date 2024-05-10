@@ -4,48 +4,32 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:strategy xsi:type="tns:fixedPostUrlStrategy">
-			<tns:json>false</tns:json>
-			<tns:post>false</tns:post>
-			<tns:fixedUrls>
-				<tns:headers>Accept-Language: de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7</tns:headers>
-				<tns:headers>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</tns:headers>
-				<tns:url>https://www.degruyter.com/view/journals/itit/62/1/itit.62.issue-1.xml</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Accept-Language: de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7</tns:headers>
-				<tns:headers>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</tns:headers>
-				<tns:url>https://www.degruyter.com/view/journals/itit/62/2/itit.62.issue-2.xml</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Accept-Language: de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7</tns:headers>
-				<tns:headers>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</tns:headers>
-				<tns:url>https://www.degruyter.com/view/journals/itit/62/3-4/itit.62.issue-3-4.xml</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Accept-Language: de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7</tns:headers>
-				<tns:headers>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</tns:headers>
-				<tns:url>https://www.degruyter.com/view/journals/itit/62/5-6/itit.62.issue-5-6.xml</tns:url>
-			</tns:fixedUrls>
+		<tns:expressionWithReplaces>//html:ul[@id="expandVolume-65"]//html:a[{0}]/@href</tns:expressionWithReplaces>
+		<tns:strategy xsi:type="tns:countStrategy">
+			<tns:xpath>count(//html:ul[@id="expandVolume-65"]//html:a)</tns:xpath>
 		</tns:strategy>
 		<tns:next>
 			<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
-				<tns:maxXpath>count(//html:div[contains(@class, 'content-box-body')]//html:ul//html:li//html:div[contains(@class, 'c-Paper')])</tns:maxXpath>
+				<tns:maxXpath>count(//html:div[contains(@class, 'searchResultContent')])</tns:maxXpath>
 				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+				<tns:titleForEachEntry>false</tns:titleForEachEntry>
 			</tns:strategy>
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>(//html:div[contains(@class, 'content-box-body')]//html:ul//html:div[contains(@class, 'c-Paper')])[{0}]//html:h4[contains(@class, 'font-header')]/html:a/text()</tns:titleXpath>
-	<tns:authorXpath>replace(normalize-space((//html:div[contains(@class, 'content-box-body')]//html:ul//html:div[contains(@class, 'c-Paper')])[{0}]//html:div[contains(@class, 'content-contributor-author')]), ' und ', ', ')</tns:authorXpath>
-	<tns:pageXpath>normalize-space(substring-before(substring-after(normalize-space((//html:div[contains(@class, 'content-box-body')]//html:ul//html:div[contains(@class, 'c-Paper')])[{0}]//html:div[contains(@class, 'definition-list')]), 'Seiten: '), '–'))</tns:pageXpath>
-	<tns:volumeXpath>normalize-space(substring-before(substring-after(//html:h5[contains(@class, 'font-header')], 'Heft'), '('))</tns:volumeXpath>
-	<tns:categoryXpath>normalize-space(substring-before(substring-after(normalize-space((//html:div[contains(@class, 'content-box-body')]//html:ul//html:div[contains(@class, 'c-Paper')])[{0}]//html:div[contains(@class, 'definition-list')]), 'Artikeltyp: '), '|'))</tns:categoryXpath>
+	<tns:titleXpath>//html:div[contains(@class, 'searchResultContent')]//html:h4[contains(@class, 'titleSearchPageResult')]</tns:titleXpath>
+	<tns:authorXpath>normalize-space((//html:div[contains(@class, 'searchResultContent')])[{0}]//html:div[contains(@class, 'contributors')])</tns:authorXpath>
+	<tns:pageXpath>substring-before(substring-after((//html:div[contains(@class, 'searchResultContent')])[{0}]//html:span[contains(@class, 'pageRange')], 'Page range: '), '-')</tns:pageXpath>
+	<tns:volumeXpath>substring-before(substring-after(//html:h1, 'Issue '), ' - ')</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space((//html:div[contains(@class, 'searchResultContent')])[{0}]/../../../../html:h3)</tns:categoryXpath>
 
 	<tns:startingHtmlPage>https://www.degruyter.com/view/j/itit</tns:startingHtmlPage>
 	<tns:baseUrl>https://www.degruyter.com</tns:baseUrl>
-	<tns:labelNameOfPublication>it – Information Technology, Volume 62</tns:labelNameOfPublication>
+	<tns:labelNameOfPublication>it – Information Technology, Volume 65</tns:labelNameOfPublication>
 	<tns:labelToc>Table of Contents</tns:labelToc>
 	<tns:labelIssuePage>Issue, Page</tns:labelIssuePage>
 	<tns:sortCategories>false</tns:sortCategories>
+	<tns:emptyCategoryReplacements>
+		<tns:fallbackCategoryName>FRONTMATTER</tns:fallbackCategoryName>
+	</tns:emptyCategoryReplacements>
 </tns:inputSchema>

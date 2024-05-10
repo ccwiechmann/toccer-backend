@@ -4,99 +4,40 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:strategy xsi:type="tns:fixedPostUrlStrategy">
-			<tns:json>true</tns:json>
-			<tns:post>true</tns:post>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8944310", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8944310/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "8967317", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/8967317/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9024148", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9024148/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9063691", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9063691/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9080633", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9080633/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9103291", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9103291/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9120379", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9120379/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9143211", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9143211/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9172157", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9172157/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9207923", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9207923/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9241485", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9241485/toc</tns:url>
-			</tns:fixedUrls>
-			<tns:fixedUrls>
-				<tns:headers>Host: ieeexplore.ieee.org</tns:headers>
-				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
-				<tns:content>{"isnumber": "9264766", "punumber": "5", "sortType": "vol-only-seq", "rowsPerPage": "50"}</tns:content>
-				<tns:url>https://ieeexplore.ieee.org/rest/search/pub/5/issue/9264766/toc</tns:url>
-			</tns:fixedUrls>
+		<tns:expressionWithReplaces>//html:div[contains(@class, 'elementor-widget-wrap')][html:div[html:div[html:h2[contains(text(), '2023')]]]]//html:div[contains(@class, 'trx_addons_column-1_3')][{0}]//html:a[contains(@rel, 'bookmark')]/@href</tns:expressionWithReplaces>
+		<tns:strategy xsi:type="tns:countStrategy">
+			<tns:xpath>count(//html:div[contains(@class, 'elementor-widget-wrap')][html:div[html:div[html:h2[contains(text(), '2023')]]]]//html:div[contains(@class, 'trx_addons_column-1_3')]//html:a[contains(@rel, 'bookmark')]/@href)</tns:xpath>
 		</tns:strategy>
 		<tns:next>
-			<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
-				<tns:maxXpath>count(//html:div[@class="records"]/html:div[@class="json_object"])</tns:maxXpath>
-				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+			<tns:expressionWithReplaces>concat('https://ieeexplore.ieee.org/rest/search/pub/5/issue/', substring-before(substring-after(//html:section[1]//html:a[contains(@href, 'isnumber')]/@href, 'isnumber='), '&amp;'), '/toc')</tns:expressionWithReplaces>
+			<tns:strategy xsi:type="tns:numberStrategy">
+				<tns:json>true</tns:json>
+				<tns:post>true</tns:post>
+				<tns:postContent>concat('{"isnumber":"', substring-before(substring-after(//html:section[1]//html:a[contains(@href, 'isnumber')]/@href, 'isnumber='), '&amp;'), '","punumber":"5","sortType":"vol-only-seq"}')</tns:postContent>
+				<tns:headers>Origin: https://ieeexplore.ieee.org</tns:headers>
+				<tns:from>1</tns:from>
+				<tns:to>1</tns:to>
 			</tns:strategy>
+			<tns:next>
+				<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
+					<tns:maxXpath>count(//html:div[@class="records"]/html:div[@class="json_object"])</tns:maxXpath>
+					<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+					<tns:titleForEachEntry>true</tns:titleForEachEntry>
+				</tns:strategy>
+			</tns:next>
 		</tns:next>
 	</tns:xpath>
 
 	<tns:titleXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="articleTitle"]/text())</tns:titleXpath>
 	<tns:authorXpath>string-join(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="authors"]//html:div[@class="preferredName"]/text(), ', ')</tns:authorXpath>
 	<tns:pageXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="startPage"]/text())</tns:pageXpath>
-	
 	<tns:volumeXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="issue"]/text())</tns:volumeXpath>
 	<tns:categoryXpath>normalize-space(//html:div[@class="records"]/html:div[@class="json_object"][{0}]/html:div[@class="subjectCategories"]/text())</tns:categoryXpath>
-	<tns:baseUrl>https://ieeexplore.ieee.org</tns:baseUrl>
-	<tns:labelNameOfPublication>Proceedings of the IEEE, Volume 108</tns:labelNameOfPublication>
+
+	<tns:startingHtmlPage>https://proceedingsoftheieee.ieee.org/journal/past-issues/</tns:startingHtmlPage>
+	<tns:baseUrl />
+	<tns:labelNameOfPublication>Proceedings of the IEEE, Volume 111</tns:labelNameOfPublication>
 	<tns:labelToc>Table of Contents</tns:labelToc>
 	<tns:labelIssuePage>Issue, Page</tns:labelIssuePage>
-	<tns:sortCategories>true</tns:sortCategories>
+	<tns:sortCategories>false</tns:sortCategories>
 </tns:inputSchema>

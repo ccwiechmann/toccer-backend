@@ -3,8 +3,6 @@ package io.ccw.toccer.backend.xpath;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,18 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 
 import net.sf.saxon.lib.FeatureKeys;
 import net.sf.saxon.s9api.DocumentBuilder;
@@ -40,6 +50,11 @@ public final class XPathResolver {
 	}
 
 	public static List<String> resolveXPath(Processor processor, StreamSource streamsrc, String xpath) {
+		return resolveXPath(processor, streamsrc, xpath, true);
+	}
+
+	public static List<String> resolveXPath(Processor processor, StreamSource streamsrc, String xpath,
+			boolean escapeResults) {
 		System.out.println("Resolving expression \"" + xpath + "\"");
 		try {
 
@@ -58,8 +73,12 @@ public final class XPathResolver {
 			while (iterator.hasNext()) {
 				final XdmItem item = iterator.next();
 				if (StringUtils.isNotEmpty(item.getStringValue())) {
-					result.add(StringUtils.normalizeSpace(StringEscapeUtils
-							.escapeHtml4(stripNonValidXMLCharacters(new String(item.getStringValue())))));
+					if (escapeResults) {
+						result.add(StringUtils.normalizeSpace(StringEscapeUtils
+								.escapeHtml4(stripNonValidXMLCharacters(new String(item.getStringValue())))));
+					} else {
+						result.add(StringUtils.normalizeSpace(new String(item.getStringValue())));
+					}
 				} else {
 					result.add("");
 				}
@@ -103,36 +122,33 @@ public final class XPathResolver {
 			String content) {
 		System.out.println("Resolving site \"" + site + "\"");
 
+		CloseableHttpResponse response = null;
 		try {
+
+			final List<Header> headerList = new ArrayList<>();
+			if (headers != null) {
+				for (final String header : headers) {
+					final String[] split = header.split(":", 2);
+					headerList.add(new BasicHeader(StringUtils.trim(split[0]), StringUtils.trim(split[1])));
+				}
+			}
+			CloseableHttpClient httpclient = HttpClients.custom().setDefaultHeaders(headerList).build();
+
 			final URL url = new URL(site);
-			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setUseCaches(false);
-
-			if (isPost) {
-				connection.setRequestMethod("POST");
-			} else {
-				connection.setRequestMethod("GET");
-			}
-
-			for (final String header : headers) {
-				final String[] split = header.split(":", 2);
-				connection.addRequestProperty(StringUtils.trim(split[0]), StringUtils.trim(split[1]));
-			}
-
-			if (isJson) {
-				connection.setRequestProperty("Content-Type", "application/json");
-			}
+			HttpRequestBase request = isPost ? new HttpPost(site) : new HttpGet(site);
 
 			if (StringUtils.isNotBlank(content)) {
-				connection.setRequestProperty("Content-Length", Integer.toString(content.length()));
-				connection.setDoOutput(true);
-				final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-				writer.write(content);
-				writer.flush();
+				((HttpPost) request).setEntity(new StringEntity(content, ContentType.APPLICATION_JSON));
 			}
 
-			final StreamSource streamsrc = new StreamSource(
-					new BufferedInputStream(new ReadFromHtmlInputStream(connection.getInputStream(), isJson)));
+			response = httpclient.execute(request);
+
+			final HttpEntity entity = response.getEntity();
+			final String result = EntityUtils.toString(entity);
+			EntityUtils.consume(entity);
+
+			final StreamSource streamsrc = new StreamSource(new BufferedInputStream(
+					new ReadFromHtmlInputStream(new ByteArrayInputStream(result.getBytes()), isJson)));
 			streamsrc.getInputStream().mark(Integer.MAX_VALUE);
 			streamsrc.setSystemId(url.toExternalForm());
 
@@ -142,8 +158,15 @@ public final class XPathResolver {
 				return new StreamSource(new ByteArrayInputStream(convertedJson.getBytes()));
 			}
 			return streamsrc;
+
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
+		} finally {
+			try {
+				response.close();
+			} catch (IOException e) {
+				throw new IllegalStateException(e);
+			}
 		}
 	}
 }

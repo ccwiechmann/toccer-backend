@@ -22,7 +22,15 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="strategy" abstract="true" />
+	<complexType name="strategy" abstract="true">
+		<sequence>
+			<element name="json" type="boolean" minOccurs="0" />
+			<element name="post" type="boolean" minOccurs="0" />
+			<element name="postContent" type="string" minOccurs="0" />
+			<element name="headers" type="string" minOccurs="0"
+				maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
 
 	<complexType name="numberStrategy">
 		<complexContent>
@@ -30,6 +38,8 @@
 				<sequence>
 					<element name="from" type="int" />
 					<element name="to" type="int" />
+					<element name="fillWithPrefixedZerosToLength" type="int"
+						minOccurs="0" />
 				</sequence>
 			</extension>
 		</complexContent>
@@ -49,14 +59,9 @@
 		<complexContent>
 			<extension base="tns:strategy">
 				<sequence>
-					<element name="json" type="boolean" />
-					<element name="post" type="boolean" minOccurs="0" />
 					<element name="fixedUrls" maxOccurs="unbounded">
 						<complexType>
 							<sequence>
-								<element name="headers" type="string" minOccurs="0"
-									maxOccurs="unbounded" />
-								<element name="content" type="string" minOccurs="0" />
 								<element name="url" type="string" />
 							</sequence>
 						</complexType>
@@ -72,6 +77,8 @@
 				<sequence>
 					<element name="maxXpath" type="string" />
 					<element name="categoryForEachEntry" type="boolean"
+						minOccurs="0" />
+					<element name="titleForEachEntry" type="boolean"
 						minOccurs="0" />
 				</sequence>
 			</extension>
@@ -110,8 +117,10 @@
 				<element name="xpath" type="tns:xpath" />
 				<element name="titleXpath" type="tns:xPathExpression" />
 				<element name="authorXpath" type="tns:xPathExpression" />
-				<element name="pageXpath" type="tns:xPathExpression" minOccurs="0" />
-				<element name="volumeXpath" type="tns:xPathExpression" minOccurs="0" />
+				<element name="pageXpath" type="tns:xPathExpression"
+					minOccurs="0" />
+				<element name="volumeXpath" type="tns:xPathExpression"
+					minOccurs="0" />
 				<element name="categoryXpath" type="tns:xPathExpression" />
 				<element name="startingHtmlPage" type="string" minOccurs="0" />
 				<element name="baseUrl" type="string" />

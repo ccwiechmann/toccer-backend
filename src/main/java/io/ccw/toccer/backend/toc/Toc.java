@@ -56,12 +56,9 @@ public class Toc {
 			final Processor processor = XPathResolver.getProcessor();
 			final StreamSource source;
 
-			if (reader.getFixedPostUrlStrategy() == null) {
-				source = XPathResolver.getSource(page.getResolvableResult());
-			} else {
-				source = XPathResolver.getSource(page.getResolvableResult(), reader.getFixedPostUrlStrategy().isJson(),
-						page.getHeaders(), reader.getFixedPostUrlStrategy().isPost(), page.getContent());
-			}
+			source = XPathResolver.getSource(page.getResolvableResult(),
+					reader.getStrategy().isJson() == null ? false : reader.getStrategy().isJson(), page.getHeaders(),
+					reader.getStrategy().isPost() == null ? false : reader.getStrategy().isPost(), page.getContent());
 
 			final List<String> volumes = new ArrayList<>();
 			final List<String> categories = new ArrayList<>();
@@ -98,7 +95,9 @@ public class Toc {
 				}
 				String category = null;
 
-				if (!reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
+				if ((reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry() == null
+						|| !reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry())
+						&& !settings.getCategoryXpath().getValue().contains("{0}")) {
 					final String categoryReplacement = replaceFromCachedExpression(xPathResultCache,
 							settings.getCategoryXpath().getValue());
 					if (settings.getVolumeXpath().isOnlyHandleAsReplacement()) {
@@ -107,8 +106,18 @@ public class Toc {
 						category = XPathResolver.resolveXPath(processor, source, categoryReplacement).get(0);
 					}
 				}
+
+				if ((reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry() == null
+						|| !reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry())
+						&& !settings.getTitleXpath().getValue().contains("{0}")) {
+					resolveAndAddToList(settings.getTitleXpath(), 1, processor, source, xPathResultCache, titles);
+				}
+
 				for (int i = 1; i <= count; i++) {
-					resolveAndAddToList(settings.getTitleXpath(), i, processor, source, xPathResultCache, titles);
+					if (reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry() != null
+							&& reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry()) {
+						resolveAndAddToList(settings.getTitleXpath(), i, processor, source, xPathResultCache, titles);
+					}
 					resolveAndAddToList(settings.getAuthorXpath(), i, processor, source, xPathResultCache, authors);
 					resolveAndAddToList(settings.getPageXpath(), i, processor, source, xPathResultCache, pages);
 
@@ -125,8 +134,13 @@ public class Toc {
 								.resolveXPath(processor, source, replaceFromCachedExpression(xPathResultCache,
 										settings.getCategoryXpath().getValue().replace("{0}", Integer.toString(i))))
 								.get(0);
+						categories.add(category);
+					} else if (settings.getCategoryXpath().getValue().contains("{0}")) {
+						resolveAndAddToList(settings.getCategoryXpath(), i, processor, source, xPathResultCache,
+								categories);
+					} else {
+						categories.add(category);
 					}
-					categories.add(category);
 				}
 			}
 

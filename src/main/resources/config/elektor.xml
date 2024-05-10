@@ -25,10 +25,10 @@
 	<tns:pageXpath>substring-after(//html:div[contains(@class, 'meta-date')], 'auf S. ')</tns:pageXpath>
 	<tns:categoryXpath onlyHandleAsReplacement="true">{issueNumber}</tns:categoryXpath>
 
-	<tns:startingHtmlPage>https://www.elektormagazine.de/magazine/2020</tns:startingHtmlPage>
+	<tns:startingHtmlPage>https://www.elektormagazine.de/magazine/2023</tns:startingHtmlPage>
 	<tns:baseUrl />
-	<tns:labelNameOfPublication>Elektor, 2020</tns:labelNameOfPublication>
+	<tns:labelNameOfPublication>Elektor, 2023</tns:labelNameOfPublication>
 	<tns:labelToc>Inhaltsverzeichnis</tns:labelToc>
 	<tns:labelIssuePage>Seite</tns:labelIssuePage>
-	<tns:sortCategories>false</tns:sortCategories>
+	<tns:sortCategories>true</tns:sortCategories>
 </tns:inputSchema>

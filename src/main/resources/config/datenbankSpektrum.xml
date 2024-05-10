@@ -4,31 +4,31 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>//html:li[@class='app-section'][contains(., 'Volume 20')]/html:ul/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>//html:li[html:h2[html:span[contains(text(), 'Volume 23')]]]/html:ul/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
 		<tns:strategy xsi:type="tns:countStrategy">
-			<tns:xpath>count(//html:li[@class='app-section'][contains(., 'Volume 20')]/html:ul/html:li)</tns:xpath>
+			<tns:xpath>count(//html:li[html:h2[html:span[contains(text(), 'Volume 23')]]]/html:ul/html:li)</tns:xpath>
 		</tns:strategy>
 		<tns:next>
-			<tns:expressionWithReplaces>substring(//html:ol[contains(@class, 'app-volumes-and-issues__article-list')]/html:li[{0}]//html:a/@href, 26)</tns:expressionWithReplaces>
+			<tns:expressionWithReplaces>substring-after(//html:li[html:article[contains(@class, 'app-card-open')]][{0}]//html:a/@href, 'https://link.springer.com')</tns:expressionWithReplaces>
 			<tns:strategy xsi:type="tns:countStrategy">
-				<tns:xpath>count(//html:ol[contains(@class, 'app-volumes-and-issues__article-list')]/html:li)</tns:xpath>
+				<tns:xpath>count(//html:article[contains(@class, 'app-card-open')])</tns:xpath>
 			</tns:strategy>
 			<tns:cachedXpathResult>
 				<tns:name>issueNumber</tns:name>
-				<tns:xpath>substring-before(substring-after(//html:div[@class='app-volumes-and-issues__content']/html:div[@class='app-volumes-and-issues__info']/html:h1/text(), 'issue '), ',')</tns:xpath>
+				<tns:xpath>substring-after(substring-after(//html:meta[contains(@property, 'og:title')]/@content, ', '), ' ')</tns:xpath>
 			</tns:cachedXpathResult>
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>concat(substring(//*[@data-test='article-title'], 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//*[@data-test='article-title'])), substring(//*[@class="ArticleTitle"], 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(//*[@class="ArticleTitle"])))</tns:titleXpath>
-	<tns:authorXpath>concat(substring(string-join((//*[@data-test="author-name"]/text()), ', '), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(string-join((//*[@data-test="author-name"]/text()), ', '))), substring(string-join(//html:span[@class="authors__name"]/text(), ', '), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(string-join(//html:span[@class="authors__name"]/text(), ', '))))</tns:authorXpath>
-	<tns:pageXpath>concat(substring(//html:span[@itemprop="pageStart"]/text(), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//html:span[@itemprop="pageStart"]/text())), substring(substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–'), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(substring-before(substring(//html:span[@class="ArticleCitation_Pages"]/text(), 4), '–'))))</tns:pageXpath>
+	<tns:titleXpath>//html:meta[@name="citation_title"]/@content</tns:titleXpath>
+	<tns:authorXpath>string-join(//html:meta[@name="dc.creator"]/@content, '; ')</tns:authorXpath>
+	<tns:pageXpath>//html:meta[@name="citation_firstpage"]/@content</tns:pageXpath>
 	<tns:volumeXpath onlyHandleAsReplacement="true">{issueNumber}</tns:volumeXpath>
-	<tns:categoryXpath>concat(substring(//*[@data-test="article-category"]/text(), 1, number(exists(//html:body[@class='shared-article-renderer'])) * string-length(//*[@data-test="article-category"]/text())), substring(//html:span[@class="test-render-category"]/text(), 1, number(not(exists(//html:body[@class='shared-article-renderer']))) * string-length(//html:span[@class="test-render-category"]/text())))</tns:categoryXpath>
+	<tns:categoryXpath>//html:meta[@name="citation_article_type"]/@content</tns:categoryXpath>
 
 	<tns:startingHtmlPage>https://link.springer.com/journal/volumesAndIssues/13222</tns:startingHtmlPage>
 	<tns:baseUrl>https://link.springer.com</tns:baseUrl>
-	<tns:labelNameOfPublication>Datenbank-Spektrum, Band 20</tns:labelNameOfPublication>
+	<tns:labelNameOfPublication>Datenbank-Spektrum, Band 23</tns:labelNameOfPublication>
 	<tns:labelToc>Inhaltsverzeichnis</tns:labelToc>
 	<tns:labelIssuePage>Ausgabe, Seite</tns:labelIssuePage>
 	<tns:sortCategories>false</tns:sortCategories>

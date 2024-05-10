@@ -5,28 +5,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.ccw.io/toccer-backend/inputSchema ../inputSchema.xsd ">
 	<tns:xpath>
-		<tns:expressionWithReplaces>'40_2/index.html'</tns:expressionWithReplaces>
+		<tns:expressionWithReplaces>'band/band-43-heft-{0}'</tns:expressionWithReplaces>
 		<tns:strategy xsi:type="tns:numberStrategy">
 			<tns:from>1</tns:from>
-			<tns:to>1</tns:to>
+			<tns:to>4</tns:to>
 		</tns:strategy>
 		<tns:next>
 			<tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
-				<tns:maxXpath>count((//html:a[contains(@href, '.pdf')]))</tns:maxXpath>
+				<tns:maxXpath>count((//html:a[contains(@href, '.pdf')]/parent::*))</tns:maxXpath>
 				<tns:categoryForEachEntry>true</tns:categoryForEachEntry>
+				<tns:titleForEachEntry>true</tns:titleForEachEntry>
 			</tns:strategy>
 		</tns:next>
 	</tns:xpath>
 
-	<tns:titleXpath>normalize-space(substring-after((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/html:i/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/text()[1][normalize-space()], ':'))</tns:titleXpath>
-	<tns:authorXpath>normalize-space(substring-before((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/html:i/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/text()[1][normalize-space()], ':'))</tns:authorXpath>
+	<tns:titleXpath>normalize-space(string-join(tokenize((  //html:a[contains(@href, '.pdf')]/parent::*)[{0}]/text()[1]   , 'S\.')[position()&lt;last()], 'S.'))</tns:titleXpath>
+	<tns:authorXpath>normalize-space(substring-before((//html:a[contains(@href, '.pdf')])[{0}]/parent::*/text()[1] | (//html:a[contains(@href, '.pdf')])[{0}]/parent::*/text()[1][normalize-space()], ':'))</tns:authorXpath>
 	
-	<tns:pageXpath>substring-before(concat(substring-after((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span//parent::html:li/html:span[1], 'S. '), '-'), '-')</tns:pageXpath>
-	<tns:volumeXpath>normalize-space(substring-after(string-join(//html:div[@style='text-align: right;'][1]//html:b/text(), ''), 'Heft '))</tns:volumeXpath>
-	<tns:categoryXpath>normalize-space((//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/parent::html:ul/parent::html:li/parent::html:ul/parent::html:li/html:b[1]/text() | (//html:a[contains(@href, '.pdf')])[{0}]/parent::html:span/parent::html:li/parent::html:ul/parent::html:li/html:b[1]/text())</tns:categoryXpath>
-	<tns:startingHtmlPage>http://pi.informatik.uni-siegen.de/gi/stt/</tns:startingHtmlPage>
-	<tns:baseUrl>http://pi.informatik.uni-siegen.de/gi/stt/</tns:baseUrl>
-	<tns:labelNameOfPublication>Softwaretechnik-Trends, Band 40</tns:labelNameOfPublication>
+	<tns:pageXpath>normalize-space(substring-before(concat(substring-before(tokenize((//html:a[contains(@href, '.pdf')]/parent::*)[{0}], 'S\.')[last()], ' PDF'), '-'), '-'))</tns:pageXpath>
+	<tns:volumeXpath>normalize-space(substring-after(//html:span[contains(text(), 'Heft')], 'Heft '))</tns:volumeXpath>
+	<tns:categoryXpath>normalize-space((//html:a[contains(@href, '.pdf')]/parent::*)[{0}]/text()/ancestor::html:li[html:strong]/html:strong/text())</tns:categoryXpath>
+	<tns:startingHtmlPage>https://fb-swt.gi.de/publikationen/softwaretechnik-trends/</tns:startingHtmlPage>
+	<tns:baseUrl>https://fb-swt.gi.de/publikationen/softwaretechnik-trends/</tns:baseUrl>
+	<tns:labelNameOfPublication>Softwaretechnik-Trends, Band 43</tns:labelNameOfPublication>
 	<tns:labelToc>Inhaltsverzeichnis</tns:labelToc>
 	<tns:labelIssuePage>Ausgabe, Seite</tns:labelIssuePage>
 	<tns:sortCategories>false</tns:sortCategories>

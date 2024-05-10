@@ -47,10 +47,15 @@ public class XmlConfigurationReader {
 	private MultiDataOnOnePageCountStrategy multiDataOnOnePageCountStrategy;
 	private FixedPostUrlStrategy fixedPostUrlStrategy;
 	private EmptyCategoryReplacements emptyCategoryReplacements;
+	private Strategy strategy;
 	private List<ManualVolumeReplacement> volumeReplacements;
 
 	public XmlConfigurationReader(ToccerSettings settings) {
 		this.settings = settings;
+	}
+
+	public Strategy getStrategy() {
+		return strategy;
 	}
 
 	public List<XpathResolvableResult> getFinalSites() {
@@ -103,32 +108,37 @@ public class XmlConfigurationReader {
 			Map<String, String> xPathResultCache) throws NumberFormatException, XPathExpressionException, IOException {
 
 		List<XpathResolvableResult> results = new ArrayList<>();
-		final Strategy strategy = xpath.getStrategy();
+		final Strategy localStrategy = xpath.getStrategy();
 
-		if (strategy instanceof NumberStrategy) {
+		if (localStrategy instanceof NumberStrategy) {
 			results = handleXpathNumberStrategy(xpath);
-		} else if (strategy instanceof CountStrategy) {
+			strategy = localStrategy;
+		} else if (localStrategy instanceof CountStrategy) {
 			results = handleXpathCountStrategy(xpath, site.resolvableResult);
-		} else if (strategy instanceof MultiDataOnOnePageCountStrategy) {
-			multiDataOnOnePageCountStrategy = (MultiDataOnOnePageCountStrategy) strategy;
+			strategy = localStrategy;
+		} else if (localStrategy instanceof MultiDataOnOnePageCountStrategy) {
+			multiDataOnOnePageCountStrategy = (MultiDataOnOnePageCountStrategy) localStrategy;
 			return Arrays.asList(site);
-		} else if (strategy instanceof FixedPostUrlStrategy) {
-			fixedPostUrlStrategy = (FixedPostUrlStrategy) strategy;
+		} else if (localStrategy instanceof FixedPostUrlStrategy) {
+			fixedPostUrlStrategy = (FixedPostUrlStrategy) localStrategy;
 			results = handleFixedPostUrlStrategy(xpath);
 		}
 
 		final Processor processor = XPathResolver.getProcessor();
 		StreamSource source = null;
 
-		if (!(strategy instanceof FixedPostUrlStrategy)) {
+		if (!(localStrategy instanceof FixedPostUrlStrategy)) {
 			source = XPathResolver.getSource(site.resolvableResult);
 		}
 
 		final List<XpathResolvableResult> resultingPages = new ArrayList<>();
 		for (final XpathResolvableResult result : results) {
-			if (strategy instanceof FixedPostUrlStrategy) {
+			if (localStrategy instanceof FixedPostUrlStrategy) {
 				resultingPages.add(result);
 			} else {
+				final String content = result.content != null
+						? XPathResolver.resolveXPath(processor, source, result.content, false).get(0)
+						: null;
 				final List<String> partialResults = XPathResolver.resolveXPath(processor, source,
 						result.resolvableResult);
 				final List<XpathResolvableResult> partialResultCompleted = new ArrayList<>();
@@ -138,6 +148,8 @@ public class XmlConfigurationReader {
 					}
 					final XpathResolvableResult partialResult = new XpathResolvableResult();
 					partialResult.resolvableResult = baseHtml + part + urlSuffix;
+					partialResult.headers = result.headers;
+					partialResult.content = content;
 					partialResultCompleted.add(partialResult);
 				}
 				resultingPages.addAll(partialResultCompleted);
@@ -170,7 +182,14 @@ public class XmlConfigurationReader {
 		final String expression = xpath.getExpressionWithReplaces();
 		for (int i = strategy.getFrom(); i <= strategy.getTo(); i++) {
 			final XpathResolvableResult result = new XpathResolvableResult();
-			result.resolvableResult = expression.replace("{0}", Integer.toString(i));
+			final String number = strategy.getFillWithPrefixedZerosToLength() != null
+					? StringUtils.leftPad(Integer.toString(i), strategy.getFillWithPrefixedZerosToLength(), '0')
+					: Integer.toString(i);
+			result.resolvableResult = expression.replace("{0}", number);
+			result.headers = new ArrayList<>(strategy.getHeaders());
+			if (strategy.getPostContent() != null) {
+				result.content = strategy.getPostContent().replace("{0}", number);
+			}
 			results.add(result);
 		}
 
@@ -183,9 +202,9 @@ public class XmlConfigurationReader {
 
 		for (final FixedUrls fixedUrl : strategy.getFixedUrls()) {
 			final XpathResolvableResult result = new XpathResolvableResult();
-			result.content = fixedUrl.getContent();
+			result.content = strategy.getPostContent();
 			result.resolvableResult = fixedUrl.getUrl();
-			result.headers = new ArrayList<>(fixedUrl.getHeaders());
+			result.headers = new ArrayList<>(strategy.getHeaders());
 			results.add(result);
 		}
 
@@ -204,6 +223,10 @@ public class XmlConfigurationReader {
 		for (int i = 1; i <= count; i++) {
 			final XpathResolvableResult result = new XpathResolvableResult();
 			result.resolvableResult = expression.replace("{0}", Integer.toString(i));
+			if (strategy.getPostContent() != null) {
+				result.content = strategy.getPostContent().replace("{0}", Integer.toString(i));
+			}
+			result.headers = new ArrayList<>(strategy.getHeaders());
 			results.add(result);
 		}
 

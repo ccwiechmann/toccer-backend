@@ -27,7 +27,7 @@ public final class JsonToHtmlConverter {
 
 				html.append("<div class=\"json_object\">");
 
-				if (keys.length > 0) {
+				if (keys != null && keys.length > 0) {
 					for (String key : keys) {
 						// print the key and open a DIV
 						html.append("<div class=\"").append(key).append("\">");
@@ -50,7 +50,7 @@ public final class JsonToHtmlConverter {
 				}
 			} else {
 				// print the value
-				html.append(obj);
+				html.append(obj.toString().replaceAll("&", "&amp;").replaceAll("</italic>", "").replaceAll("<italic>", ""));
 			}
 		} catch (JSONException e) {
 			return e.getLocalizedMessage();
