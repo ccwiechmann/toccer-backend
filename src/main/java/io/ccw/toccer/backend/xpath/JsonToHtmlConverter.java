@@ -27,61 +27,61 @@ import org.json.JSONObject;
  */
 public final class JsonToHtmlConverter {
 
-	private JsonToHtmlConverter() {
-	}
+    private JsonToHtmlConverter() {
+    }
 
-	/**
-	 * Converts the given JSON document into an HTML page.
-	 *
-	 * @param strJsonData a JSON object payload
-	 * @return the equivalent HTML wrapped in a minimal {@code <html>} document
-	 * @throws IllegalArgumentException if the payload is not valid JSON
-	 */
-	public static String getHtmlData(String strJsonData) {
-		final StringBuilder builder = new StringBuilder();
-		try {
-			builder.append("<html><head><title>converted</title></head><body>");
-			jsonToHtml(new JSONObject(strJsonData), builder);
-			builder.append("</body></html>");
-		} catch (JSONException e) {
-			throw new IllegalArgumentException("Invalid JSON payload", e);
-		}
-		return builder.toString();
-	}
+    /**
+     * Converts the given JSON document into an HTML page.
+     *
+     * @param strJsonData a JSON object payload
+     * @return the equivalent HTML wrapped in a minimal {@code <html>} document
+     * @throws IllegalArgumentException if the payload is not valid JSON
+     */
+    public static String getHtmlData(String strJsonData) {
+        final StringBuilder builder = new StringBuilder();
+        try {
+            builder.append("<html><head><title>converted</title></head><body>");
+            jsonToHtml(new JSONObject(strJsonData), builder);
+            builder.append("</body></html>");
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("Invalid JSON payload", e);
+        }
+        return builder.toString();
+    }
 
-	/**
-	 * Recursively converts a JSON value into HTML.
-	 *
-	 * @param obj the JSON value (object, array or scalar)
-	 * @param out target builder
-	 */
-	private static void jsonToHtml(Object obj, StringBuilder out) {
-		if (obj instanceof JSONObject) {
-			final JSONObject jsonObject = (JSONObject) obj;
-			final Object[] names = JSONObject.getNames(jsonObject);
-			if (names != null && names.length > 0) {
-				out.append("<div class=\"json_object\">");
-				for (final Object name : names) {
-					final String key = (String) name;
-					out.append("<div class=\"").append(key).append("\">");
-					jsonToHtml(jsonObject.get(key), out);
-					out.append("</div>");
-				}
-				out.append("</div>");
-			}
-		} else if (obj instanceof JSONArray) {
-			final JSONArray array = (JSONArray) obj;
-			for (int i = 0; i < array.length(); i++) {
-				jsonToHtml(array.get(i), out);
-			}
-		} else {
-			// Escape '&' so the output is safe inside an HTML element. The
-			// leading/trailing <italic> markers used by some feeds are removed
-			// here because they were intended only as visual decoration.
-			final String value = obj.toString()
-					.replaceAll("</?italic>", "")
-					.replaceAll("&", "&amp;");
-			out.append(value);
-		}
-	}
+    /**
+     * Recursively converts a JSON value into HTML.
+     *
+     * @param obj the JSON value (object, array or scalar)
+     * @param out target builder
+     */
+    private static void jsonToHtml(Object obj, StringBuilder out) {
+        if (obj instanceof JSONObject) {
+            final JSONObject jsonObject = (JSONObject) obj;
+            final Object[] names = JSONObject.getNames(jsonObject);
+            if (names != null && names.length > 0) {
+                out.append("<div class=\"json_object\">");
+                for (final Object name : names) {
+                    final String key = (String) name;
+                    out.append("<div class=\"").append(key).append("\">");
+                    jsonToHtml(jsonObject.get(key), out);
+                    out.append("</div>");
+                }
+                out.append("</div>");
+            }
+        } else if (obj instanceof JSONArray) {
+            final JSONArray array = (JSONArray) obj;
+            for (int i = 0; i < array.length(); i++) {
+                jsonToHtml(array.get(i), out);
+            }
+        } else {
+            // Escape '&' so the output is safe inside an HTML element. The
+            // leading/trailing <italic> markers used by some feeds are removed
+            // here because they were intended only as visual decoration.
+            final String value = obj.toString()
+                    .replaceAll("</?italic>", "")
+                    .replaceAll("&", "&amp;");
+            out.append(value);
+        }
+    }
 }

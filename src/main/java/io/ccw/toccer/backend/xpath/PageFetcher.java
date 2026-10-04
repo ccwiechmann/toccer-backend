@@ -12,12 +12,12 @@ package io.ccw.toccer.backend.xpath;
 @FunctionalInterface
 public interface PageFetcher {
 
-	/**
-	 * Fetches the body of the requested page.
-	 *
-	 * @param request the page to fetch
-	 * @return the decoded response body
-	 * @throws Exception if the request fails (I/O, unsupported media type, ...)
-	 */
-	String fetch(PageRequest request) throws Exception;
+    /**
+     * Fetches the body of the requested page.
+     *
+     * @param request the page to fetch
+     * @return the decoded response body
+     * @throws Exception if the request fails (I/O, unsupported media type, ...)
+     */
+    String fetch(PageRequest request) throws Exception;
 }
