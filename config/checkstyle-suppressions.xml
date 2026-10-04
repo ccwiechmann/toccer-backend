@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<!--
+    Rule suppressions on top of the shipped sun_checks.xml base configuration.
+
+    We intentionally relax the rules that are either obsolete in modern
+    Java codebases or do not add value in combination with the
+    builder / DTO patterns used across this project:
+
+    - DesignForExtension : Public/protected APIs are already
+                            finalized where it makes sense. Forcing
+                            "final" on every non-final method just
+                            produces noise and is no longer idiomatic
+                            for Java 17+ codebases.
+    - JavadocPackage     : Requiring package-info.java in every package
+                            would force a tree of boilerplate.
+                            Packages are documented in the README.
+    - HiddenField        : Builder- and setter-styles (TocEntry,
+                            Strategy DTOs, ...) rely on constructor
+                            parameters matching the field name.
+    - FinalParameters    : "final on every parameter" would produce
+                            ~90 findings. We add final where it
+                            improves readability, not as a hard rule.
+    - JavadocVariable    : Javadoc is expected on the public API
+                            (classes and methods), not on every
+                            private field.
+    - LineLength         : We keep the historical line widths (frequently
+                            > 80 chars). Forcing a hard wrap at 80
+                            columns would add more churn than benefit.
+
+    This file is loaded by sun_checks.xml via the built-in SuppressionFilter
+    and therefore stays valid across all Checkstyle versions (>= 8.4).
+-->
+<suppressions>
+
+    <suppress checks="DesignForExtension" files=".*\.java"/>
+    <suppress checks="JavadocPackage"     files=".*\.java"/>
+    <suppress checks="HiddenField"        files=".*\.java"/>
+    <suppress checks="FinalParameters"    files=".*\.java"/>
+    <suppress checks="JavadocVariable"    files=".*\.java"/>
+    <suppress checks="LineLength"         files=".*\.java"/>
+
+    <!-- src/main/generated is JAXB-generated; Checkstyle is opt-out there. -->
+    <suppress files="src/main/generated/[^.]+\.java" checks=".*"/>
+
+</suppressions>
