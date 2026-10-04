@@ -1,34 +1,60 @@
 package io.ccw.toccer.backend;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterException;
-
 import io.ccw.toccer.backend.toc.Toc;
 import io.ccw.toccer.backend.toc.ToccerSettings;
+import picocli.CommandLine;
+import picocli.CommandLine.ParameterException;
 
-public class ToccerMain {
+/**
+ * Entry point of the {@code toccer-backend} command line tool.
+ *
+ * <p>
+ * Parses the command line arguments into a {@link ToccerSettings} and runs the
+ * pipeline: <em>load final sites → generate TOC entries → export to ODT</em>.
+ * </p>
+ */
+public final class ToccerMain {
 
-	public static void main(String[] args) {
-		ToccerSettings configuration = parseArguments(args);
-		Toc.create(configuration).loadFinalSites().generateTocEntries().exportToOdt();
+	private ToccerMain() {
 	}
 
+	/**
+	 * Entry point.
+	 *
+	 * @param args command line arguments
+	 */
+	public static void main(String[] args) {
+		final ToccerSettings settings = parseArguments(args);
+		Toc.create(settings).loadFinalSites().generateTocEntries().exportToOdt();
+	}
+
+	/**
+	 * Parses the command line arguments.
+	 * <p>
+	 * Exits the JVM with a non-zero status if the arguments are invalid, and with
+	 * status zero if the user only requested the help message.
+	 * </p>
+	 *
+	 * @param args raw command line arguments
+	 * @return the parsed settings
+	 */
 	private static ToccerSettings parseArguments(String[] args) {
-		ToccerSettings arguments = new ToccerSettings();
-		JCommander commander = null;
+		final ToccerSettings settings = new ToccerSettings();
+		final CommandLine cmd = new CommandLine(settings);
+
 		try {
-			commander = new JCommander(arguments, args);
-		} catch (ParameterException e) {
-			System.out.println(e.getMessage());
-			System.out.println("Use -h or --help to get usage information.");
+			cmd.parseArgs(args);
+		} catch (final ParameterException e) {
+			System.err.println(e.getMessage());
+			System.err.println("Use --help for usage information.");
+			System.exit(1);
+		}
+
+		if (settings.isHelp()) {
+			cmd.usage(System.out);
 			System.exit(0);
 		}
 
-		if (arguments.isHelp()) {
-			commander.usage();
-			System.exit(0);
-		}
-
-		return arguments;
+		return settings;
 	}
 }
