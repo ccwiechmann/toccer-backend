@@ -3,6 +3,13 @@ package io.ccw.toccer.backend.toc;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * A single entry of the generated table of contents.
+ *
+ * <p>Raw (HTML) values are stored unescaped; the {@code *ForXml} accessors
+ * return the XML-escaped form used when exporting entries to an ODT document.
+ * {@code page} and {@code category} are normalized to upper case.
+ */
 public class TocEntry implements Comparable<TocEntry> {
 
 	private final int id;
@@ -107,7 +114,8 @@ public class TocEntry implements Comparable<TocEntry> {
 	}
 
 	private String unescape(String input) {
-		// triple unescape since value in HTML might already be encoded
+		// Unescape three times: values coming from the source HTML can already be
+		// HTML-entity encoded (even doubly), so a single pass would not be enough.
 		return StringEscapeUtils.unescapeHtml4(StringEscapeUtils.unescapeHtml4(StringEscapeUtils.unescapeHtml4(input)))
 				.trim();
 	}
