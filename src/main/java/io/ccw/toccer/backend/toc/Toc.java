@@ -1,16 +1,16 @@
 package io.ccw.toccer.backend.toc;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.transform.stream.StreamSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import io.ccw.toccer.backend.xpath.Source;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 
 import io.ccw.toccer.backend.configuration.XmlConfigurationReader;
 import io.ccw.toccer.backend.configuration.XmlConfigurationReader.XpathResolvableResult;
@@ -20,6 +20,8 @@ import io.ccw.toccer.backend.xpath.XPathResolver;
 import net.sf.saxon.s9api.Processor;
 
 public class Toc {
+
+	private static final Logger LOG = LoggerFactory.getLogger(Toc.class);
 
 	private final ToccerSettings settings;
 	private List<XpathResolvableResult> finalPages;
@@ -54,9 +56,9 @@ public class Toc {
 		for (final XpathResolvableResult page : finalPages) {
 			final Map<String, String> xPathResultCache = page.getxPathResultCache();
 			final Processor processor = XPathResolver.getProcessor();
-			final StreamSource source;
+			final Source source;
 
-			source = XPathResolver.getSource(page.getResolvableResult(),
+			source = XPathResolver.fetchSource(page.getResolvableResult(),
 					reader.getStrategy().isJson() == null ? false : reader.getStrategy().isJson(), page.getHeaders(),
 					reader.getStrategy().isPost() == null ? false : reader.getStrategy().isPost(), page.getContent());
 
@@ -100,7 +102,7 @@ public class Toc {
 						&& !settings.getCategoryXpath().getValue().contains("{0}")) {
 					final String categoryReplacement = replaceFromCachedExpression(xPathResultCache,
 							settings.getCategoryXpath().getValue());
-					if (settings.getVolumeXpath().isOnlyHandleAsReplacement()) {
+					if (settings.getCategoryXpath().isOnlyHandleAsReplacement()) {
 						category = replaceFromCachedExpression(xPathResultCache, categoryReplacement);
 					} else {
 						category = XPathResolver.resolveXPath(processor, source, categoryReplacement).get(0);
@@ -176,7 +178,7 @@ public class Toc {
 				}
 				entry.setCategory(categories.get(i));
 				newEntries.add(entry);
-				System.err.println(entry);
+				LOG.error("Fehler beim Verarbeiten eines Eintrags: {}", entry);
 			}
 		}
 		this.entries = newEntries;
@@ -184,7 +186,7 @@ public class Toc {
 		return this;
 	}
 
-	private void resolveAndAddToList(XPathExpression expression, int i, Processor processor, StreamSource source,
+	private void resolveAndAddToList(XPathExpression expression, int i, Processor processor, Source source,
 			Map<String, String> xPathResultCache, List<String> resultList) {
 		if (expression == null) {
 			return;
@@ -199,7 +201,7 @@ public class Toc {
 		}
 	}
 
-	private void resolveAndAddToListNoEmptyResult(XPathExpression expression, Processor processor, StreamSource source,
+	private void resolveAndAddToListNoEmptyResult(XPathExpression expression, Processor processor, Source source,
 			Map<String, String> xPathResultCache, List<String> resultList) {
 		if (expression == null) {
 			return;
@@ -222,20 +224,21 @@ public class Toc {
 	}
 
 	public Toc exportToOdt() {
-		final Multimap<String, TocEntry> entriesByCategory = ArrayListMultimap.create();
+		final Map<String, List<TocEntry>> entriesByCategory = new LinkedHashMap<>();
 		for (final TocEntry entry : entries) {
 			final String category = entry.getCategoryForXml();
 			if (reader.getMultiDataOnOnePageCountStrategy() == null
 					|| reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
-				entriesByCategory.put(category, entry);
+				entriesByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(entry);
 			} else {
-				if (entriesByCategory.containsKey(category) && entriesByCategory.get(category).iterator().next()
-						.getVolumeForXml() != entry.getVolumeForXml()) {
-					entriesByCategory.put(category + entry.getVolumeForXml(), entry);
+				final List<TocEntry> existing = entriesByCategory.get(category);
+				if (existing != null && !existing.isEmpty()
+						&& !existing.get(0).getVolumeForXml().equals(entry.getVolumeForXml())) {
+					entriesByCategory.computeIfAbsent(category + entry.getVolumeForXml(), k -> new ArrayList<>())
+							.add(entry);
 					continue;
 				}
-
-				entriesByCategory.put(category, entry);
+				entriesByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(entry);
 			}
 		}
 		new OdtExporter(settings.getOutputFile(), entriesByCategory, settings.isSortCategories(),

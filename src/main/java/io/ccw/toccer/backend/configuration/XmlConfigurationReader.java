@@ -10,14 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathExpressionException;
+
+import io.ccw.toccer.backend.xpath.Source;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -66,9 +68,15 @@ public class XmlConfigurationReader {
 			final JAXBContext context = JAXBContext.newInstance(InputSchema.class);
 			final Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			final Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-					.newSchema(new File("src/main/resources/inputSchema.xsd"));
-			unmarshaller.setSchema(schema);
+			try (java.io.InputStream xsdStream = getClass().getResourceAsStream("/inputSchema.xsd")) {
+				if (xsdStream == null) {
+					throw new IllegalStateException("Ressource nicht gefunden: inputSchema.xsd");
+				}
+				final byte[] xsdBytes = xsdStream.readAllBytes();
+				unmarshaller.setSchema(
+						SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+								.newSchema(new StreamSource(new java.io.ByteArrayInputStream(xsdBytes))));
+			}
 
 			final InputSchema configuration = (InputSchema) unmarshaller.unmarshal(xmlContent);
 
@@ -125,10 +133,10 @@ public class XmlConfigurationReader {
 		}
 
 		final Processor processor = XPathResolver.getProcessor();
-		StreamSource source = null;
+		Source source = null;
 
 		if (!(localStrategy instanceof FixedPostUrlStrategy)) {
-			source = XPathResolver.getSource(site.resolvableResult);
+			source = XPathResolver.fetchSource(site.resolvableResult);
 		}
 
 		final List<XpathResolvableResult> resultingPages = new ArrayList<>();
@@ -215,7 +223,7 @@ public class XmlConfigurationReader {
 			throws NumberFormatException, XPathExpressionException, IOException {
 		final List<XpathResolvableResult> results = new ArrayList<>();
 		final Processor processor = XPathResolver.getProcessor();
-		final StreamSource source = XPathResolver.getSource(site);
+		final Source source = XPathResolver.fetchSource(site);
 
 		final String expression = xpath.getExpressionWithReplaces();
 		final CountStrategy strategy = (CountStrategy) xpath.getStrategy();
