@@ -1,6 +1,5 @@
 package io.ccw.toccer.backend.configuration;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,8 +76,12 @@ public class XmlConfigurationReader {
     public List<XpathResolvableResult> getFinalSites() {
         final List<XpathResolvableResult> results = new ArrayList<>();
 
-        try {
-            final FileInputStream xmlContent = new FileInputStream(settings.getInputTemplate());
+        final java.nio.file.Path configPath = java.nio.file.Paths.get(settings.getInputTemplate());
+        if (!java.nio.file.Files.isRegularFile(configPath)) {
+            throw new IllegalArgumentException("Input template not found or not a regular file: " + configPath);
+        }
+
+        try (java.io.InputStream xmlContent = java.nio.file.Files.newInputStream(configPath)) {
             final JAXBContext context = JAXBContext.newInstance(InputSchema.class);
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
@@ -305,6 +308,9 @@ public class XmlConfigurationReader {
      * @return the configured replacement volume or the input unchanged
      */
     public String getVolumeReplacement(String volume) {
+        if (volumeReplacements == null) {
+            return volume;
+        }
         for (final ManualVolumeReplacement replacement : volumeReplacements) {
             if (StringUtils.equals(volume, replacement.getIfVolumeEquals())) {
                 return replacement.getVolumeName();

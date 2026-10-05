@@ -196,7 +196,7 @@ public final class Toc {
                 }
                 entry.setCategory(categories.get(i));
                 newEntries.add(entry);
-                LOG.error("Error while processing entry: {}", entry);
+                LOG.debug("Processed entry: {}", entry);
             }
         }
         this.entries = newEntries;
