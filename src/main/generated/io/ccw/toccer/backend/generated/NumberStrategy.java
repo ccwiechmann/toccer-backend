@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// ï¿½nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,22 +6,23 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse fï¿½r numberStrategy complex type.
+ * <p>Java class for numberStrategy complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="numberStrategy">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.ccw.io/toccer-backend/inputSchema}strategy">
- *       &lt;sequence>
- *         &lt;element name="from" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="to" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="numberStrategy">
+ *   <complexContent>
+ *     <extension base="{http://www.ccw.io/toccer-backend/inputSchema}strategy">
+ *       <sequence>
+ *         <element name="from" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         <element name="to" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         <element name="fillWithPrefixedZerosToLength" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+ *       </sequence>
+ *     </extension>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -48,7 +41,7 @@ public class NumberStrategy
     protected Integer fillWithPrefixedZerosToLength;
 
     /**
-     * Ruft den Wert der from-Eigenschaft ab.
+     * Gets the value of the from property.
      * 
      */
     public int getFrom() {
@@ -56,7 +49,7 @@ public class NumberStrategy
     }
 
     /**
-     * Legt den Wert der from-Eigenschaft fest.
+     * Sets the value of the from property.
      * 
      */
     public void setFrom(int value) {
@@ -64,7 +57,7 @@ public class NumberStrategy
     }
 
     /**
-     * Ruft den Wert der to-Eigenschaft ab.
+     * Gets the value of the to property.
      * 
      */
     public int getTo() {
@@ -72,19 +65,35 @@ public class NumberStrategy
     }
 
     /**
-     * Legt den Wert der to-Eigenschaft fest.
+     * Sets the value of the to property.
      * 
      */
     public void setTo(int value) {
         this.to = value;
     }
 
-	public Integer getFillWithPrefixedZerosToLength() {
-		return fillWithPrefixedZerosToLength;
-	}
+    /**
+     * Gets the value of the fillWithPrefixedZerosToLength property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getFillWithPrefixedZerosToLength() {
+        return fillWithPrefixedZerosToLength;
+    }
 
-	public void setFillWithPrefixedZerosToLength(Integer fillWithPrefixedZerosToLength) {
-		this.fillWithPrefixedZerosToLength = fillWithPrefixedZerosToLength;
-	}
+    /**
+     * Sets the value of the fillWithPrefixedZerosToLength property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setFillWithPrefixedZerosToLength(Integer value) {
+        this.fillWithPrefixedZerosToLength = value;
+    }
 
 }

@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// ï¿½nderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -15,22 +7,23 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse fï¿½r multiDataOnOnePageCountStrategy complex type.
+ * <p>Java class for multiDataOnOnePageCountStrategy complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="multiDataOnOnePageCountStrategy">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.ccw.io/toccer-backend/inputSchema}strategy">
- *       &lt;sequence>
- *         &lt;element name="maxXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="categoryForEachEntry" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="multiDataOnOnePageCountStrategy">
+ *   <complexContent>
+ *     <extension base="{http://www.ccw.io/toccer-backend/inputSchema}strategy">
+ *       <sequence>
+ *         <element name="maxXpath" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         <element name="categoryForEachEntry" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         <element name="titleForEachEntry" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *       </sequence>
+ *     </extension>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -50,7 +43,7 @@ public class MultiDataOnOnePageCountStrategy
     protected Boolean titleForEachEntry;
 
     /**
-     * Ruft den Wert der maxXpath-Eigenschaft ab.
+     * Gets the value of the maxXpath property.
      * 
      * @return
      *     possible object is
@@ -62,7 +55,7 @@ public class MultiDataOnOnePageCountStrategy
     }
 
     /**
-     * Legt den Wert der maxXpath-Eigenschaft fest.
+     * Sets the value of the maxXpath property.
      * 
      * @param value
      *     allowed object is
@@ -74,7 +67,7 @@ public class MultiDataOnOnePageCountStrategy
     }
 
     /**
-     * Ruft den Wert der categoryForEachEntry-Eigenschaft ab.
+     * Gets the value of the categoryForEachEntry property.
      * 
      * @return
      *     possible object is
@@ -86,7 +79,7 @@ public class MultiDataOnOnePageCountStrategy
     }
 
     /**
-     * Legt den Wert der categoryForEachEntry-Eigenschaft fest.
+     * Sets the value of the categoryForEachEntry property.
      * 
      * @param value
      *     allowed object is
@@ -97,16 +90,28 @@ public class MultiDataOnOnePageCountStrategy
         this.categoryForEachEntry = value;
     }
 
-	public Boolean getTitleForEachEntry() {
-		return titleForEachEntry;
-	}
+    /**
+     * Gets the value of the titleForEachEntry property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public Boolean isTitleForEachEntry() {
+        return titleForEachEntry;
+    }
 
-	public void setTitleForEachEntry(Boolean titleForEachEntry) {
-		this.titleForEachEntry = titleForEachEntry;
-	}
-
-	public Boolean getCategoryForEachEntry() {
-		return categoryForEachEntry;
-	}
+    /**
+     * Sets the value of the titleForEachEntry property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setTitleForEachEntry(Boolean value) {
+        this.titleForEachEntry = value;
+    }
 
 }

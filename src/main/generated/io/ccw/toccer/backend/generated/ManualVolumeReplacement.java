@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -15,22 +7,22 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für ManualVolumeReplacement complex type.
+ * <p>Java class for ManualVolumeReplacement complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="ManualVolumeReplacement">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="VolumeName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="ifVolumeEquals" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="ManualVolumeReplacement">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="VolumeName" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         <element name="ifVolumeEquals" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -47,7 +39,7 @@ public class ManualVolumeReplacement {
     protected String ifVolumeEquals;
 
     /**
-     * Ruft den Wert der volumeName-Eigenschaft ab.
+     * Gets the value of the volumeName property.
      * 
      * @return
      *     possible object is
@@ -59,7 +51,7 @@ public class ManualVolumeReplacement {
     }
 
     /**
-     * Legt den Wert der volumeName-Eigenschaft fest.
+     * Sets the value of the volumeName property.
      * 
      * @param value
      *     allowed object is
@@ -71,7 +63,7 @@ public class ManualVolumeReplacement {
     }
 
     /**
-     * Ruft den Wert der ifVolumeEquals-Eigenschaft ab.
+     * Gets the value of the ifVolumeEquals property.
      * 
      * @return
      *     possible object is
@@ -83,7 +75,7 @@ public class ManualVolumeReplacement {
     }
 
     /**
-     * Legt den Wert der ifVolumeEquals-Eigenschaft fest.
+     * Sets the value of the ifVolumeEquals property.
      * 
      * @param value
      *     allowed object is

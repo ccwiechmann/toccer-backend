@@ -127,15 +127,15 @@ public final class Toc {
                     }
                 }
 
-                if ((reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry() == null
-                        || !reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry())
+                if ((reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry() == null
+                        || !reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry())
                         && !settings.getTitleXpath().getValue().contains("{0}")) {
                     resolveAndAddToList(settings.getTitleXpath(), 1, processor, source, xPathResultCache, titles);
                 }
 
                 for (int i = 1; i <= count; i++) {
-                    if (reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry() != null
-                            && reader.getMultiDataOnOnePageCountStrategy().getTitleForEachEntry()) {
+                    if (reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry() != null
+                            && reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry()) {
                         resolveAndAddToList(settings.getTitleXpath(), i, processor, source, xPathResultCache, titles);
                     }
                     resolveAndAddToList(settings.getAuthorXpath(), i, processor, source, xPathResultCache, authors);

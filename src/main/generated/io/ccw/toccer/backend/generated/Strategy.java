@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import java.util.ArrayList;
@@ -17,24 +9,24 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für strategy complex type.
+ * <p>Java class for strategy complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="strategy">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="json" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="post" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="postContent" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="headers" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="strategy">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="json" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         <element name="post" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         <element name="postContent" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="headers" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -46,10 +38,10 @@ import jakarta.xml.bind.annotation.XmlType;
     "headers"
 })
 @XmlSeeAlso({
-    CountStrategy.class,
     NumberStrategy.class,
-    MultiDataOnOnePageCountStrategy.class,
-    FixedPostUrlStrategy.class
+    CountStrategy.class,
+    FixedPostUrlStrategy.class,
+    MultiDataOnOnePageCountStrategy.class
 })
 public abstract class Strategy {
 
@@ -59,7 +51,7 @@ public abstract class Strategy {
     protected List<String> headers;
 
     /**
-     * Ruft den Wert der json-Eigenschaft ab.
+     * Gets the value of the json property.
      * 
      * @return
      *     possible object is
@@ -71,7 +63,7 @@ public abstract class Strategy {
     }
 
     /**
-     * Legt den Wert der json-Eigenschaft fest.
+     * Sets the value of the json property.
      * 
      * @param value
      *     allowed object is
@@ -83,7 +75,7 @@ public abstract class Strategy {
     }
 
     /**
-     * Ruft den Wert der post-Eigenschaft ab.
+     * Gets the value of the post property.
      * 
      * @return
      *     possible object is
@@ -95,7 +87,7 @@ public abstract class Strategy {
     }
 
     /**
-     * Legt den Wert der post-Eigenschaft fest.
+     * Sets the value of the post property.
      * 
      * @param value
      *     allowed object is
@@ -107,7 +99,7 @@ public abstract class Strategy {
     }
 
     /**
-     * Ruft den Wert der postContent-Eigenschaft ab.
+     * Gets the value of the postContent property.
      * 
      * @return
      *     possible object is
@@ -119,7 +111,7 @@ public abstract class Strategy {
     }
 
     /**
-     * Legt den Wert der postContent-Eigenschaft fest.
+     * Sets the value of the postContent property.
      * 
      * @param value
      *     allowed object is
@@ -133,28 +125,31 @@ public abstract class Strategy {
     /**
      * Gets the value of the headers property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the headers property.
+     * <p>This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore, any modification you make to the
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the headers property.</p>
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * </p>
      * <pre>
-     *    getHeaders().add(newItem);
+     * getHeaders().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
+     * </p>
      * 
      * 
+     * @return
+     *     The value of the headers property.
      */
     public List<String> getHeaders() {
         if (headers == null) {
-            headers = new ArrayList<String>();
+            headers = new ArrayList<>();
         }
         return this.headers;
     }

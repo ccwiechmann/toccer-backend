@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -15,24 +7,24 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für xpath complex type.
+ * <p>Java class for xpath complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="xpath">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="expressionWithReplaces" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="strategy" type="{http://www.ccw.io/toccer-backend/inputSchema}strategy"/>
- *         &lt;element name="cachedXpathResult" type="{http://www.ccw.io/toccer-backend/inputSchema}cachedXpathResult" minOccurs="0"/>
- *         &lt;element name="next" type="{http://www.ccw.io/toccer-backend/inputSchema}xpath" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="xpath">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="expressionWithReplaces" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="strategy" type="{http://www.ccw.io/toccer-backend/inputSchema}strategy"/>
+ *         <element name="cachedXpathResult" type="{http://www.ccw.io/toccer-backend/inputSchema}cachedXpathResult" minOccurs="0"/>
+ *         <element name="next" type="{http://www.ccw.io/toccer-backend/inputSchema}xpath" minOccurs="0"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -52,7 +44,7 @@ public class Xpath {
     protected Xpath next;
 
     /**
-     * Ruft den Wert der expressionWithReplaces-Eigenschaft ab.
+     * Gets the value of the expressionWithReplaces property.
      * 
      * @return
      *     possible object is
@@ -64,7 +56,7 @@ public class Xpath {
     }
 
     /**
-     * Legt den Wert der expressionWithReplaces-Eigenschaft fest.
+     * Sets the value of the expressionWithReplaces property.
      * 
      * @param value
      *     allowed object is
@@ -76,7 +68,7 @@ public class Xpath {
     }
 
     /**
-     * Ruft den Wert der strategy-Eigenschaft ab.
+     * Gets the value of the strategy property.
      * 
      * @return
      *     possible object is
@@ -88,7 +80,7 @@ public class Xpath {
     }
 
     /**
-     * Legt den Wert der strategy-Eigenschaft fest.
+     * Sets the value of the strategy property.
      * 
      * @param value
      *     allowed object is
@@ -100,7 +92,7 @@ public class Xpath {
     }
 
     /**
-     * Ruft den Wert der cachedXpathResult-Eigenschaft ab.
+     * Gets the value of the cachedXpathResult property.
      * 
      * @return
      *     possible object is
@@ -112,7 +104,7 @@ public class Xpath {
     }
 
     /**
-     * Legt den Wert der cachedXpathResult-Eigenschaft fest.
+     * Sets the value of the cachedXpathResult property.
      * 
      * @param value
      *     allowed object is
@@ -124,7 +116,7 @@ public class Xpath {
     }
 
     /**
-     * Ruft den Wert der next-Eigenschaft ab.
+     * Gets the value of the next property.
      * 
      * @return
      *     possible object is
@@ -136,7 +128,7 @@ public class Xpath {
     }
 
     /**
-     * Legt den Wert der next-Eigenschaft fest.
+     * Sets the value of the next property.
      * 
      * @param value
      *     allowed object is

@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import jakarta.xml.bind.annotation.XmlRegistry;
@@ -15,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlRegistry;
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
  * generated in the io.ccw.toccer.backend.generated package. 
- * <p>An ObjectFactory allows you to programatically 
+ * <p>An ObjectFactory allows you to programmatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
  * content can consist of schema derived interfaces 
@@ -39,6 +31,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link InputSchema }
      * 
+     * @return
+     *     the new instance of {@link InputSchema }
      */
     public InputSchema createInputSchema() {
         return new InputSchema();
@@ -47,6 +41,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link FixedPostUrlStrategy }
      * 
+     * @return
+     *     the new instance of {@link FixedPostUrlStrategy }
      */
     public FixedPostUrlStrategy createFixedPostUrlStrategy() {
         return new FixedPostUrlStrategy();
@@ -55,6 +51,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link Xpath }
      * 
+     * @return
+     *     the new instance of {@link Xpath }
      */
     public Xpath createXpath() {
         return new Xpath();
@@ -63,6 +61,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link XPathExpression }
      * 
+     * @return
+     *     the new instance of {@link XPathExpression }
      */
     public XPathExpression createXPathExpression() {
         return new XPathExpression();
@@ -71,6 +71,8 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link InputSchema.EmptyCategoryReplacements }
      * 
+     * @return
+     *     the new instance of {@link InputSchema.EmptyCategoryReplacements }
      */
     public InputSchema.EmptyCategoryReplacements createInputSchemaEmptyCategoryReplacements() {
         return new InputSchema.EmptyCategoryReplacements();
@@ -79,54 +81,68 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link ManualVolumeReplacement }
      * 
+     * @return
+     *     the new instance of {@link ManualVolumeReplacement }
      */
     public ManualVolumeReplacement createManualVolumeReplacement() {
         return new ManualVolumeReplacement();
     }
 
     /**
-     * Create an instance of {@link CountStrategy }
-     * 
-     */
-    public CountStrategy createCountStrategy() {
-        return new CountStrategy();
-    }
-
-    /**
-     * Create an instance of {@link NumberStrategy }
-     * 
-     */
-    public NumberStrategy createNumberStrategy() {
-        return new NumberStrategy();
-    }
-
-    /**
      * Create an instance of {@link CachedXpathResult }
      * 
+     * @return
+     *     the new instance of {@link CachedXpathResult }
      */
     public CachedXpathResult createCachedXpathResult() {
         return new CachedXpathResult();
     }
 
     /**
-     * Create an instance of {@link ManualCategoryReplacement }
+     * Create an instance of {@link NumberStrategy }
      * 
+     * @return
+     *     the new instance of {@link NumberStrategy }
      */
-    public ManualCategoryReplacement createManualCategoryReplacement() {
-        return new ManualCategoryReplacement();
+    public NumberStrategy createNumberStrategy() {
+        return new NumberStrategy();
+    }
+
+    /**
+     * Create an instance of {@link CountStrategy }
+     * 
+     * @return
+     *     the new instance of {@link CountStrategy }
+     */
+    public CountStrategy createCountStrategy() {
+        return new CountStrategy();
     }
 
     /**
      * Create an instance of {@link MultiDataOnOnePageCountStrategy }
      * 
+     * @return
+     *     the new instance of {@link MultiDataOnOnePageCountStrategy }
      */
     public MultiDataOnOnePageCountStrategy createMultiDataOnOnePageCountStrategy() {
         return new MultiDataOnOnePageCountStrategy();
     }
 
     /**
+     * Create an instance of {@link ManualCategoryReplacement }
+     * 
+     * @return
+     *     the new instance of {@link ManualCategoryReplacement }
+     */
+    public ManualCategoryReplacement createManualCategoryReplacement() {
+        return new ManualCategoryReplacement();
+    }
+
+    /**
      * Create an instance of {@link FixedPostUrlStrategy.FixedUrls }
      * 
+     * @return
+     *     the new instance of {@link FixedPostUrlStrategy.FixedUrls }
      */
     public FixedPostUrlStrategy.FixedUrls createFixedPostUrlStrategyFixedUrls() {
         return new FixedPostUrlStrategy.FixedUrls();

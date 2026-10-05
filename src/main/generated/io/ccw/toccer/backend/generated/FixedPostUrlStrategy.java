@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import java.util.ArrayList;
@@ -17,31 +9,31 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für fixedPostUrlStrategy complex type.
+ * <p>Java class for fixedPostUrlStrategy complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="fixedPostUrlStrategy">
- *   &lt;complexContent>
- *     &lt;extension base="{http://www.ccw.io/toccer-backend/inputSchema}strategy">
- *       &lt;sequence>
- *         &lt;element name="fixedUrls" maxOccurs="unbounded">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="url" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="fixedPostUrlStrategy">
+ *   <complexContent>
+ *     <extension base="{http://www.ccw.io/toccer-backend/inputSchema}strategy">
+ *       <sequence>
+ *         <element name="fixedUrls" maxOccurs="unbounded">
+ *           <complexType>
+ *             <complexContent>
+ *               <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                 <sequence>
+ *                   <element name="url" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *                 </sequence>
+ *               </restriction>
+ *             </complexContent>
+ *           </complexType>
+ *         </element>
+ *       </sequence>
+ *     </extension>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -59,49 +51,52 @@ public class FixedPostUrlStrategy
     /**
      * Gets the value of the fixedUrls property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the fixedUrls property.
+     * <p>This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore, any modification you make to the
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the fixedUrls property.</p>
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * </p>
      * <pre>
-     *    getFixedUrls().add(newItem);
+     * getFixedUrls().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link FixedPostUrlStrategy.FixedUrls }
+     * </p>
      * 
      * 
+     * @return
+     *     The value of the fixedUrls property.
      */
     public List<FixedPostUrlStrategy.FixedUrls> getFixedUrls() {
         if (fixedUrls == null) {
-            fixedUrls = new ArrayList<FixedPostUrlStrategy.FixedUrls>();
+            fixedUrls = new ArrayList<>();
         }
         return this.fixedUrls;
     }
 
 
     /**
-     * <p>Java-Klasse für anonymous complex type.
+     * <p>Java class for anonymous complex type</p>.
      * 
-     * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+     * <p>The following schema fragment specifies the expected content contained within this class.</p>
      * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="url" type="{http://www.w3.org/2001/XMLSchema}string"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
+     * <pre>{@code
+     * <complexType>
+     *   <complexContent>
+     *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+     *       <sequence>
+     *         <element name="url" type="{http://www.w3.org/2001/XMLSchema}string"/>
+     *       </sequence>
+     *     </restriction>
+     *   </complexContent>
+     * </complexType>
+     * }</pre>
      * 
      * 
      */
@@ -115,7 +110,7 @@ public class FixedPostUrlStrategy
         protected String url;
 
         /**
-         * Ruft den Wert der url-Eigenschaft ab.
+         * Gets the value of the url property.
          * 
          * @return
          *     possible object is
@@ -127,7 +122,7 @@ public class FixedPostUrlStrategy
         }
 
         /**
-         * Legt den Wert der url-Eigenschaft fest.
+         * Sets the value of the url property.
          * 
          * @param value
          *     allowed object is

@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -16,19 +8,19 @@ import jakarta.xml.bind.annotation.XmlValue;
 
 
 /**
- * <p>Java-Klasse für xPathExpression complex type.
+ * <p>Java class for xPathExpression complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType name="xPathExpression">
- *   &lt;simpleContent>
- *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
- *       &lt;attribute name="onlyHandleAsReplacement" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
- *     &lt;/extension>
- *   &lt;/simpleContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="xPathExpression">
+ *   <simpleContent>
+ *     <extension base="<http://www.w3.org/2001/XMLSchema>string">
+ *       <attribute name="onlyHandleAsReplacement" type="{http://www.w3.org/2001/XMLSchema}boolean" default="false" />
+ *     </extension>
+ *   </simpleContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -44,7 +36,7 @@ public class XPathExpression {
     protected Boolean onlyHandleAsReplacement;
 
     /**
-     * Ruft den Wert der value-Eigenschaft ab.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
@@ -56,7 +48,7 @@ public class XPathExpression {
     }
 
     /**
-     * Legt den Wert der value-Eigenschaft fest.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
@@ -68,7 +60,7 @@ public class XPathExpression {
     }
 
     /**
-     * Ruft den Wert der onlyHandleAsReplacement-Eigenschaft ab.
+     * Gets the value of the onlyHandleAsReplacement property.
      * 
      * @return
      *     possible object is
@@ -84,7 +76,7 @@ public class XPathExpression {
     }
 
     /**
-     * Legt den Wert der onlyHandleAsReplacement-Eigenschaft fest.
+     * Sets the value of the onlyHandleAsReplacement property.
      * 
      * @param value
      *     allowed object is

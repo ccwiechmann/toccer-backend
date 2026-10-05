@@ -1,11 +1,3 @@
-//
-// Diese Datei wurde mit der JavaTM Architecture for XML Binding(JAXB) Reference Implementation, v2.2.8-b130911.1802 generiert 
-// Siehe <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Änderungen an dieser Datei gehen bei einer Neukompilierung des Quellschemas verloren. 
-// Generiert: 2024.05.07 um 05:07:19 PM CEST 
-//
-
-
 package io.ccw.toccer.backend.generated;
 
 import java.util.ArrayList;
@@ -18,46 +10,46 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für anonymous complex type.
+ * <p>Java class for anonymous complex type</p>.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.</p>
  * 
- * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="xpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xpath"/>
- *         &lt;element name="titleXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression"/>
- *         &lt;element name="authorXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression"/>
- *         &lt;element name="pageXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression" minOccurs="0"/>
- *         &lt;element name="volumeXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression" minOccurs="0"/>
- *         &lt;element name="categoryXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression"/>
- *         &lt;element name="startingHtmlPage" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="baseUrl" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="labelNameOfPublication" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="labelToc" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="labelIssuePage" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="urlSuffix" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="sortCategories" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="emptyCategoryReplacements" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence>
- *                   &lt;element name="fallbackCategoryName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *                   &lt;element name="manualCategoryReplacement" type="{http://www.ccw.io/toccer-backend/inputSchema}ManualCategoryReplacement" maxOccurs="unbounded" minOccurs="0"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="manualVolumeReplacement" type="{http://www.ccw.io/toccer-backend/inputSchema}ManualVolumeReplacement" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType>
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="xpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xpath"/>
+ *         <element name="titleXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression"/>
+ *         <element name="authorXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression"/>
+ *         <element name="pageXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression" minOccurs="0"/>
+ *         <element name="volumeXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression" minOccurs="0"/>
+ *         <element name="categoryXpath" type="{http://www.ccw.io/toccer-backend/inputSchema}xPathExpression"/>
+ *         <element name="startingHtmlPage" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="baseUrl" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         <element name="labelNameOfPublication" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         <element name="labelToc" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         <element name="labelIssuePage" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         <element name="urlSuffix" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="sortCategories" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         <element name="emptyCategoryReplacements" minOccurs="0">
+ *           <complexType>
+ *             <complexContent>
+ *               <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                 <sequence>
+ *                   <element name="fallbackCategoryName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *                   <element name="manualCategoryReplacement" type="{http://www.ccw.io/toccer-backend/inputSchema}ManualCategoryReplacement" maxOccurs="unbounded" minOccurs="0"/>
+ *                 </sequence>
+ *               </restriction>
+ *             </complexContent>
+ *           </complexType>
+ *         </element>
+ *         <element name="manualVolumeReplacement" type="{http://www.ccw.io/toccer-backend/inputSchema}ManualVolumeReplacement" maxOccurs="unbounded" minOccurs="0"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -107,7 +99,7 @@ public class InputSchema {
     protected List<ManualVolumeReplacement> manualVolumeReplacement;
 
     /**
-     * Ruft den Wert der xpath-Eigenschaft ab.
+     * Gets the value of the xpath property.
      * 
      * @return
      *     possible object is
@@ -119,7 +111,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der xpath-Eigenschaft fest.
+     * Sets the value of the xpath property.
      * 
      * @param value
      *     allowed object is
@@ -131,7 +123,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der titleXpath-Eigenschaft ab.
+     * Gets the value of the titleXpath property.
      * 
      * @return
      *     possible object is
@@ -143,7 +135,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der titleXpath-Eigenschaft fest.
+     * Sets the value of the titleXpath property.
      * 
      * @param value
      *     allowed object is
@@ -155,7 +147,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der authorXpath-Eigenschaft ab.
+     * Gets the value of the authorXpath property.
      * 
      * @return
      *     possible object is
@@ -167,7 +159,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der authorXpath-Eigenschaft fest.
+     * Sets the value of the authorXpath property.
      * 
      * @param value
      *     allowed object is
@@ -179,7 +171,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der pageXpath-Eigenschaft ab.
+     * Gets the value of the pageXpath property.
      * 
      * @return
      *     possible object is
@@ -191,7 +183,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der pageXpath-Eigenschaft fest.
+     * Sets the value of the pageXpath property.
      * 
      * @param value
      *     allowed object is
@@ -203,7 +195,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der volumeXpath-Eigenschaft ab.
+     * Gets the value of the volumeXpath property.
      * 
      * @return
      *     possible object is
@@ -215,7 +207,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der volumeXpath-Eigenschaft fest.
+     * Sets the value of the volumeXpath property.
      * 
      * @param value
      *     allowed object is
@@ -227,7 +219,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der categoryXpath-Eigenschaft ab.
+     * Gets the value of the categoryXpath property.
      * 
      * @return
      *     possible object is
@@ -239,7 +231,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der categoryXpath-Eigenschaft fest.
+     * Sets the value of the categoryXpath property.
      * 
      * @param value
      *     allowed object is
@@ -251,7 +243,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der startingHtmlPage-Eigenschaft ab.
+     * Gets the value of the startingHtmlPage property.
      * 
      * @return
      *     possible object is
@@ -263,7 +255,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der startingHtmlPage-Eigenschaft fest.
+     * Sets the value of the startingHtmlPage property.
      * 
      * @param value
      *     allowed object is
@@ -275,7 +267,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der baseUrl-Eigenschaft ab.
+     * Gets the value of the baseUrl property.
      * 
      * @return
      *     possible object is
@@ -287,7 +279,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der baseUrl-Eigenschaft fest.
+     * Sets the value of the baseUrl property.
      * 
      * @param value
      *     allowed object is
@@ -299,7 +291,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der labelNameOfPublication-Eigenschaft ab.
+     * Gets the value of the labelNameOfPublication property.
      * 
      * @return
      *     possible object is
@@ -311,7 +303,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der labelNameOfPublication-Eigenschaft fest.
+     * Sets the value of the labelNameOfPublication property.
      * 
      * @param value
      *     allowed object is
@@ -323,7 +315,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der labelToc-Eigenschaft ab.
+     * Gets the value of the labelToc property.
      * 
      * @return
      *     possible object is
@@ -335,7 +327,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der labelToc-Eigenschaft fest.
+     * Sets the value of the labelToc property.
      * 
      * @param value
      *     allowed object is
@@ -347,7 +339,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der labelIssuePage-Eigenschaft ab.
+     * Gets the value of the labelIssuePage property.
      * 
      * @return
      *     possible object is
@@ -359,7 +351,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der labelIssuePage-Eigenschaft fest.
+     * Sets the value of the labelIssuePage property.
      * 
      * @param value
      *     allowed object is
@@ -371,7 +363,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der urlSuffix-Eigenschaft ab.
+     * Gets the value of the urlSuffix property.
      * 
      * @return
      *     possible object is
@@ -383,7 +375,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der urlSuffix-Eigenschaft fest.
+     * Sets the value of the urlSuffix property.
      * 
      * @param value
      *     allowed object is
@@ -395,7 +387,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der sortCategories-Eigenschaft ab.
+     * Gets the value of the sortCategories property.
      * 
      * @return
      *     possible object is
@@ -407,7 +399,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der sortCategories-Eigenschaft fest.
+     * Sets the value of the sortCategories property.
      * 
      * @param value
      *     allowed object is
@@ -419,7 +411,7 @@ public class InputSchema {
     }
 
     /**
-     * Ruft den Wert der emptyCategoryReplacements-Eigenschaft ab.
+     * Gets the value of the emptyCategoryReplacements property.
      * 
      * @return
      *     possible object is
@@ -431,7 +423,7 @@ public class InputSchema {
     }
 
     /**
-     * Legt den Wert der emptyCategoryReplacements-Eigenschaft fest.
+     * Sets the value of the emptyCategoryReplacements property.
      * 
      * @param value
      *     allowed object is
@@ -445,50 +437,53 @@ public class InputSchema {
     /**
      * Gets the value of the manualVolumeReplacement property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the manualVolumeReplacement property.
+     * <p>This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore, any modification you make to the
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the manualVolumeReplacement property.</p>
      * 
      * <p>
      * For example, to add a new item, do as follows:
+     * </p>
      * <pre>
-     *    getManualVolumeReplacement().add(newItem);
+     * getManualVolumeReplacement().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link ManualVolumeReplacement }
+     * </p>
      * 
      * 
+     * @return
+     *     The value of the manualVolumeReplacement property.
      */
     public List<ManualVolumeReplacement> getManualVolumeReplacement() {
         if (manualVolumeReplacement == null) {
-            manualVolumeReplacement = new ArrayList<ManualVolumeReplacement>();
+            manualVolumeReplacement = new ArrayList<>();
         }
         return this.manualVolumeReplacement;
     }
 
 
     /**
-     * <p>Java-Klasse für anonymous complex type.
+     * <p>Java class for anonymous complex type</p>.
      * 
-     * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+     * <p>The following schema fragment specifies the expected content contained within this class.</p>
      * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="fallbackCategoryName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
-     *         &lt;element name="manualCategoryReplacement" type="{http://www.ccw.io/toccer-backend/inputSchema}ManualCategoryReplacement" maxOccurs="unbounded" minOccurs="0"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
+     * <pre>{@code
+     * <complexType>
+     *   <complexContent>
+     *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+     *       <sequence>
+     *         <element name="fallbackCategoryName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+     *         <element name="manualCategoryReplacement" type="{http://www.ccw.io/toccer-backend/inputSchema}ManualCategoryReplacement" maxOccurs="unbounded" minOccurs="0"/>
+     *       </sequence>
+     *     </restriction>
+     *   </complexContent>
+     * </complexType>
+     * }</pre>
      * 
      * 
      */
@@ -503,7 +498,7 @@ public class InputSchema {
         protected List<ManualCategoryReplacement> manualCategoryReplacement;
 
         /**
-         * Ruft den Wert der fallbackCategoryName-Eigenschaft ab.
+         * Gets the value of the fallbackCategoryName property.
          * 
          * @return
          *     possible object is
@@ -515,7 +510,7 @@ public class InputSchema {
         }
 
         /**
-         * Legt den Wert der fallbackCategoryName-Eigenschaft fest.
+         * Sets the value of the fallbackCategoryName property.
          * 
          * @param value
          *     allowed object is
@@ -529,28 +524,31 @@ public class InputSchema {
         /**
          * Gets the value of the manualCategoryReplacement property.
          * 
-         * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the manualCategoryReplacement property.
+         * <p>This accessor method returns a reference to the live list,
+         * not a snapshot. Therefore, any modification you make to the
+         * returned list will be present inside the Jakarta XML Binding object.
+         * This is why there is not a {@code set} method for the manualCategoryReplacement property.</p>
          * 
          * <p>
          * For example, to add a new item, do as follows:
+         * </p>
          * <pre>
-         *    getManualCategoryReplacement().add(newItem);
+         * getManualCategoryReplacement().add(newItem);
          * </pre>
          * 
          * 
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link ManualCategoryReplacement }
+         * </p>
          * 
          * 
+         * @return
+         *     The value of the manualCategoryReplacement property.
          */
         public List<ManualCategoryReplacement> getManualCategoryReplacement() {
             if (manualCategoryReplacement == null) {
-                manualCategoryReplacement = new ArrayList<ManualCategoryReplacement>();
+                manualCategoryReplacement = new ArrayList<>();
             }
             return this.manualCategoryReplacement;
         }
