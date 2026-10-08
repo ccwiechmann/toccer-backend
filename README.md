@@ -40,6 +40,20 @@ java -jar target/toccer-backend-0.0.1.jar \
 
 Run `--help` on the jar for the full, authoritative usage text.
 
+## Error handling
+
+The CLI distinguishes two kinds of failure:
+
+- **Command-line misuse** (unknown flag, missing required option) — Picocli
+  prints its own message, exit status **1**.
+- **Pipeline failure** (missing or unreadable input template, a page that
+  could not be fetched, an XPath that does not compile or returns malformed
+  data, pipeline steps run out of order) — a single `Error: …` line (plus the
+  underlying cause if any) is printed to stderr, exit status **2**.
+
+Shell wrappers can therefore test `$?` to tell a user input error apart from a
+run-time failure.
+
 ## How it works
 
 The pipeline runs three steps, each driven by the input configuration:
