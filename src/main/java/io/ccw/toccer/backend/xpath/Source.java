@@ -5,6 +5,13 @@ import java.nio.charset.StandardCharsets;
 
 import javax.xml.transform.stream.StreamSource;
 
+import io.ccw.toccer.backend.ToccerException;
+
+import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XdmItem;
+import net.sf.saxon.s9api.XdmNode;
+
 /**
  * An immutable, already-decoded HTML (or JSON converted to HTML) document that is
  * ready to be evaluated with XPath.
@@ -16,11 +23,21 @@ import javax.xml.transform.stream.StreamSource;
  * every call to {@link #toStreamSource()} starts from the beginning of the
  * document again.
  * </p>
+ *
+ * <p>
+ * The parsed Saxon node for a given {@link Processor} is lazily built and
+ * cached. Since a {@link Source} is immutable, this is thread-safe to use
+ * from multiple calls to {@link #getNode(Processor)}.
+ * </p>
  */
 public final class Source {
 
     private final String text;
     private final String systemId;
+
+    // Lazily built, per-Processor Saxon document cache.
+    private volatile Processor cachedProcessor;
+    private volatile XdmNode cachedNode;
 
     private Source(String text, String systemId) {
         this.text = text;
@@ -52,6 +69,34 @@ public final class Source {
             source.setSystemId(systemId);
         }
         return source;
+    }
+
+    /**
+     * Returns the Saxon {@link XdmNode} for this document, parsed through the
+     * given {@code processor}. The result is cached per {@link Processor}: a
+     * second call with the same processor returns the already-built node, so
+     * evaluating many XPaths against the same document only parses it once.
+     *
+     * @param processor the Saxon {@link Processor} to parse with
+     * @return a Saxon node for this document
+     */
+    public XdmNode getNode(final Processor processor) {
+        final XdmNode local = cachedNode;
+        if (local != null && cachedProcessor == processor) {
+            return local;
+        }
+        synchronized (this) {
+            if (cachedNode != null && cachedProcessor == processor) {
+                return cachedNode;
+            }
+            try {
+                cachedNode = processor.newDocumentBuilder().build(toStreamSource());
+            } catch (SaxonApiException e) {
+                throw new ToccerException("Failed to parse document from " + systemId, e);
+            }
+            cachedProcessor = processor;
+            return cachedNode;
+        }
     }
 
     /**

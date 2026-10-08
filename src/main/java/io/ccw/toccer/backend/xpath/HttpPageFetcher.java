@@ -17,15 +17,17 @@ import org.slf4j.LoggerFactory;
  * life).
  *
  * <p>
- * The client is created per request, which matches the previous behaviour where
- * Apache built a fresh client on every call. A 10 minute timeout is applied so
- * a hanging host cannot block the whole run.
+ * The {@link HttpClient} is created once and reused across all requests; the JDK
+ * client is thread-safe and pooling its connections is far cheaper than
+ * re-handshaking for every page. A 10 minute timeout is applied so a hanging
+ * host cannot block the whole run.
  * </p>
  */
 public final class HttpPageFetcher implements PageFetcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(HttpPageFetcher.class);
     private static final Duration TIMEOUT = Duration.ofMinutes(10);
+    private static final HttpClient CLIENT = HttpClient.newHttpClient();
 
     @Override
     public String fetch(PageRequest request) throws Exception {
@@ -44,9 +46,8 @@ public final class HttpPageFetcher implements PageFetcher {
             builder.GET();
         }
 
-        final HttpClient client = HttpClient.newHttpClient();
         LOG.debug("Fetching {} -> {}", (request.isPost() ? "POST" : "GET"), request.getUrl());
-        final HttpResponse<byte[]> response = client.send(builder.build(), BodyHandlers.ofByteArray());
+        final HttpResponse<byte[]> response = CLIENT.send(builder.build(), BodyHandlers.ofByteArray());
         return new String(response.body(), StandardCharsets.UTF_8);
     }
 

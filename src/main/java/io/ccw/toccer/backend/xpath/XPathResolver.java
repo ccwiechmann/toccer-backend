@@ -43,6 +43,8 @@ public final class XPathResolver {
 
     private static volatile PageFetcher fetcher = new HttpPageFetcher();
 
+    private static volatile Processor processor;
+
     private XPathResolver() {
     }
 
@@ -58,15 +60,27 @@ public final class XPathResolver {
     }
 
     /**
-     * Returns a new Saxon {@link Processor} wired to the TagSoup parser so that
+     * Returns the single shared Saxon {@link Processor} wired to the TagSoup parser so that
      * broken / truncated HTML documents can be loaded without exceptions.
      *
-     * @return a ready-to-use processor
+     * <p>
+     * Saxon {@link Processor} instances are expensive to build and are thread-safe,
+     * so we create exactly one per JVM and reuse it across all calls. Building one
+     * per page is pure overhead with no benefit.
+     * </p>
+     *
+     * @return the shared processor
      */
     public static Processor getProcessor() {
-        final Processor processor = new Processor(false);
-        processor
-                .setConfigurationProperty(FeatureKeys.SOURCE_PARSER_CLASS, "org.ccil.cowan.tagsoup.Parser");
+        if (processor == null) {
+            synchronized (XPathResolver.class) {
+                if (processor == null) {
+                    final Processor fresh = new Processor(false);
+                    fresh.setConfigurationProperty(FeatureKeys.SOURCE_PARSER_CLASS, "org.ccil.cowan.tagsoup.Parser");
+                    processor = fresh;
+                }
+            }
+        }
         return processor;
     }
 
@@ -165,7 +179,7 @@ public final class XPathResolver {
             compiler.setCaching(false);
             compiler.declareNamespace("html", "http://www.w3.org/1999/xhtml");
             final net.sf.saxon.s9api.XPathSelector selector = compiler.compile(xpath).load();
-            selector.setContextItem(processor.newDocumentBuilder().build(source.toStreamSource()));
+            selector.setContextItem(source.getNode(processor));
 
             final List<String> result = new ArrayList<>();
             for (final java.util.Iterator<XdmItem> it = selector.evaluate().iterator(); it.hasNext();) {

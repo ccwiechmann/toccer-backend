@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,6 +29,12 @@ import io.ccw.toccer.backend.toc.TocEntry;
 public class OdtExporter {
 
     private static final Logger LOG = LoggerFactory.getLogger(OdtExporter.class);
+
+    // Templates are small, immutable classpath resources; loading them once
+    // per JVM avoids re-reading (and re-decoding) the same bytes for every
+    // entry when rendering large tables of contents.
+    private static final Map<String, String> TEMPLATE_CACHE = new ConcurrentHashMap<>();
+    private static final Map<String, byte[]> BINARY_CACHE = new ConcurrentHashMap<>();
 
     private String filepath;
     private Map<String, List<TocEntry>> entriesByCategory;
@@ -129,16 +136,23 @@ public class OdtExporter {
 
         builderContentXml.append(getXmlFile("odt/odtSuffix.xml.template"));
 
+        final byte[] zipBytes = BINARY_CACHE.computeIfAbsent(
+                "odt/odtTemplate.zip", name -> {
+                    try (java.io.InputStream stream = OdtExporter.class.getResourceAsStream("/" + name)) {
+                        if (stream == null) {
+                            throw new IllegalStateException("Resource not found: " + name);
+                        }
+                        return stream.readAllBytes();
+                    } catch (IOException e) {
+                        throw new IllegalStateException(e);
+                    }
+                });
+
         File tempFile = null;
         try {
             tempFile = File.createTempFile("odtTemplate", "toccer");
             tempFile.deleteOnExit();
-            try (java.io.InputStream stream = getClass().getResourceAsStream("/odt/odtTemplate.zip")) {
-                if (stream == null) {
-                    throw new IllegalStateException("Resource not found: odt/odtTemplate.zip");
-                }
-                Files.copy(stream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
+            Files.write(tempFile.toPath(), zipBytes);
         } catch (IOException e1) {
             throw new IllegalStateException(e1);
         }
@@ -175,7 +189,11 @@ public class OdtExporter {
     }
 
     private String getXmlFile(String xmlFile) {
-        try (java.io.InputStream stream = getClass().getResourceAsStream("/" + xmlFile)) {
+        return TEMPLATE_CACHE.computeIfAbsent(xmlFile, OdtExporter::readXmlFile);
+    }
+
+    private static String readXmlFile(String xmlFile) {
+        try (java.io.InputStream stream = OdtExporter.class.getResourceAsStream("/" + xmlFile)) {
             if (stream == null) {
                 throw new IllegalStateException("Resource not found: " + xmlFile);
             }
