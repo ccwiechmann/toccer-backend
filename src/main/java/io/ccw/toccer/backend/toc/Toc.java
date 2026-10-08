@@ -8,12 +8,14 @@ import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.ccw.toccer.backend.ToccerException;
 import io.ccw.toccer.backend.xpath.Source;
 
 import org.apache.commons.lang3.StringUtils;
 
 import io.ccw.toccer.backend.configuration.XmlConfigurationReader;
 import io.ccw.toccer.backend.configuration.XmlConfigurationReader.XpathResolvableResult;
+import io.ccw.toccer.backend.generated.MultiDataOnOnePageCountStrategy;
 import io.ccw.toccer.backend.generated.XPathExpression;
 import io.ccw.toccer.backend.odt.OdtExporter;
 import io.ccw.toccer.backend.xpath.XPathResolver;
@@ -51,7 +53,7 @@ public final class Toc {
      */
     public Toc loadFinalSites() {
         if (settings == null) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("loadFinalSites() was called before a ToccerSettings was bound");
         }
         reader = new XmlConfigurationReader(settings);
         this.finalPages = reader.getFinalSites();
@@ -66,19 +68,28 @@ public final class Toc {
      */
     public Toc generateTocEntries() {
         if (finalPages == null) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("generateTocEntries() was called before loadFinalSites()");
         }
 
         int currentEntryNo = 0;
         final List<TocEntry> newEntries = new ArrayList<>();
+        final MultiDataOnOnePageCountStrategy multi = reader.getMultiDataOnOnePageCountStrategy();
         for (final XpathResolvableResult page : finalPages) {
             final Map<String, String> xPathResultCache = page.getxPathResultCache();
             final Processor processor = XPathResolver.getProcessor();
-            final Source source;
 
-            source = XPathResolver.fetchSource(page.getResolvableResult(),
-                    reader.getStrategy().isJson() == null ? false : reader.getStrategy().isJson(), page.getHeaders(),
-                    reader.getStrategy().isPost() == null ? false : reader.getStrategy().isPost(), page.getContent());
+            // The active strategy is either the generic one stored on the reader
+            // or the MultiData strategy (both extend Strategy). reader.getStrategy()
+            // is null for MultiData configs, so we need both.
+            final io.ccw.toccer.backend.generated.Strategy activeStrategy = reader.getStrategy() != null
+                    ? reader.getStrategy()
+                    : (reader.getMultiDataOnOnePageCountStrategy() != null
+                            ? reader.getMultiDataOnOnePageCountStrategy()
+                            : null);
+            final boolean isJson = activeStrategy != null && Boolean.TRUE.equals(activeStrategy.isJson());
+            final boolean isPost = activeStrategy != null && Boolean.TRUE.equals(activeStrategy.isPost());
+            final Source source = XPathResolver.fetchSource(page.getResolvableResult(), isJson, page.getHeaders(),
+                    isPost, page.getContent());
 
             final List<String> volumes = new ArrayList<>();
             final List<String> categories = new ArrayList<>();
@@ -86,7 +97,7 @@ public final class Toc {
             final List<String> authors = new ArrayList<>();
             final List<String> titles = new ArrayList<>();
             final List<String> pages = new ArrayList<>();
-            if (reader.getMultiDataOnOnePageCountStrategy() == null) {
+            if (multi == null) {
                 resolveAndAddToListNoEmptyResult(settings.getAuthorXpath(), processor, source, xPathResultCache,
                         authors);
                 resolveAndAddToListNoEmptyResult(settings.getTitleXpath(), processor, source, xPathResultCache, titles);
@@ -96,8 +107,10 @@ public final class Toc {
                 resolveAndAddToListNoEmptyResult(settings.getCategoryXpath(), processor, source, xPathResultCache,
                         categories);
             } else {
+                final boolean categoryForEachEntry = Boolean.TRUE.equals(multi.isCategoryForEachEntry());
+                final boolean titleForEachEntry = Boolean.TRUE.equals(multi.isTitleForEachEntry());
                 final int count = Integer.parseInt(XPathResolver
-                        .resolveXPath(processor, source, reader.getMultiDataOnOnePageCountStrategy().getMaxXpath())
+                        .resolveXPath(processor, source, multi.getMaxXpath())
                         .get(0));
                 final String volume;
                 if (settings.getVolumeXpath() == null) {
@@ -115,9 +128,7 @@ public final class Toc {
                 }
                 String category = null;
 
-                if ((reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry() == null
-                        || !reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry())
-                        && !settings.getCategoryXpath().getValue().contains("{0}")) {
+                if (!categoryForEachEntry && !settings.getCategoryXpath().getValue().contains("{0}")) {
                     final String categoryReplacement = replaceFromCachedExpression(xPathResultCache,
                             settings.getCategoryXpath().getValue());
                     if (settings.getCategoryXpath().isOnlyHandleAsReplacement()) {
@@ -127,15 +138,12 @@ public final class Toc {
                     }
                 }
 
-                if ((reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry() == null
-                        || !reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry())
-                        && !settings.getTitleXpath().getValue().contains("{0}")) {
+                if (!titleForEachEntry && !settings.getTitleXpath().getValue().contains("{0}")) {
                     resolveAndAddToList(settings.getTitleXpath(), 1, processor, source, xPathResultCache, titles);
                 }
 
                 for (int i = 1; i <= count; i++) {
-                    if (reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry() != null
-                            && reader.getMultiDataOnOnePageCountStrategy().isTitleForEachEntry()) {
+                    if (titleForEachEntry) {
                         resolveAndAddToList(settings.getTitleXpath(), i, processor, source, xPathResultCache, titles);
                     }
                     resolveAndAddToList(settings.getAuthorXpath(), i, processor, source, xPathResultCache, authors);
@@ -149,7 +157,7 @@ public final class Toc {
                                     volumes);
                         }
                     }
-                    if (reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
+                    if (categoryForEachEntry) {
                         category = XPathResolver
                                 .resolveXPath(processor, source, replaceFromCachedExpression(xPathResultCache,
                                         settings.getCategoryXpath().getValue().replace("{0}", Integer.toString(i))))
@@ -164,10 +172,16 @@ public final class Toc {
                 }
             }
 
-            if (authors.size() != titles.size() || (authors.size() != pages.size() && settings.getPageXpath() != null)
+            if (authors.size() != titles.size()
+                    || (authors.size() != pages.size() && settings.getPageXpath() != null)
                     || (authors.size() != volumes.size() && settings.getVolumeXpath() != null)
                     || authors.size() != categories.size()) {
-                throw new IllegalStateException();
+                throw new ToccerException(String.format(
+                        "Inconsistent XPath result sizes for page '%s': authors=%d, titles=%d, pages=%d, volumes=%d, "
+                                + "categories=%d. Check that the configured XPath expressions resolve the same number"
+                                + " of elements.",
+                        page.getResolvableResult(), authors.size(), titles.size(), pages.size(), volumes.size(),
+                        categories.size()));
             }
 
             for (int i = 0; i < volumes.size(); i++) {
@@ -242,6 +256,16 @@ public final class Toc {
     }
 
     /**
+     * Returns the entries generated by the last call to
+     * {@link #generateTocEntries()}, or {@code null} if it has not been run yet.
+     *
+     * @return the current list of entries, or {@code null}
+     */
+    public List<TocEntry> getEntries() {
+        return entries;
+    }
+
+    /**
      * Writes the previously generated entries to an ODT file at the output
      * location configured in {@link ToccerSettings}.
      *
@@ -252,13 +276,16 @@ public final class Toc {
         for (final TocEntry entry : entries) {
             final String category = entry.getCategoryForXml();
             if (reader.getMultiDataOnOnePageCountStrategy() == null
-                    || reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry()) {
+                    || Boolean.TRUE.equals(reader.getMultiDataOnOnePageCountStrategy().isCategoryForEachEntry())) {
                 entriesByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(entry);
             } else {
                 final List<TocEntry> existing = entriesByCategory.get(category);
+                final String volumeOfNewEntry = entry.getVolumeForXml();
                 if (existing != null && !existing.isEmpty()
-                        && !existing.get(0).getVolumeForXml().equals(entry.getVolumeForXml())) {
-                    entriesByCategory.computeIfAbsent(category + entry.getVolumeForXml(), k -> new ArrayList<>())
+                        && !java.util.Objects.equals(existing.get(0).getVolumeForXml(), volumeOfNewEntry)) {
+                    entriesByCategory
+                            .computeIfAbsent(category + java.util.Objects.toString(volumeOfNewEntry, ""),
+                                    k -> new ArrayList<>())
                             .add(entry);
                     continue;
                 }

@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.ccw.toccer.backend.ToccerException;
+
 import net.sf.saxon.lib.FeatureKeys;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.SaxonApiException;
@@ -91,7 +93,7 @@ public final class XPathResolver {
         try {
             body = fetcher.fetch(request);
         } catch (final Exception e) {
-            throw new IllegalStateException("Could not fetch " + request, e);
+            throw new ToccerException("Could not fetch " + request.getUrl() + ": " + e.getMessage(), e);
         }
 
         final String document = isJson
@@ -178,7 +180,7 @@ public final class XPathResolver {
             }
             return result;
         } catch (final SaxonApiException e) {
-            throw new IllegalStateException("XPath evaluation failed for: " + xpath, e);
+            throw new ToccerException("XPath evaluation failed for: " + xpath, e);
         }
     }
 

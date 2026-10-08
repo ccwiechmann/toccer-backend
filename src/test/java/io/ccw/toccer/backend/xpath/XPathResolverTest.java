@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import io.ccw.toccer.backend.ToccerException;
 import net.sf.saxon.s9api.Processor;
 
 class XPathResolverTest {
@@ -50,7 +51,7 @@ class XPathResolverTest {
         XPathResolver.setFetcher(PageRequest -> {
             throw new RuntimeException("boom");
         });
-        assertThrows(IllegalStateException.class,
+        assertThrows(ToccerException.class,
                 () -> XPathResolver.fetchSource(new PageRequest("http://example.org", false, null, null), false));
     }
 
@@ -94,7 +95,7 @@ class XPathResolverTest {
     @Test
     void invalidXPathThrowsIllegalState() {
         final Source source = Source.of("<html><body/></html>", null);
-        assertThrows(IllegalStateException.class, () -> XPathResolver.resolveXPath(PROCESSOR, source, "this is not [ xpath"));
+        assertThrows(ToccerException.class, () -> XPathResolver.resolveXPath(PROCESSOR, source, "this is not [ xpath"));
     }
 
     // ------------------------------------------------------------------ Fixture

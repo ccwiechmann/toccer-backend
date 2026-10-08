@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.ccw.toccer.backend.ToccerException;
+
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -78,7 +80,7 @@ public class XmlConfigurationReader {
 
         final java.nio.file.Path configPath = java.nio.file.Paths.get(settings.getInputTemplate());
         if (!java.nio.file.Files.isRegularFile(configPath)) {
-            throw new IllegalArgumentException("Input template not found or not a regular file: " + configPath);
+            throw new ToccerException("Input template not found or not a regular file: " + configPath);
         }
 
         try (java.io.InputStream xmlContent = java.nio.file.Files.newInputStream(configPath)) {
@@ -123,7 +125,7 @@ public class XmlConfigurationReader {
 
             results.addAll(parseDefinedXpathReplacements(configuration.getXpath(), result, xPathResultCache));
         } catch (JAXBException | SAXException | NumberFormatException | XPathExpressionException | IOException e) {
-            throw new IllegalStateException(e);
+            throw new ToccerException("Failed to load or validate the input template: " + configPath, e);
         }
 
         return results;

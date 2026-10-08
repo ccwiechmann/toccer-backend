@@ -25,7 +25,28 @@ public final class ToccerMain {
      */
     public static void main(String[] args) {
         final ToccerSettings settings = parseArguments(args);
-        Toc.create(settings).loadFinalSites().generateTocEntries().exportToOdt();
+        try {
+            Toc.create(settings).loadFinalSites().generateTocEntries().exportToOdt();
+        } catch (final ToccerException | IllegalStateException error) {
+            // Expected, input-caused failures (bad or missing config, fetch
+            // errors, inconsistent XPath results, pipeline steps out of order)
+            // and state violations. Printed as a clean one-liner with a distinct
+            // exit status (2) so shell callers can distinguish them from
+            // command-line misuse (exit status 1). The underlying cause, if any,
+            // is shown on the following line.
+            System.err.println("Error: " + error.getMessage());
+            if (error.getCause() != null) {
+                System.err.println("Caused by: " + error.getCause());
+            }
+            System.err.println("See the README for the expected input format. Use --help for usage.");
+            System.exit(2);
+        } catch (final Exception error) {
+            // Truly unexpected failure (a bug or a library error we did not
+            // handle): keep the full stack trace for diagnosis.
+            System.err.println("Error: " + error.getMessage());
+            error.printStackTrace();
+            System.exit(2);
+        }
     }
 
     /**
