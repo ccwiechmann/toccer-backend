@@ -272,6 +272,9 @@ public final class Toc {
      * @return the same pipeline for fluent use
      */
     public Toc exportToOdt() {
+        if (entries == null) {
+            throw new IllegalStateException("exportToOdt() was called before generateTocEntries()");
+        }
         final Map<String, List<TocEntry>> entriesByCategory = new LinkedHashMap<>();
         for (final TocEntry entry : entries) {
             final String category = entry.getCategoryForXml();

@@ -114,25 +114,69 @@ public class TocEntry implements Comparable<TocEntry> {
         return builder.toString();
     }
 
+    /**
+     * Orders entries for stable output: volume first (when both are known),
+     * then page (numeric-aware, entries without a page last), then title, then
+     * the unique id. The id tiebreak makes the ordering total, so two distinct
+     * entries never compare as equal and {@link java.util.Collections#sort}
+     * yields a fully deterministic result.
+     *
+     * @param o the entry to compare against
+     * @return a value &lt; 0, 0 or &gt; 0 as this entry is less than, equal to
+     *         or greater than {@code o}
+     */
     @Override
     public int compareTo(TocEntry o) {
-        if (this.volume != null && o.volume != null && compareVolumes(o) != 0) {
-            return compareVolumes(o);
-        } else if (this.page == null && o.page != null) {
-            return 1;
-        } else if (this.page != null && o.page == null) {
-            return -1;
-        } else if (this.page == null && o.page == null) {
-            return 0;
-        } else if (StringUtils.isNumeric(this.page) && !StringUtils.isNumeric(o.page)) {
-            return -1;
-        } else if (!StringUtils.isNumeric(this.page) && StringUtils.isNumeric(o.page)) {
-            return 1;
-        } else if (StringUtils.isNumeric(this.page) && StringUtils.isNumeric(o.page)) {
-            return Integer.valueOf(this.page).compareTo(Integer.valueOf(o.page));
-        } else {
-            return this.page.compareTo(o.page);
+        // 1) Volume (only when both entries carry one)
+        if (this.volume != null && o.volume != null) {
+            final int volumeComparison = compareVolumes(o);
+            if (volumeComparison != 0) {
+                return volumeComparison;
+            }
         }
+        // 2) Page (numeric-aware; an entry without a page sorts last)
+        if (this.page != null || o.page != null) {
+            if (this.page == null) {
+                return 1;
+            }
+            if (o.page == null) {
+                return -1;
+            }
+            final int pageComparison = comparePages(this.page, o.page);
+            if (pageComparison != 0) {
+                return pageComparison;
+            }
+        }
+        // 3) Title (an entry without a title sorts last)
+        if (this.title != null || o.title != null) {
+            if (this.title == null) {
+                return 1;
+            }
+            if (o.title == null) {
+                return -1;
+            }
+            final int titleComparison = this.title.compareTo(o.title);
+            if (titleComparison != 0) {
+                return titleComparison;
+            }
+        }
+        // 4) Id (unique within a TOC -> total order)
+        return Integer.compare(this.id, o.id);
+    }
+
+    private static int comparePages(String page1, String page2) {
+        final boolean numeric1 = StringUtils.isNumeric(page1);
+        final boolean numeric2 = StringUtils.isNumeric(page2);
+        if (numeric1 && numeric2) {
+            return Integer.valueOf(page1).compareTo(Integer.valueOf(page2));
+        }
+        if (numeric1) {
+            return -1;
+        }
+        if (numeric2) {
+            return 1;
+        }
+        return page1.compareTo(page2);
     }
 
     private int compareVolumes(TocEntry o) {

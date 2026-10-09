@@ -89,7 +89,7 @@ public class XmlConfigurationReader {
 
             try (java.io.InputStream xsdStream = getClass().getResourceAsStream("/inputSchema.xsd")) {
                 if (xsdStream == null) {
-                    throw new IllegalStateException("Resource not found: inputSchema.xsd");
+                    throw new ToccerException("Input schema resource not found on classpath: inputSchema.xsd");
                 }
                 final byte[] xsdBytes = xsdStream.readAllBytes();
                 unmarshaller.setSchema(
@@ -164,7 +164,8 @@ public class XmlConfigurationReader {
                 resultingPages.add(result);
             } else {
                 final String content = result.content != null
-                        ? XPathResolver.resolveXPath(processor, source, result.content, false).get(0)
+                        ? singleValue(processor, source, result.content, false,
+                                "resolving POST content for " + site.resolvableResult)
                         : null;
                 final List<String> partialResults = XPathResolver.resolveXPath(processor, source,
                         result.resolvableResult);
@@ -186,7 +187,9 @@ public class XmlConfigurationReader {
         final CachedXpathResult cachedXpathResult = xpath.getCachedXpathResult();
         if (cachedXpathResult != null) {
             xPathResultCache.put(cachedXpathResult.getName(),
-                    XPathResolver.resolveXPath(processor, source, cachedXpathResult.getXpath()).get(0));
+                    singleValue(processor, source, cachedXpathResult.getXpath(), true,
+                            "resolving cached XPath result '" + cachedXpathResult.getName() + "' for "
+                                    + site.resolvableResult));
 
             resultingPages.forEach(resultingPage -> resultingPage.xPathResultCache = xPathResultCache);
         }
@@ -200,6 +203,27 @@ public class XmlConfigurationReader {
             }
             return leafPages;
         }
+    }
+
+    /**
+     * Resolves an XPath expression that is expected to yield exactly one value
+     * and returns that value, throwing a descriptive {@link ToccerException}
+     * when the expression matched nothing (or more) than a single result.
+     *
+     * @param processor the shared Saxon processor
+     * @param source the document to query
+     * @param xpath the expression to evaluate
+     * @param escapeResults whether the value should be escaped
+     * @param context human-readable context for the error message
+     * @return the single matched value (possibly empty)
+     */
+    private static String singleValue(Processor processor, Source source, String xpath, boolean escapeResults,
+            String context) {
+        final List<String> values = XPathResolver.resolveXPath(processor, source, xpath, escapeResults);
+        if (values.isEmpty()) {
+            throw new ToccerException("XPath expression matched no result " + context + ": " + xpath);
+        }
+        return values.get(0);
     }
 
     private List<XpathResolvableResult> handleXpathNumberStrategy(Xpath xpath) {
@@ -246,7 +270,9 @@ public class XmlConfigurationReader {
 
         final String expression = xpath.getExpressionWithReplaces();
         final CountStrategy strategy = (CountStrategy) xpath.getStrategy();
-        final int count = Integer.valueOf(XPathResolver.resolveXPath(processor, source, strategy.getXpath()).get(0));
+        final int count = Integer.valueOf(
+                singleValue(processor, source, strategy.getXpath(), true,
+                        "counting items for " + site));
         for (int i = 1; i <= count; i++) {
             final XpathResolvableResult result = new XpathResolvableResult();
             result.resolvableResult = expression.replace("{0}", Integer.toString(i));

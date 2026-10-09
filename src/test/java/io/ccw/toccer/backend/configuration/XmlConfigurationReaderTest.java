@@ -160,6 +160,28 @@ class XmlConfigurationReaderTest {
     }
 
     @Test
+    void cachedXpathResultWithoutMatchThrowsToccerException() throws Exception {
+        final Path config = writeConfig("""
+                <tns:xpath>
+                    <tns:expressionWithReplaces>//html:ul[@id='links']/html:li[{0}]/html:a/@href</tns:expressionWithReplaces>
+                    <tns:strategy xsi:type="tns:numberStrategy">
+                        <tns:from>1</tns:from>
+                        <tns:to>1</tns:to>
+                    </tns:strategy>
+                    <tns:cachedXpathResult>
+                        <tns:name>nonexistent</tns:name>
+                        <tns:xpath>//html:div[@class='this-does-not-exist']</tns:xpath>
+                    </tns:cachedXpathResult>
+                </tns:xpath>
+                """);
+        pointSettingsTo(config);
+        final XmlConfigurationReader reader = new XmlConfigurationReader(settings);
+        org.junit.jupiter.api.Assertions.assertThrows(io.ccw.toccer.backend.ToccerException.class,
+                reader::getFinalSites,
+                "a cachedXpathResult that matches nothing should surface a ToccerException, not an IndexOutOfBoundsException");
+    }
+
+    @Test
     void categoryReplacementMatchesOnTitleBeforeVolume() throws Exception {
         pointSettingsTo(writeConfig("""
                 <tns:xpath>

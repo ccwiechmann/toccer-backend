@@ -94,6 +94,21 @@ class TocTest {
     }
 
     @Test
+    void exportToOdtBeforeGenerateThrowsIllegalState() throws Exception {
+        pointTo(config("""
+                <tns:xpath>
+                    <tns:strategy xsi:type="tns:multiDataOnOnePageCountStrategy">
+                        <tns:maxXpath>count(//html:h1)</tns:maxXpath>
+                        <tns:titleForEachEntry>true</tns:titleForEachEntry>
+                    </tns:strategy>
+                </tns:xpath>
+                """));
+        final Toc toc = Toc.create(settings).loadFinalSites();
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalStateException.class, toc::exportToOdt,
+                "exportToOdt() before generateTocEntries() must throw IllegalStateException, not NPE");
+    }
+
+    @Test
     void sizeMismatchThrowsInformativeError() throws Exception {
         // 2 titles vs 1 author on the same page -> sizes disagree -> ToccerException.
         XPathResolver.setFetcher(request -> "<html><head></head><body>"

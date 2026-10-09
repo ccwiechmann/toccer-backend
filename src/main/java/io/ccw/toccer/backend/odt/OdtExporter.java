@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.ccw.toccer.backend.ToccerException;
 import io.ccw.toccer.backend.toc.TocEntry;
 
 public class OdtExporter {
@@ -80,15 +81,25 @@ public class OdtExporter {
                 public int compare(String o1, String o2) {
                     final TocEntry entry1 = entriesByCategory.get(o1).iterator().next();
                     final TocEntry entry2 = entriesByCategory.get(o2).iterator().next();
-                    if (entry1.getVolumeForXml() == null || entry2.getVolumeForXml() == null) {
+                    final String volume1 = entry1.getVolumeForXml();
+                    final String volume2 = entry2.getVolumeForXml();
+                    // Fall back to the entry id if either category has no volume.
+                    if (volume1 == null || volume2 == null) {
                         return entry1.getId().compareTo(entry2.getId());
                     }
-                    try {
-                        return Integer.valueOf(entry1.getVolumeForXml())
-                                .compareTo(Integer.valueOf(entry2.getVolumeForXml()));
-                    } catch (NumberFormatException e) {
-                        return 0;
+                    // Numeric volumes sort numerically, everything else as string.
+                    final boolean numeric1 = StringUtils.isNumeric(volume1);
+                    final boolean numeric2 = StringUtils.isNumeric(volume2);
+                    if (numeric1 && numeric2) {
+                        return Integer.valueOf(volume1).compareTo(Integer.valueOf(volume2));
                     }
+                    if (numeric1) {
+                        return -1;
+                    }
+                    if (numeric2) {
+                        return 1;
+                    }
+                    return volume1.compareTo(volume2);
                 }
             });
         }
@@ -140,11 +151,11 @@ public class OdtExporter {
                 "odt/odtTemplate.zip", name -> {
                     try (java.io.InputStream stream = OdtExporter.class.getResourceAsStream("/" + name)) {
                         if (stream == null) {
-                            throw new IllegalStateException("Resource not found: " + name);
+                            throw new ToccerException("ODT template resource not found on classpath: " + name);
                         }
                         return stream.readAllBytes();
                     } catch (IOException e) {
-                        throw new IllegalStateException(e);
+                        throw new ToccerException("Could not read ODT template resource: " + name, e);
                     }
                 });
 
@@ -154,7 +165,8 @@ public class OdtExporter {
             tempFile.deleteOnExit();
             Files.write(tempFile.toPath(), zipBytes);
         } catch (IOException e1) {
-            throw new IllegalStateException(e1);
+            throw new ToccerException("Could not write the ODT template to a temporary file: "
+                    + e1.getMessage(), e1);
         }
 
         final String stylesXml = getXmlFile("odt/styles.xml.template")
@@ -177,14 +189,15 @@ public class OdtExporter {
             }
 
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new ToccerException("Could not update content inside the ODT document: " + e.getMessage(), e);
         }
         final Path target = Paths.get(filepath);
         try {
             Files.deleteIfExists(target);
             Files.copy(Paths.get(tempFile.getAbsolutePath()), target, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new ToccerException("Could not write the ODT output file: " + target + " (" + e.getMessage() + ")",
+                    e);
         }
     }
 
@@ -195,12 +208,12 @@ public class OdtExporter {
     private static String readXmlFile(String xmlFile) {
         try (java.io.InputStream stream = OdtExporter.class.getResourceAsStream("/" + xmlFile)) {
             if (stream == null) {
-                throw new IllegalStateException("Resource not found: " + xmlFile);
+                throw new ToccerException("ODT template resource not found on classpath: " + xmlFile);
             }
             final byte[] encoded = stream.readAllBytes();
             return new String(encoded, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new ToccerException("Could not read ODT template resource: " + xmlFile, e);
         }
     }
 }
