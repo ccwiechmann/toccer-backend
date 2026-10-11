@@ -18,8 +18,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    # Least-privilege token: checkout needs read on the repo, and the Maven
+    # dependency-graph submission action writes to the security-events store.
+    # No `write` on the repository contents, otherwise a compromised runner
+    # could push to the default branch.
     permissions:
-      contents: write
+      contents: read
+      security-events: write
 
     steps:
     - uses: actions/checkout@v4
