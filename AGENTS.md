@@ -14,5 +14,5 @@ Java 25 + Maven CLI tool: extracts tables of contents from websites via XML conf
 
 - `src/main/generated/` is JAXB code **checked in**, generated from `inputSchema.xsd`. Not part of the default Maven layout (added via build-helper plugin).
 - To regenerate after a schema change: `mvn exec:exec` (manual only; deliberately not lifecycle-bound, so `mvn package` never rewrites these files). Commit the regenerated files.
-- Compiler plugin forks to `/usr/bin/javac` on purpose — an in-process javac bug reports release 25 as "not supported". Don't remove `<fork>`/`<executable>`.
+- Compiler plugin forks to `javac` (resolved via `PATH`) on purpose — the in-process compiler reports the Java 25 release target as "not supported". Don't remove `<fork>`/`<executable>`; and don't hard-code an absolute `javac` path (this host is a JRE, `java.home` has no `bin/javac`). Resolve it from `PATH` so it works locally and in CI.
 - ODT output is rendered from templates in `src/main/resources/odt/`.

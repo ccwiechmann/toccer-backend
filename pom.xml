@@ -96,16 +96,17 @@
 
 	<build>
 		<plugins>
-			<!-- Java 25 LTS as target. Forcing the JDK-25 javac in a separate process
-			     avoids an in-process bug where the release 25 target is reported
-			     as "not supported" on this JDK build. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.16.0</version>
 				<configuration>
+					<!-- Forking to the host javac is required: the in-process
+					     compiler reports the Java 25 release target as "not supported".
+					     Resolving `javac` through PATH (instead of hard-coding an absolute
+					     path) keeps the build working both on this host and in CI. -->
 					<fork>true</fork>
-					<executable>${java.home}/bin/javac</executable>
+					<executable>javac</executable>
 					<compilerArgs>
 						<arg>-Xlint:none</arg>
 					</compilerArgs>
