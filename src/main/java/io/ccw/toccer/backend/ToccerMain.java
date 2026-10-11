@@ -1,7 +1,7 @@
 package io.ccw.toccer.backend;
 
+import io.ccw.toccer.backend.model.ToccerSettings;
 import io.ccw.toccer.backend.toc.Toc;
-import io.ccw.toccer.backend.toc.ToccerSettings;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 

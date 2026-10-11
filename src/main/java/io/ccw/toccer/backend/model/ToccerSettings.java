@@ -1,4 +1,4 @@
-package io.ccw.toccer.backend.toc;
+package io.ccw.toccer.backend.model;
 
 import io.ccw.toccer.backend.generated.XPathExpression;
 import picocli.CommandLine.Option;

@@ -21,8 +21,16 @@ OpenDocument Text (`.odt`) file.
 mvn package
 ```
 
-This compiles the sources, runs the tests and the Checkstyle checks, and
-produces an executable jar at `target/toccer-backend-0.0.1.jar`.
+This compiles the sources, runs the tests (including the ArchUnit
+architecture rules) and produces an executable fat-jar at
+`target/toccer-backend-0.0.1.jar`.
+
+To also run the Checkstyle style gate before the jar is produced, use the
+full verification lifecycle:
+
+```sh
+mvn verify
+```
 
 ## Usage
 
@@ -133,6 +141,15 @@ expressions.
 
   ```sh
   mvn test
+  ```
+
+- **Architecture tests** — ArchUnit rules in `src/test/java/io/ccw/toccer/backend/qa/`
+  enforce a cycle-free, one-directional package layout (`model` is the leaf
+  layer that the feature packages `xpath` / `odt` / `configuration` build on,
+  which in turn feed the `toc` pipeline). They run as part of `mvn test`:
+
+  ```sh
+  mvn test -Dtest=ArchitectureTest
   ```
 
 - **JAXB generation** — the classes in `src/main/generated` are generated from

@@ -4,10 +4,11 @@ Java 25 + Maven CLI tool: extracts tables of contents from websites via XML conf
 
 ## Commands
 
-- `mvn package` — compile + tests + Checkstyle + jar at `target/toccer-backend-0.0.1.jar`
-- `mvn test` — JUnit (junit-jupiter 6); **no network** — tests install a fake `PageFetcher`
+- `mvn test` — JUnit 6 (Jupiter), **no network** — tests install a fake `PageFetcher`. Includes the ArchUnit architecture rules in `src/test/java/io/ccw/toccer/backend/qa/`.
+- `mvn package` — compile + tests + fat-jar at `target/toccer-backend-0.0.1.jar`. **Does not** run Checkstyle (bound to `verify` below).
+- `mvn verify` — `mvn package` **plus** the Checkstyle check. This is the CI-equivalent command; use it to validate a change end-to-end.
 - Single test: `mvn test -Dtest=XPathResolverTest#testName`
-- Style: `mvn checkstyle:check` — Sun rules at `warning` severity, failures fail the build; suppressions in `config/checkstyle-suppressions.xml`
+- Checkstyle only: `mvn checkstyle:check` — Sun ruleset at `warning` severity (every `warning` fails the build). Suppressions in `config/checkstyle-suppressions.xml`.
 
 ## Gotchas
 

@@ -17,6 +17,8 @@ import io.ccw.toccer.backend.configuration.XmlConfigurationReader;
 import io.ccw.toccer.backend.configuration.XmlConfigurationReader.XpathResolvableResult;
 import io.ccw.toccer.backend.generated.MultiDataOnOnePageCountStrategy;
 import io.ccw.toccer.backend.generated.XPathExpression;
+import io.ccw.toccer.backend.model.TocEntry;
+import io.ccw.toccer.backend.model.ToccerSettings;
 import io.ccw.toccer.backend.odt.OdtExporter;
 import io.ccw.toccer.backend.xpath.XPathResolver;
 import net.sf.saxon.s9api.Processor;
@@ -91,124 +93,40 @@ public final class Toc {
             final Source source = XPathResolver.fetchSource(page.getResolvableResult(), isJson, page.getHeaders(),
                     isPost, page.getContent());
 
-            final List<String> volumes = new ArrayList<>();
-            final List<String> categories = new ArrayList<>();
-
-            final List<String> authors = new ArrayList<>();
-            final List<String> titles = new ArrayList<>();
-            final List<String> pages = new ArrayList<>();
+            final FieldValues fields = new FieldValues();
             if (multi == null) {
-                resolveAndAddToListNoEmptyResult(settings.getAuthorXpath(), processor, source, xPathResultCache,
-                        authors);
-                resolveAndAddToListNoEmptyResult(settings.getTitleXpath(), processor, source, xPathResultCache, titles);
-                resolveAndAddToListNoEmptyResult(settings.getPageXpath(), processor, source, xPathResultCache, pages);
-                resolveAndAddToListNoEmptyResult(settings.getVolumeXpath(), processor, source, xPathResultCache,
-                        volumes);
-                resolveAndAddToListNoEmptyResult(settings.getCategoryXpath(), processor, source, xPathResultCache,
-                        categories);
+                resolveSingleDataEntries(processor, source, xPathResultCache, fields);
             } else {
-                final boolean categoryForEachEntry = Boolean.TRUE.equals(multi.isCategoryForEachEntry());
-                final boolean titleForEachEntry = Boolean.TRUE.equals(multi.isTitleForEachEntry());
-                final int count = Integer.parseInt(XPathResolver
-                        .resolveXPath(processor, source, multi.getMaxXpath())
-                        .get(0));
-                final String volume;
-                if (settings.getVolumeXpath() == null) {
-                    volume = null;
-                } else if (!settings.getVolumeXpath().getValue().contains("{0}")) {
-                    final String volumeReplacement = replaceFromCachedExpression(xPathResultCache,
-                            settings.getVolumeXpath().getValue());
-                    if (settings.getVolumeXpath().isOnlyHandleAsReplacement()) {
-                        volume = replaceFromCachedExpression(xPathResultCache, volumeReplacement);
-                    } else {
-                        volume = XPathResolver.resolveXPath(processor, source, volumeReplacement).get(0);
-                    }
-                } else {
-                    volume = null;
-                }
-                String category = null;
-
-                if (!categoryForEachEntry && !settings.getCategoryXpath().getValue().contains("{0}")) {
-                    final String categoryReplacement = replaceFromCachedExpression(xPathResultCache,
-                            settings.getCategoryXpath().getValue());
-                    if (settings.getCategoryXpath().isOnlyHandleAsReplacement()) {
-                        category = replaceFromCachedExpression(xPathResultCache, categoryReplacement);
-                    } else {
-                        category = XPathResolver.resolveXPath(processor, source, categoryReplacement).get(0);
-                    }
-                }
-
-                if (!titleForEachEntry && !settings.getTitleXpath().getValue().contains("{0}")) {
-                    resolveAndAddToList(settings.getTitleXpath(), 1, processor, source, xPathResultCache, titles);
-                }
-
-                for (int i = 1; i <= count; i++) {
-                    if (titleForEachEntry) {
-                        resolveAndAddToList(settings.getTitleXpath(), i, processor, source, xPathResultCache, titles);
-                    }
-                    resolveAndAddToList(settings.getAuthorXpath(), i, processor, source, xPathResultCache, authors);
-                    resolveAndAddToList(settings.getPageXpath(), i, processor, source, xPathResultCache, pages);
-
-                    if (settings.getVolumeXpath() != null) {
-                        if (!settings.getVolumeXpath().getValue().contains("{0}")) {
-                            volumes.add(volume);
-                        } else {
-                            resolveAndAddToList(settings.getVolumeXpath(), i, processor, source, xPathResultCache,
-                                    volumes);
-                        }
-                    }
-                    if (categoryForEachEntry) {
-                        category = XPathResolver
-                                .resolveXPath(processor, source, replaceFromCachedExpression(xPathResultCache,
-                                        settings.getCategoryXpath().getValue().replace("{0}", Integer.toString(i))))
-                                .get(0);
-                        categories.add(category);
-                    } else if (settings.getCategoryXpath().getValue().contains("{0}")) {
-                        resolveAndAddToList(settings.getCategoryXpath(), i, processor, source, xPathResultCache,
-                                categories);
-                    } else {
-                        categories.add(category);
-                    }
-                }
+                resolveMultiDataEntries(multi, processor, source, xPathResultCache, fields);
             }
 
-            if (authors.size() != titles.size()
-                    || (authors.size() != pages.size() && settings.getPageXpath() != null)
-                    || (authors.size() != volumes.size() && settings.getVolumeXpath() != null)
-                    || authors.size() != categories.size()) {
-                throw new ToccerException(String.format(
-                        "Inconsistent XPath result sizes for page '%s': authors=%d, titles=%d, pages=%d, volumes=%d, "
-                                + "categories=%d. Check that the configured XPath expressions resolve the same number"
-                                + " of elements.",
-                        page.getResolvableResult(), authors.size(), titles.size(), pages.size(), volumes.size(),
-                        categories.size()));
+            assertConsistentSizes(page, fields);
+
+            for (int i = 0; i < fields.volumes.size(); i++) {
+                fields.volumes.set(i, reader.getVolumeReplacement(fields.volumes.get(i)));
             }
 
-            for (int i = 0; i < volumes.size(); i++) {
-                volumes.set(i, reader.getVolumeReplacement(volumes.get(i)));
-            }
-
-            for (int i = 0; i < titles.size(); i++) {
-                final String category = categories.get(i);
+            for (int i = 0; i < fields.titles.size(); i++) {
+                final String category = fields.categories.get(i);
                 if (StringUtils.isEmpty(category)) {
-                    final String title = titles.get(i);
-                    final String volume = volumes.get(i);
-                    categories.set(i, reader.getCategoryReplacementIfAvailable(category, title, volume));
+                    final String title = fields.titles.get(i);
+                    final String volume = fields.volumes.get(i);
+                    fields.categories.set(i, reader.getCategoryReplacementIfAvailable(category, title, volume));
                 }
             }
 
-            for (int i = 0; i < authors.size(); i++) {
+            for (int i = 0; i < fields.authors.size(); i++) {
                 final TocEntry entry = new TocEntry(currentEntryNo);
                 currentEntryNo++;
-                entry.setAuthor(authors.get(i));
-                entry.setTitle(titles.get(i));
+                entry.setAuthor(fields.authors.get(i));
+                entry.setTitle(fields.titles.get(i));
                 if (settings.getPageXpath() != null) {
-                    entry.setPage(pages.get(i));
+                    entry.setPage(fields.pages.get(i));
                 }
                 if (settings.getVolumeXpath() != null) {
-                    entry.setVolume(volumes.get(i));
+                    entry.setVolume(fields.volumes.get(i));
                 }
-                entry.setCategory(categories.get(i));
+                entry.setCategory(fields.categories.get(i));
                 newEntries.add(entry);
                 LOG.debug("Processed entry: {}", entry);
             }
@@ -245,6 +163,142 @@ public final class Toc {
             resultList.addAll(XPathResolver.resolveXPathNoEmptyResult(processor, source,
                     replaceFromCachedExpression(xPathResultCache, expression.getValue())));
         }
+    }
+
+    /**
+     * Resolves the configured XPaths into per-field value lists for a page
+     * described by a single-data configuration: each field is resolved once,
+     * producing at most one value per field.
+     *
+     * @param processor the shared Saxon processor
+     * @param source the page document
+     * @param xPathResultCache the per-page cache of pre-resolved expressions
+     * @param fields the per-field value lists to fill (mutated)
+     */
+    private void resolveSingleDataEntries(Processor processor, Source source, Map<String, String> xPathResultCache,
+            FieldValues fields) {
+        resolveAndAddToListNoEmptyResult(settings.getAuthorXpath(), processor, source, xPathResultCache,
+                fields.authors);
+        resolveAndAddToListNoEmptyResult(settings.getTitleXpath(), processor, source, xPathResultCache,
+                fields.titles);
+        resolveAndAddToListNoEmptyResult(settings.getPageXpath(), processor, source, xPathResultCache, fields.pages);
+        resolveAndAddToListNoEmptyResult(settings.getVolumeXpath(), processor, source, xPathResultCache,
+                fields.volumes);
+        resolveAndAddToListNoEmptyResult(settings.getCategoryXpath(), processor, source, xPathResultCache,
+                fields.categories);
+    }
+
+    /**
+     * Resolves per-entry field values for a page described by a
+     * {@link MultiDataOnOnePageCountStrategy}: the number of records is read
+     * from {@code maxXpath} and every per-field XPath with a {@code {0}}
+     * placeholder is resolved once per record index.
+     *
+     * @param multi the multi-data strategy (never {@code null})
+     * @param processor the shared Saxon processor
+     * @param source the page document
+     * @param xPathResultCache the per-page cache of pre-resolved expressions
+     * @param fields the per-field value lists to fill (mutated)
+     */
+    private void resolveMultiDataEntries(MultiDataOnOnePageCountStrategy multi, Processor processor, Source source,
+            Map<String, String> xPathResultCache, FieldValues fields) {
+        final boolean categoryForEachEntry = Boolean.TRUE.equals(multi.isCategoryForEachEntry());
+        final boolean titleForEachEntry = Boolean.TRUE.equals(multi.isTitleForEachEntry());
+        final int count = Integer.parseInt(XPathResolver.resolveXPath(processor, source, multi.getMaxXpath()).get(0));
+
+        // A volume that is not indexed per record is resolved once and reused.
+        final String volume;
+        if (settings.getVolumeXpath() == null) {
+            volume = null;
+        } else if (!settings.getVolumeXpath().getValue().contains("{0}")) {
+            final String volumeReplacement = replaceFromCachedExpression(xPathResultCache,
+                    settings.getVolumeXpath().getValue());
+            volume = settings.getVolumeXpath().isOnlyHandleAsReplacement()
+                    ? replaceFromCachedExpression(xPathResultCache, volumeReplacement)
+                    : XPathResolver.resolveXPath(processor, source, volumeReplacement).get(0);
+        } else {
+            volume = null;
+        }
+
+        // A category that is not indexed per record is resolved once and reused.
+        String category = null;
+        if (!categoryForEachEntry && !settings.getCategoryXpath().getValue().contains("{0}")) {
+            final String categoryReplacement = replaceFromCachedExpression(xPathResultCache,
+                    settings.getCategoryXpath().getValue());
+            category = settings.getCategoryXpath().isOnlyHandleAsReplacement()
+                    ? replaceFromCachedExpression(xPathResultCache, categoryReplacement)
+                    : XPathResolver.resolveXPath(processor, source, categoryReplacement).get(0);
+        }
+
+        // A title that is not indexed per record is resolved once.
+        if (!titleForEachEntry && !settings.getTitleXpath().getValue().contains("{0}")) {
+            resolveAndAddToList(settings.getTitleXpath(), 1, processor, source, xPathResultCache, fields.titles);
+        }
+
+        for (int i = 1; i <= count; i++) {
+            if (titleForEachEntry) {
+                resolveAndAddToList(settings.getTitleXpath(), i, processor, source, xPathResultCache, fields.titles);
+            }
+            resolveAndAddToList(settings.getAuthorXpath(), i, processor, source, xPathResultCache, fields.authors);
+            resolveAndAddToList(settings.getPageXpath(), i, processor, source, xPathResultCache, fields.pages);
+
+            if (settings.getVolumeXpath() != null) {
+                if (!settings.getVolumeXpath().getValue().contains("{0}")) {
+                    fields.volumes.add(volume);
+                } else {
+                    resolveAndAddToList(settings.getVolumeXpath(), i, processor, source, xPathResultCache,
+                            fields.volumes);
+                }
+            }
+
+            if (categoryForEachEntry) {
+                category = XPathResolver
+                        .resolveXPath(processor, source, replaceFromCachedExpression(xPathResultCache,
+                                settings.getCategoryXpath().getValue().replace("{0}", Integer.toString(i))))
+                        .get(0);
+                fields.categories.add(category);
+            } else if (settings.getCategoryXpath().getValue().contains("{0}")) {
+                resolveAndAddToList(settings.getCategoryXpath(), i, processor, source, xPathResultCache,
+                        fields.categories);
+            } else {
+                fields.categories.add(category);
+            }
+        }
+    }
+
+    /**
+     * Verifies that every resolved per-field list holds the same number of
+     * values, so the entries can be zipped together consistently.
+     *
+     * @param page the page the values belong to (for the error message)
+     * @param fields the per-field value lists to check
+     * @throws ToccerException if the lists disagree on size
+     */
+    private void assertConsistentSizes(XpathResolvableResult page, FieldValues fields) {
+        if (fields.authors.size() != fields.titles.size()
+                || (fields.authors.size() != fields.pages.size() && settings.getPageXpath() != null)
+                || (fields.authors.size() != fields.volumes.size() && settings.getVolumeXpath() != null)
+                || fields.authors.size() != fields.categories.size()) {
+            throw new ToccerException(String.format(
+                    "Inconsistent XPath result sizes for page '%s': authors=%d, titles=%d, pages=%d, volumes=%d, "
+                            + "categories=%d. Check that the configured XPath expressions resolve the same number"
+                            + " of elements.",
+                    page.getResolvableResult(), fields.authors.size(), fields.titles.size(), fields.pages.size(),
+                    fields.volumes.size(), fields.categories.size()));
+        }
+    }
+
+    /**
+     * Bundles the per-field value lists that are resolved for a single page.
+     * Keeping the five lists together lets the resolution helpers take one
+     * target object instead of five parallel {@link List} parameters.
+     */
+    private static final class FieldValues {
+        private final List<String> authors = new ArrayList<>();
+        private final List<String> titles = new ArrayList<>();
+        private final List<String> pages = new ArrayList<>();
+        private final List<String> volumes = new ArrayList<>();
+        private final List<String> categories = new ArrayList<>();
     }
 
     private String replaceFromCachedExpression(final Map<String, String> cachedExpressions, final String input) {

@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.SAXException;
 
-import io.ccw.toccer.backend.toc.ToccerSettings;
+import io.ccw.toccer.backend.model.ToccerSettings;
 import io.ccw.toccer.backend.xpath.XPathResolver;
 import io.ccw.toccer.backend.generated.CachedXpathResult;
 import io.ccw.toccer.backend.generated.CountStrategy;

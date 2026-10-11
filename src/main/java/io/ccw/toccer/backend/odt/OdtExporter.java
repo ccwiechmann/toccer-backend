@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.ccw.toccer.backend.ToccerException;
-import io.ccw.toccer.backend.toc.TocEntry;
+import io.ccw.toccer.backend.model.TocEntry;
 
 public class OdtExporter {
 

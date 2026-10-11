@@ -21,7 +21,7 @@ import org.json.JSONObject;
  * <p>
  * The conversion is intentionally minimal — only {@code &amp;} is escaped and
  * the {@code <italic>}/{@code </italic>} marker used by some feeds is stripped.
- * Downstream {@link io.ccw.toccer.backend.toc.TocEntry} performs a triple
+ * Downstream {@link io.ccw.toccer.backend.model.TocEntry} performs a triple
  * {@code unescapeHtml4} to restore the human-readable text.
  * </p>
  */

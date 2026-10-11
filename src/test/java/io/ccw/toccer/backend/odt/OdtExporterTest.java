@@ -13,7 +13,7 @@ import java.util.zip.ZipFile;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import io.ccw.toccer.backend.toc.TocEntry;
+import io.ccw.toccer.backend.model.TocEntry;
 
 class OdtExporterTest {
 

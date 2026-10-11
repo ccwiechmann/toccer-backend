@@ -16,7 +16,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import io.ccw.toccer.backend.configuration.XmlConfigurationReader.XpathResolvableResult;
 import io.ccw.toccer.backend.generated.NumberStrategy;
-import io.ccw.toccer.backend.toc.ToccerSettings;
+import io.ccw.toccer.backend.model.ToccerSettings;
 import io.ccw.toccer.backend.xpath.XPathResolver;
 
 class XmlConfigurationReaderTest {

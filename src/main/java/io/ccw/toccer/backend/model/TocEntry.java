@@ -1,4 +1,4 @@
-package io.ccw.toccer.backend.toc;
+package io.ccw.toccer.backend.model;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;

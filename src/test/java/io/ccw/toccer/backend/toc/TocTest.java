@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import io.ccw.toccer.backend.model.TocEntry;
+import io.ccw.toccer.backend.model.ToccerSettings;
 import io.ccw.toccer.backend.xpath.PageFetcher;
 import io.ccw.toccer.backend.xpath.XPathResolver;
 

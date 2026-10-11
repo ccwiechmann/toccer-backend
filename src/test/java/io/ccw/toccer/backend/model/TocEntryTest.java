@@ -1,4 +1,4 @@
-package io.ccw.toccer.backend.toc;
+package io.ccw.toccer.backend.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
