@@ -105,7 +105,7 @@
 				<version>3.16.0</version>
 				<configuration>
 					<fork>true</fork>
-					<executable>/usr/bin/javac</executable>
+					<executable>${java.home}/bin/javac</executable>
 					<compilerArgs>
 						<arg>-Xlint:none</arg>
 					</compilerArgs>
